@@ -1,6 +1,10 @@
 <?php
 include('database.php');
-class Verification{      //Hold Global Variables such as database, install etc. Used by verifications.
+class Verification{
+    /* This class is used to determine or check certain parameters, such as login status, and rights, the state of the timer, and the
+     * validity if esus is open or not, this was originally done inline, and as such was extremely messy.
+     */
+    
     public $user_rights=0; //Set defualt user rights to nothing, 1 is Admin, 2 is a normal user.
     public function is_admin(){
         if ($_SESSION['admin']){
@@ -15,6 +19,30 @@ class Verification{      //Hold Global Variables such as database, install etc. 
         }else{
             return false;
         }
+    }
+    private function check_time(){ //will check to see if current date is within the saved dates. false means it is not in the time true means its withing the set time
+	
+	/*MUST FIRST REWRITE HOW TIME IS STORED, NEED TO USE MYSQL DATE TYPE, NOT STRING!
+	*/
+	return false;
+    }
+    public function is_open(){
+	$time_status=$this->check_time();
+	//pull enabled value from database/
+	global $dbh;
+	$sql='SELECT * FROM  `enable`';
+	$query_enable_status=$dbh->query($sql);
+	$query_enable_status=$query_enable_status->fetch(PDO::FETCH_ASSOC);
+	$query_enable_status=$query_enable_status[enabled];
+	if($query_enable_status==1){
+	    return true;
+	}else if($query_enable_status==2){
+	    return false;
+	}else if($this->check_time()){
+	    return true;
+	}else{
+	    return false;
+	}
     }
 }
 class Users {
@@ -56,11 +84,29 @@ class Users {
     public function add_user(){
         
     }
+    public function remove_user(){
+	
+    }
+    public function reset_password(){
+	
+    }
 }
 
 class Slots{
+    /* $slots should end up being a global that is created in database.php thus allowing easy setup of wacky esus installs.
+     * slots denotes total possible slots, not just the slots per event that is still pulled via the database, under event
+     * and slot, that will have to be made sure to be set less then total slots.
+     *
+     * TODO. setup a maintanence scripts that will check the database in order to make sure that the total number of "team##" in the slots
+     * database table is equal to or greater then the max slot setting in database.php
+     * */
     public $slots=0;
-    
+    public function claim_slot(){
+	
+    }
+    public function drop_slot(){
+	
+    }
 }
 
 class Admin{
