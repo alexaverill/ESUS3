@@ -13,5 +13,5 @@ include('classes.php');
 $MVC= new MVC();
 $VERIFICATION= new Verification();
 $USER=new Users();
-
+include('templates/head_html.php');
 ?>

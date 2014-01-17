@@ -114,6 +114,56 @@ class Admin{
 
     
 }
+class Timer{
+    public function check_timer_status(){
+        global $dbh;
+        $today = getdate();
+        //print_r($today);
+        $time=$today['hours'].':'.$today['minutes'];
+        $today=$today['mday'].'-'.$today['month'].'-'.$today['year'];
+        echo $today;
+        echo $time;
+       // echo $start_date;
+        $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
+        foreach($dbh->query($sql) as $row){
+             $start_date=$row['start'];
+             $start_time=$row['st_time'];
+             $end_date=$row['end'];
+             $end_time=$row['en_time'];
+        }
+        //Check to see if dates are similar...
+        //dates are in a string so gonna have to do some wacky comarison stuff.
+        //create a array that has months mapped to numbers
+        $months=['','January','February','March','April','May','June','July','August','September','October','November','December'];
+        //echo $months[1];
+        echo strtotime($start_date);
+         echo '<br/>';
+        echo strtotime($today);
+        echo '<br/>';
+        echo strtotime($end_date);
+        $str_start=strtotime($start_date);
+        $str_curr=strtotime($today);
+        $str_end=strtotime($end_date);
+        if($str_start<$str_curr && $str_curr<$str_end){
+            echo 'Its time';
+        }
+        
+    }
+    public function update_timer($start_date,$end_date,$start_time,$end_time){
+        global $dbh;
+        try{
+            $sql="UPDATE timer SET start=? end=? st_time=? en_time=? WHERE id=?";
+            $update= $dbh->prepare("UPDATE timer SET start=?, end=?, st_time=?, en_time=? WHERE id=?");
+            $update->execute(array($start_date,$end_date,$start_time,$end_time,1));
+            $affected_rows = $update->rowCount();
+            echo $affected_rows;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+    
+}
+
 
 class MVC{          //Create HTML code to be displayed. call user and admin classes and functions.
     
@@ -147,9 +197,23 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	</div>';
         return $html;
     }
-    
+    /*MVC functions to get timer and display it*/
+    public function display_timer(){
+        global $dbh;
+        //$html='';
+        $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
+        foreach($dbh->query($sql) as $row){
+             echo 'Start Date: '.$row['start'].' at '.$row['st_time'].'<br/>End Date: '.$row['end'].' at '.$row['en_time'];
+        }
+        //return $html;
+    }
+    public function admin_timer_form(){
+        $html=file_get_contents('templates/admin_timer_teplate.php');
+        return $html;
+    }
     public function draw_events(){
         
     }
+    
 }
 ?>

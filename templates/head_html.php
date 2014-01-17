@@ -9,6 +9,9 @@
 <!-- Add the Kendo styles to the in the head of the page... -->
 <link href="source/kendo.common.min.css" rel="stylesheet" />
 <link href="source/kendo.kendo.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="source/datepicker.css" /> 
+<script type="text/javascript" src="source/datepicker.js"></script>
+<script type="text/javascript" src="source/timepicker.js"></script>
   <link rel="shortcut icon" href="source/images/favicon.ico" >
 <!-- ...then paste the Kendo scripts in the page body (before using the framework) -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
