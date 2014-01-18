@@ -171,6 +171,16 @@ class Events{
         }
         return $html;
     }
+    public function events_to_display(){
+        global $dbh;
+        foreach($dbh->query('SELECT * FROM times ORDER BY event ASC') as $row) {
+            $event_array[]=$row['event'];
+            $time_array[]=$row['time_id'];
+        }
+        //var_dump($array);
+        $array=$array($event_array,$time_array);
+        return $array;
+    }
 }
 class Admin{
     
@@ -264,8 +274,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html=file_get_contents('templates/admin_timer_teplate.php');
         return $html;
     }
-    public function draw_events(){
-        
+    public function display_events(){
+        $EVENTS=new Events();
+        $array_of_data=$EVENTS->events_to_display();
+        print_r($array_of_data);
+        foreach($array_of_data as &$array){
+        }
     }
     public function display_admin_adding(){
         /*$html=file_get_contents('templates/admin_adding_template.php');
