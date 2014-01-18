@@ -20,14 +20,9 @@ class Verification{
             return false;
         }
     }
-    private function check_time(){ //will check to see if current date is within the saved dates. false means it is not in the time true means its withing the set time
-	
-	/*MUST FIRST REWRITE HOW TIME IS STORED, NEED TO USE MYSQL DATE TYPE, NOT STRING!
-	*/
-	return false;
-    }
     public function is_open(){
-	$time_status=$this->check_time();
+        $timer=new Timer();
+	$time_status=$timer->check_timer_status();
 	//pull enabled value from database/
 	global $dbh;
 	$sql='SELECT * FROM  `enable`';
@@ -38,7 +33,7 @@ class Verification{
 	    return true;
 	}else if($query_enable_status==2){
 	    return false;
-	}else if($this->check_time()){
+	}else if($time_status){
 	    return true;
 	}else{
 	    return false;
@@ -107,23 +102,88 @@ class Slots{
     public function drop_slot(){
 	
     }
+    //Admin Slot functions
+    public function add_slots($time){
+        global $dbh;
+        $check=$dbh->prepare("SELECT * FROM slots WHERE time_slot=?");
+        $check->execute(array($time));
+        $rows=$check->rowCount();
+        if($rows==0){
+            $send=$dbh->prepare("INSERT INTO slots(time_slot) VALUES(?)");
+            $send->execute(array($time));
+            return 0;
+        }else{
+            return 1;
+        }
+        
+    }
 }
 
+class Events{
+    public function add_events($event){     //INitial add to database.
+        //verify it does not exist
+        global $dbh;
+        $checking=$dbh->prepare("SELECT * FROM event WHERE event=?");
+        $checking->execute(array($event));
+        $row=$checking->rowCount();
+        $add_to=$dbh->prepare("INSERT INTO event (event) VALUES (?)");
+        if($row==0){
+            $add_to->execute(array($event));
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+    public function add_events_at($event,$time){        //Add slot at a time to an event.
+        global $dbh;
+        $checking=$dbh->prepare("SELECT * FROM times WHERE time_id=? AND event=?");
+        $checking->execute(array($time,$event));
+        $rows=$checking->rowCount();
+        if($rows==0){
+            try{
+            $add_event=$dbh->prepare("INSERT INTO times (time_id, event) VALUES (?,?)");
+            $add_event->execute(array($time,$event));
+            return 0;
+            }catch(PDOException $ex){
+                echo $ex;
+                return 0;
+            }
+        }else{
+            return 1;
+        }
+        
+    }
+
+    public function remove_events(){
+        
+    }
+    public function list_events(){
+        global $dbh;
+        foreach($dbh->query('SELECT * FROM event') as $row) {
+            echo $row['event'].'<Br/>'; 
+        }
+    }
+    public function event_checkbox(){
+        $html='';
+        global $dbh;
+        foreach($dbh->query('SELECT * FROM event') as $row) {
+            $html .= '<input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/><label for="'.$row['event'].'">'.$row['event'].'</label>'; 
+        }
+        return $html;
+    }
+}
 class Admin{
     
 
     
 }
 class Timer{
-    public function check_timer_status(){
+    public function check_timer_status(){   //Determine what the timer status is will return a boolean true=open false=closed.
         global $dbh;
-        $today = getdate();
-        //print_r($today);
-        $time=$today['hours'].':'.$today['minutes'];
-        $today=$today['mday'].'-'.$today['month'].'-'.$today['year'];
-        echo $today;
-        echo $time;
-       // echo $start_date;
+        global $timezone;
+        date_default_timezone_set($timezone);       //INSTALL CONFIG TIME ZONE!!!
+        $today= new DateTime('NOW');
+        echo $today->format('c');
         $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
         foreach($dbh->query($sql) as $row){
              $start_date=$row['start'];
@@ -132,22 +192,15 @@ class Timer{
              $end_time=$row['en_time'];
         }
         //Check to see if dates are similar...
-        //dates are in a string so gonna have to do some wacky comarison stuff.
-        //create a array that has months mapped to numbers
-        $months=['','January','February','March','April','May','June','July','August','September','October','November','December'];
-        //echo $months[1];
-        echo strtotime($start_date);
-         echo '<br/>';
-        echo strtotime($today);
-        echo '<br/>';
-        echo strtotime($end_date);
-        $str_start=strtotime($start_date);
-        $str_curr=strtotime($today);
-        $str_end=strtotime($end_date);
-        if($str_start<$str_curr && $str_curr<$str_end){
-            echo 'Its time';
+        $start_date=$start_date.'T'.$start_time;        //Append time to end of date string
+        $end_date=$end_date.'T'.$end_time;
+        $start_date=new DateTime($start_date);      //Create it as a date time
+        $end_date=new DateTime($end_date);      
+        if($start_date<$today && $end_date>$today ){    //Compare date times.
+            return true;
+        }else{
+            return false;
         }
-        
     }
     public function update_timer($start_date,$end_date,$start_time,$end_time){
         global $dbh;
@@ -213,6 +266,11 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function draw_events(){
         
+    }
+    public function display_admin_adding(){
+        /*$html=file_get_contents('templates/admin_adding_template.php');
+        return $html;*/
+        include('templates/admin_adding_template.php');         //Using an include since it has php code I want to execute.I need to reasearch more templating.
     }
     
 }

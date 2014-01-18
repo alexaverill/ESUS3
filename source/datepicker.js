@@ -1,8 +1,8 @@
 // Converts a date into '12-Oct-1984' format
 function getDateString(dt) {
-  return dt.getDate() + '-' + 
-    ['January','February','March','April','May','June','July','August','September','October','November','December'][dt.getMonth()] + 
-    '-' + dt.getFullYear();
+  return dt.getFullYear() + '-' + dt.getMonth()+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'][dt.getMonth()] + 
+    '-' +  dt.getDate();
 }
 
 // Converts a date into 'July 2010' format
