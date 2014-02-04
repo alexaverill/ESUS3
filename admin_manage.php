@@ -7,10 +7,10 @@ if ($_POST['adduser'])
                   $USER->add_user($_POST['user'],$_POST['password'],$_POST['email'],$_POST['email']);  
                 }
     if($_POST['teams']){
-	show_info($_POST['call']);
-}
+        $USER->show_user_info($_POST['call']);
+    }
 	if($_POST['change_pass']){
-		reset_password();
+            $USER->reset_password($_POST['reset_pass'],$_POST['new_pass']);
 	}
 
 	if($_POST['change_pass_admin']){
