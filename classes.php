@@ -95,14 +95,86 @@ class Users {
     }
     
     //User Admin Functions.
-    public function add_user(){
-        
+    public function add_user($user,$password,$email,$name){
+        global $dbh;
+        $check_admin = "SELECT * FROM `members` WHERE rank = '1'";
+	$qry_admin = mysql_query($check_admin) or die ("Could not match data because ".mysql_error());
+	while($ren= mysql_fetch_assoc($qry_admin)) {
+		$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
+	}
+        //Cleans strings
+	$email=mysql_real_escape_string($email);
+	$mpass = $password;
+	$password =  crypt($password);
+	$user= stripslashes($user);
+	$user= mysql_real_escape_string($user);
+	$name= stripslashes($name);
+	$name = mysql_real_escape_string($name);
+
+
+	$check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
+        $run_check=$dbh->prepare($check);
+        $run_check->execute(array($name,$user));
+        $num_rows=$run_check;
+	$num_rows = mysql_num_rows($qry);
+	if ($num_rows > 0) {
+		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
+	}else if($row_schools > 0){
+		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
+	}else{
+		$insert = mysql_query( "INSERT INTO `team` (`id`, `name`, `email`, `username`, `password`) VALUES (NULL, '$name','$email', '$user', '$password');")or die("Could not insert data because ".mysql_error());
+			//echo 'Adding user';							//Info to send to teams. 
+		echo 'Please send this info to the team:<br/>';
+		echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
+		echo 'Username: ' .$user.'<br/>';
+		echo 'Password: ' .$mpass. '<br/>';
+
+	}
     }
     public function remove_user(){
 	
     }
-    public function reset_password(){
+    public function show_user_info($user){
+        $sql = "SELECT * FROM `team` WHERE `username`=?";
+	//echo $sql;
+	$get_user=$dbh->prepare($sql);
+        $get_user->execute(array($user));
+	echo '<form method="POST" action="">';
+	while($row = $get_user->fetch(PDO::FETCH_ASSOC)) {
+		echo 'ID: '.$row['id'].'<br/>';
+		echo 'Name: <input type="text" value="'.$row['name'].'" name="name"/><br/>';
+		echo 'Email: <input type="text" value="'.$row['email'].'" name="email"/><br/>';
+		echo 'Username: <input type="text" value="'.$row['username'].'" name="username"/><br/>';
+		echo '<input type="hidden" value="'.$row['id'].'" name="id"/>';
+		echo '<input type="submit" name="save" value="Save"/>';
+	}
+	echo '</form>';
+	echo 'Please use Manage Users page to reset passwords.';
+
 	
+    }
+    public function reset_password($user,$password){
+        global $dbh;
+	$write_pass=$password;
+	$password =  crypt($password);
+	$user=mysql_real_escape_string($user);
+	$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?;");
+	if(strlen($password)!=0){
+           $set->execute(array($password,$user));
+            echo '<h3>Password Changed to '.$write_pass.'</h3>';
+	}else{
+		echo 'You must enter a username and password.';
+	}
+    }
+    public function return_select_option_user(){
+        global $dbh;
+        $hml='';
+        $get_users="SELECT * FROM `team` ORDER BY `name` ASC";
+        $query=$dbh->query($get_users);
+        foreach($query as $team){
+            $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';
+        }
+        return $html;
     }
 }
 
@@ -114,14 +186,54 @@ class Slots{
      * TODO. setup a maintanence scripts that will check the database in order to make sure that the total number of "team##" in the slots
      * database table is equal to or greater then the max slot setting in database.php
      * */
-    public $slots=0;
-    public function claim_slot($id,$event,$time){
-        echo $event;
-	//Function used to claim slots in database will be called on index.php
-        //Insert SQL
-        $insert_sql="UPDATE times SET ?=? WHERE event=? AND time_id=?";
-        echo 'HI';
+    public $slots=10;
+    public function remove_held($event,$id){
+                global $dbh;
+                //Loop through and drop all slots held by Id in the event;
+                echo $event;
+        $dropping_held=$dbh->prepare("SELECT * FROM times WHERE event=?");
+        $dropping_held->execute(array($event));
         
+        foreach($dropping_held->fetchAll() as $remove){
+            $index=1;
+            $time=$remove['time_id'];
+            while($index<$this->slots){
+                $place='team'.$index;
+                if($remove[$place]==$id){
+                     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?";
+                     $remove_query=$dbh->prepare($insert_sql);
+                     $remove_query->execute(array($event,$time));
+                     //break;
+                }
+                $index+=1;
+            }
+        }
+    }
+    public function claim_slot($id,$event,$time){
+        global $dbh;
+	//Function used to claim slots in database will be called on index.php
+        $team1='Hello';
+        $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=?");
+        $get_query->execute(array($event,$time));
+        $row=$get_query->fetchAll(PDO::FETCH_ASSOC);
+        $index=1;
+        while($index<$this->slots){
+            $place='team'.$index;
+            if($row[0]['team'.$index]==0){
+                $this->remove_held($event,$id);
+                $insert_sql="UPDATE times SET ".$place."=? WHERE event=? AND time_id=?";
+                $sql=$dbh->prepare($insert_sql);
+                $sql->execute(array($id,$event,$time));
+                $status=true;
+                break;
+            }
+            $index++;
+        }
+        if($status){
+            return 0;
+        }else{
+            return 1;
+        }
     }
     public function drop_slot(){
 	//WIll remove a teams slots from the database
@@ -212,7 +324,6 @@ class Events{
             $event_array[]=$row['event'];
             $time_array[]=$row['time_id'];
         }
-        //var_dump($array);
         $array=array($event_array,$time_array);
         return $array;
     }
@@ -248,12 +359,12 @@ class Events{
             $html.='<table><h2>'.$event['event'].'</h2>';
             $html.='<tr> <th>Hour</th>';
             $html.='<th>Obtain</th><th>Status</th>';
-            $get_times=$dbh->prepare('SELECT time_id FROM times WHERE event=?');
+            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=?');
             $get_times->execute(array($event['event']));
-            while($time=$get_times->fetchAll(PDO::FETCH_ASSOC)){
-                 $html.='<tr><td>'.$time[0][time_id];
-                 $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time[0][time_id].'" name="time"/><input type="hidden" value="'.$event['event'].'" name="event"/><input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
-                 $html.='<td>'.$this->event_status($event['event'],$time[0][time_id]).'</td></tr>';
+           foreach($get_times->fetchAll() as $time){
+                 $html.='<tr><td>'.$time[time_id].'</td>';
+                 $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time[time_id].'" name="time"/><input type="hidden" value="'.$event['event'].'" name="event"/><input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
+                 $html.='<td>'.$this->event_status($event['event'],$time[time_id]).'</td></tr>';
             }
              $html.= '</table>';
         }
@@ -358,6 +469,24 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         echo $html;
         
     
+    }
+    public function display_reset_password(){
+        $USER=new Users();
+        $options=$USER->return_select_option_user();
+        $html= '<form action="" method="POST">Team:<select name="reset_pass">';
+        $html.=$options;
+        $html.='</select><br/>
+	New Password: <input type="text" name="new_pass"/><br/><input name="change_pass" type="submit" class="myButton" value="Change Password"/>
+	</form>';
+        return $html;
+    }
+    public function display_edit_teams(){
+        $USER=new Users();
+        $options=$USER->return_select_option_user();
+        $html.= '<form action="" method="POST">Team:<select name="call">';
+	$html.=$options;
+        $html.= '</select><input name="teams" type="submit" class="myButton" value="Show Team Data"/></form>';
+        return $html;
     }
     public function display_admin_adding(){
         /*$html=file_get_contents('templates/admin_adding_template.php');

@@ -15,3 +15,4 @@
 
 <h2>Current Events</h2>
 <?php $event->list_events();?>
+
