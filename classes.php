@@ -56,6 +56,13 @@ class Validation{
             return false;
         }
     }
+    public function valid_email($input){
+        if(FILTER_VALIDATE_EMAIL($input)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 $VALID=new Validation();
 class Users {
@@ -97,20 +104,21 @@ class Users {
     //User Admin Functions.
     public function add_user($user,$password,$email,$name){
         global $dbh;
+        $VERIFY=new Validation();
         $check_admin = "SELECT * FROM `members` WHERE rank = '1'";
 	$qry_admin = mysql_query($check_admin) or die ("Could not match data because ".mysql_error());
 	while($ren= mysql_fetch_assoc($qry_admin)) {
 		$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
 	}
-        //Cleans strings
-	$email=mysql_real_escape_string($email);
+        if($VERIFY->valid_email($email)){
+            $email=$email;
+        }else{
+            $email='0';
+            return false;
+        }
 	$mpass = $password;
 	$password =  crypt($password);
-	$user= stripslashes($user);
-	$user= mysql_real_escape_string($user);
-	$name= stripslashes($name);
-	$name = mysql_real_escape_string($name);
-
+            
 
 	$check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
         $run_check=$dbh->prepare($check);
@@ -122,8 +130,8 @@ class Users {
 	}else if($row_schools > 0){
 		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
 	}else{
-		$insert = mysql_query( "INSERT INTO `team` (`id`, `name`, `email`, `username`, `password`) VALUES (NULL, '$name','$email', '$user', '$password');")or die("Could not insert data because ".mysql_error());
-			//echo 'Adding user';							//Info to send to teams. 
+                $add_team=$dbh->prepare("INSERT INTO team(id,name,email,username)VALUES(NULL,?,?,?,?)");
+                $add_team->execute(array($name,$email,$user,$password));
 		echo 'Please send this info to the team:<br/>';
 		echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
 		echo 'Username: ' .$user.'<br/>';
