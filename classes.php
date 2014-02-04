@@ -158,8 +158,13 @@ class Users {
 	}
 	echo '</form>';
 	echo 'Please use Manage Users page to reset passwords.';
-
-	
+    }
+    public function update_team($id,$name,$email,$user){
+        global $dbh;
+	$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
+	$update=$dbh->prepare($sql);
+        $update->execute(array($name,$email,$user,$id));
+	echo 'User Updated.';
     }
     public function reset_password($user,$password){
         global $dbh;
