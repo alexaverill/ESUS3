@@ -91,8 +91,9 @@ class Users {
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
 		$_SESSION['install']=$install;
-                $_SESSION['admin']==false;
-                $_SESSION['user']==true;
+                $_SESSION['admin']=false;
+                $_SESSION['user']=true;
+                $_SESSION['id']=$this->get_id($user);
                 echo 'You have logged in!';
         }else{
             //TODO:Log wrong login to a login file.
@@ -143,6 +144,7 @@ class Users {
 	
     }
     public function show_user_info($user){
+        global $dbh;
         $sql = "SELECT * FROM `team` WHERE `username`=?";
 	//echo $sql;
 	$get_user=$dbh->prepare($sql);
@@ -188,6 +190,15 @@ class Users {
             $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';
         }
         return $html;
+    }
+    public function get_id($name){
+        global $dbh;
+        $sql="SELECT * FROM team WHERE name=?";
+        $get_id=$dbh->prepare($sql);
+        $get_id->execute(array($name));
+        $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
+        $id=$row['id'];
+        return $id;
     }
 }
 
@@ -383,6 +394,135 @@ class Events{
         }
         return $html;
     }
+     public function return_table_adding(){
+                global $dbh;
+                $html='';
+		$get_events_from_database="SELECT * FROM `event` ORDER BY `event` ASC";
+		$query_db=$dbh->query($get_events_from_database);
+		$html.='<div id="below">';//<
+		$html.='<h2>Add Slots to an Event</h2>';
+		
+	foreach($query_db->fetchAll() as $get){
+		$html.="<table border='1' style='float:left'>";
+		$even=$get['event'];
+		$sql = "SELECT * FROM `slots`"; 
+		$get_times=$dbh->query($sql);
+		$tblcl = "</td>";
+		$html.='<tr><td><b>'.$even.'</b></td></tr>';
+		$html.='<tr><td><form method="POST" action=""><input type="hidden" value="'.$even.'" name="event"/>
+			<input type="submit" name="add_all" value="Add all Slots to this event"/></form></td></tr>';
+                $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="event_checks"/>';
+                $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Slots"/></td></tr>';
+                foreach($get_times->fetchAll() as $row){
+                        $time=$row['time_slot'];
+                            $query_slot_status="SELECT * FROM times WHERE event=? AND time_id=?";   //Check if already a slot
+                            $magic_check=$dbh->prepare($query_slot_status);
+                            $magic_check->execute(array($even,$time));
+                            $num_check= $magic_check->rowCount();
+                            if($num_check==0){
+                                $html.='<td>'; 
+                                $html.=$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/>';
+                                $html.='</tr>';
+                            
+                            }
+                }
+        
+       $html.='</form>';
+	$html.='</table>';
+	}
+       $html.='</table></div>';
+       return $html;
+    }
+    function return_admin_table($event){
+                global $dbh;
+                $html='';
+                    $sto= '<strong>';
+                    $stc='</strong>';
+                    $red = '<div id="red">';
+                    $enred = '</div>';
+                    $get_event_sql="SELECT * FROM `event` ORDER BY `event` ASC";
+                    $get_events=$dbh->query($get_event_sql);
+            $html.="<table border='1'>";
+            foreach($get_events->fetchAll() as $get){
+                    $event=$get['event'];
+                    
+                    
+
+            $id=$_SESSION['id'];
+                    $tblcl = "</td>";
+                            $html.="<table border='1'>";
+                            $html.='<h2 id="theevent">'.$event.'</h1>';
+                            $menu=1;
+                            $qry='SELECT * FROM event WHERE event=?';
+                            $run_qry=$dbh->prepare($qry);
+                            $run_qry->execute(array($event));
+                            foreach($get_events->fetchAll() as $slots){
+                                    $table_settings=$slots['slots'];
+                            }
+                    
+                    
+            
+                            $html.='<tr> <th>Hour</th>';
+                            while ($menu<=$table_settings){
+                                    $html.='<th>Slot '.$menu.'</th>';
+                                    $menu+=1;
+                            }
+            $sql = "SELECT * FROM times WHERE event=? ORDER BY time_id ASC";
+            $get_times=$dbh->prepare($sql);
+            $get_times->execute(array($event));
+            foreach($get_events->fetchAll() as $row){
+                    $time=$row['time_id'];
+    
+                            $html.='<tr><td>'; 
+                            $html.=$row['time_id'];
+                            $html.=$tblcl;
+                    
+                    $team='team';
+                    $run=1;
+                            
+                    while($run<=$table_settings){
+                                    $team1=$team.$run;	
+                                    if($row[$team1]==-1){
+                                                    $html.='<td id="closed">';
+                                                    $html.='Closed';
+                                            $html.='<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="'.$run.'" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Reopen"/></form>';
+                                                    $html.= "</td></td>"; 
+                                    }else{
+                                            if($row[$team1]<=0){
+                                                    $html.='<td id="blue">';
+                                                    $html.='Time Open';
+                                                    $html.="</td></td>"; 
+                                            }else{
+                                                    if($row[$team1] != 0){
+                                                    $html.='<td id="yellow">';
+                                                    $id= $row[$team1];
+                                                    $get ="SELECT * FROM `team` WHERE `id`=?";
+                                                    $get_name=$dbh->prepare($get);
+                                                    $get_name->execute(array($id));
+                                                            foreach($get_name->fetchAll() as $name){}
+                                                        
+                                                                    $html.=$name['name'];
+                                                            }
+                                            $html.='<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="1" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Clear this"/></form>';
+                                                            $html.="</td></td>";
+                                                    }
+                                            $html.="</td>";
+                                            
+                                    }
+                                    
+                                    
+                            }
+                            $run+=1;
+                    }
+            }
+            return $html;
+        }
+        
+    
+    public function return_select_options(){
+        global $dbh;
+        $get_events="SELECT * ";
+    }
 }
 class Admin{
     
@@ -506,6 +646,10 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         return $html;*/
         include('templates/admin_adding_template.php');         //Using an include since it has php code I want to execute.I need to reasearch more templating.
     }
-    
+    public function table_adding_slots(){
+        $EVENTS=new Events();
+        return $EVENTS->return_table_adding();
+    }
+   
 }
 ?>

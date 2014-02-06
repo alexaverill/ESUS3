@@ -21,5 +21,10 @@ $SLOTS= new Slots();
            }
         }
     }
+    if($_POST['add_times']){
+        foreach($_POST['time_checks'] as $time){
+            $EVENTS->add_events_at($_POST['event_checks'],$time);
+        }
+    }
 
 ?>

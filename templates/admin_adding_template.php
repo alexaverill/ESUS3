@@ -16,3 +16,7 @@
 <h2>Current Events</h2>
 <?php $event->list_events();?>
 
+<h2>Add Times to Events</h2>
+<?php $MVC=new MVC();
+        echo $MVC->table_adding_slots();
+        ?>
