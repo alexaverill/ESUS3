@@ -227,6 +227,14 @@ class Mail {
         $subject="Your Event Times.";
         $this->send_email($team_email,$email,$subject,$message);
     }
+    public function send_all_times(){
+        global $dbh;
+        $sql="SELECT * FROM team";
+        $get_teams=$dbh->query($sql);
+        foreach($get_teams->fetchAll() as $team){
+            $this->send_team_times($team['name']);
+        }
+    }
     public function send_email($to,$from,$subject,$message){
         $final_subject='ESUS :'.$subject;
         mail($to,$subject,$final_message);
