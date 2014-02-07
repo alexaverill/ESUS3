@@ -43,6 +43,17 @@ class Events{
             echo $row['event'].'<Br/>'; 
         }
     }
+    public function number_slots($event){
+        //return the number of slots in specified events
+        global $dbh;
+        $qry='SELECT * FROM event WHERE event=?';
+        $run_qry=$dbh->prepare($qry);
+        $run_qry->execute(array($event));
+        foreach($run_qry->fetchAll() as $slots){
+            $num_slots=$slots['slots'];                        
+        }
+        return $num_slots;
+    }
     public function event_checkbox(){
         $html='';
         global $dbh;
@@ -63,7 +74,7 @@ class Events{
     public function event_status($event,$slot){
         global $dbh;
         $SLOTS=new Slots();
-        $total_slots=$SLOTS->number_of_slots($event);   //Gets total number of slots in each event.
+        $total_slots=$this->number_slots($event);  //Gets total number of slots in each event.
         //get current number of filled slots and subtract it from total slots to get number left.
         $sql="SELECT * FROM times WHERE time_id=? AND event=?";
         $pull = $dbh->prepare($sql);
@@ -161,16 +172,7 @@ class Events{
                             echo "<table border='1'>";
                             echo '<h2 id="theevent">'.$event.'</h1>';
                             $menu=1;
-                            $qry='SELECT * FROM event WHERE event=?';
-                            $run_qry=$dbh->prepare($qry);
-                            $run_qry->execute(array($event));
-                            foreach($run_qry->fetchAll() as $slots){
-                                    $table_settings=$slots['slots'];
-                                   
-                            }
-                    
-                    
-            
+                            $table_settings=$this->number_slots($event);
                             echo '<tr> <th>Hour</th>';
                             while ($menu<=$table_settings){
                                     echo '<th>Slot '.$menu.'</th>';

@@ -145,23 +145,33 @@ class Users {
         $id=$row['id'];
         return $id;
     }
+    public function get_email($name){
+        global $dbh;
+        $sql="SELECT * FROM team WHERE name=?";
+        $get_email=$dbh->prepare($sql);
+        $get_email->execute(array($name));
+        $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
+        $email=$row['email'];
+        return $email;
+    }
     public function get_all_events($id){
     //Get all the teams slots that they are holding, and return a string as a message Used to send emails.
         global $dbh;
         //global $slots; //Global due to the fact that it is going to be set as a hard max in the database.php. really should be ten
-        $EVENT=new Events();
-        $get_events_qry="SELECT * FROM event";
-        $get_events=$dbh->query($get_events);
+        $slots=10;
+	$EVENT=new Events();
+	$message='';
+        $get_events_qry="SELECT * FROM times";
+        $get_events=$dbh->query($get_events_qry);
         foreach($get_events->fetchAll() as $event_info){
-        $slots=$EVENT->number_slots($event);
-            $get_times_qry="SELECT * FROM times WHERE ";
-            for($x=1;$x<=$slots;$x+=1){
-                $get_events_qry.="team".$x."=".$id." OR ";
-            }
-            echo $get_events_qry;
-            //$get_times_go=$dbh->prepare($get_times_qry);
-            //$get_times_go->execute();
-        }
+	    for($x=1;$x<$slots;$x+=1){
+		$place='team'.$x;
+		if($event_info[$place]==$id){
+		    $message.='You have '.$event_info['event'].' at '.$event_info['time_id'];
+		}
+	    }
+	}
+	return $message;
     }
 }
 ?>
