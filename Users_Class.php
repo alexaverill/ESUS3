@@ -150,7 +150,7 @@ class Users {
         $sql="SELECT * FROM team WHERE name=?";
         $get_email=$dbh->prepare($sql);
         $get_email->execute(array($name));
-        $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
+        $row=$get_email->fetchAll(PDO::FETCH_ASSOC);
         $email=$row['email'];
         return $email;
     }
