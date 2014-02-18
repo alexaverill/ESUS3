@@ -73,7 +73,19 @@ class Logging{
     //Removal of slots
     //Removal of teams from slots
     //Log admin logins
-    
+    //Timestamps
+    public function time_stamp(){
+		$time= date("m-d-Y H:i:s");
+		return $time;
+	}
+    public function add_entry($user,$message){
+		//pass user and what happened to the log function
+		//this function will add timestamp, and write to a file
+		$file = fopen('logging.txt', 'a');
+		$stamp=$this->time_stamp();
+		$write=$stamp.' '.$user. ' '.$message;
+		fwrite($file,$write);
+	}
 }
 class Slots{
     /* $slots should end up being a global that is created in database.php thus allowing easy setup of wacky esus installs.
