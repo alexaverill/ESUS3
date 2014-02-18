@@ -21,10 +21,11 @@ class Users {
         }
         //Compare stored Password to input password
         $stored_password=$user_information[0][password];
-        if(crypt($password,$stored_password)==$stored_password){
+        //if(crypt($password,$stored_password)==$stored_password){
+        if(password_verify($password,$stored_password){
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
-		$_SESSION['install']=$install;
+				$_SESSION['install']=$install;
                 $_SESSION['admin']=false;
                 $_SESSION['user']=true;
                 $_SESSION['id']=$this->get_id($user);
@@ -40,72 +41,71 @@ class Users {
     public function add_user($user,$password,$email,$name){
         global $dbh;
         $VERIFY=new Validation();
-        $check_admin = "SELECT * FROM `members` WHERE rank = '1'";
-	$qry_admin = mysql_query($check_admin) or die ("Could not match data because ".mysql_error());
-	while($ren= mysql_fetch_assoc($qry_admin)) {
-		$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
-	}
+        /*$check_admin = "SELECT * FROM `members` WHERE rank = '1'";
+		$qry_admin = mysql_query($check_admin) or die ("Could not match data because ".mysql_error());
+		while($ren= mysql_fetch_assoc($qry_admin)) {
+			$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
+		}*/
         if($VERIFY->valid_email($email)){
             $email=$email;
         }else{
             $email='0';
             return false;
         }
-	$mpass = $password;
-	$password =  crypt($password);
-            
-
-	$check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
+		$mpass = $password;
+		$password =  password_hash($password,PASSWORD_DEFUALT);
+		$check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
         $run_check=$dbh->prepare($check);
         $run_check->execute(array($name,$user));
         $num_rows=$run_check;
-	$num_rows = mysql_num_rows($qry);
-	if ($num_rows > 0) {
-		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
-	}else if($row_schools > 0){
-		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
-	}else{
-                $add_team=$dbh->prepare("INSERT INTO team(id,name,email,username)VALUES(NULL,?,?,?,?)");
-                $add_team->execute(array($name,$email,$user,$password));
-		echo 'Please send this info to the team:<br/>';
-		echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
-		echo 'Username: ' .$user.'<br/>';
-		echo 'Password: ' .$mpass. '<br/>';
+		$num_rows = mysql_num_rows($qry);
+		if ($num_rows > 0) {
+			echo "Sorry, the username ".$name." is already taken. Please try another users<br>";
+		}else if($row_schools > 0){
+			echo "Sorry, the School ".$user." is already taken. Please try another users<br>";
+		}else{
+            $add_team=$dbh->prepare("INSERT INTO team(id,name,email,username)VALUES(NULL,?,?,?,?)");
+            $add_team->execute(array($name,$email,$user,$password));
+			echo 'Please send this info to the team:<br/>';
+			echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
+			echo 'Username: ' .$user.'<br/>';
+			echo 'Password: ' .$mpass. '<br/>';
 
-	}
+		}
+		//Log the addition of a user
     }
     public function remove_user(){
-	
+		
+		//log removal of a user
     }
     public function show_user_info($user){
         global $dbh;
         $sql = "SELECT * FROM `team` WHERE `username`=?";
-	//echo $sql;
-	$get_user=$dbh->prepare($sql);
+		$get_user=$dbh->prepare($sql);
         $get_user->execute(array($user));
-	echo '<form method="POST" action="">';
-	while($row = $get_user->fetch(PDO::FETCH_ASSOC)) {
-		echo 'ID: '.$row['id'].'<br/>';
-		echo 'Name: <input type="text" value="'.$row['name'].'" name="name"/><br/>';
-		echo 'Email: <input type="text" value="'.$row['email'].'" name="email"/><br/>';
-		echo 'Username: <input type="text" value="'.$row['username'].'" name="username"/><br/>';
-		echo '<input type="hidden" value="'.$row['id'].'" name="id"/>';
-		echo '<input type="submit" name="save" value="Save"/>';
-	}
-	echo '</form>';
-	echo 'Please use Manage Users page to reset passwords.';
+		echo '<form method="POST" action="">';
+		while($row = $get_user->fetch(PDO::FETCH_ASSOC)) {
+			echo 'ID: '.$row['id'].'<br/>';
+			echo 'Name: <input type="text" value="'.$row['name'].'" name="name"/><br/>';
+			echo 'Email: <input type="text" value="'.$row['email'].'" name="email"/><br/>';
+			echo 'Username: <input type="text" value="'.$row['username'].'" name="username"/><br/>';
+			echo '<input type="hidden" value="'.$row['id'].'" name="id"/>';
+			echo '<input type="submit" name="save" value="Save"/>';
+		}
+		echo '</form>';
+		echo 'Please use Manage Users page to reset passwords.';
     }
     public function update_team($id,$name,$email,$user){
         global $dbh;
-	$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
-	$update=$dbh->prepare($sql);
+		$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
+		$update=$dbh->prepare($sql);
         $update->execute(array($name,$email,$user,$id));
-	echo 'User Updated.';
+		echo 'User Updated.';
     }
     public function reset_password($user,$password,$type){
 		global $dbh;
 		$write_pass=$password;
-		$password =  crypt($password);
+		$password =  password_hash($password,PASSWORD_DEFUALT);
 		$user=mysql_real_escape_string($user);
 		if($type==1){
 			$sql = $dbh->prepare("UPDATE `members` SET `password` = ? WHERE `name` =?;");
