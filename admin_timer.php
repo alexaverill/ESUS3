@@ -1,7 +1,7 @@
 <?php
 include('header.php');
-$MVC->display_timer();
-echo $MVC->admin_timer_form(); 
+echo $MVC->display_timer();
+$MVC->admin_timer_form(); 
 $TIMER =  new Timer();
 $TIMER->check_timer_status();
 if($_POST['update']){

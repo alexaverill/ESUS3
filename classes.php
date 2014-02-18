@@ -214,7 +214,16 @@ class Timer{
             echo $ex->getMessage();
         }
     }
-    
+    public function return_timer_dates(){
+		global $dbh;
+		$html;
+		$sql="SELECT * FROM timer";
+		$dates=$dbh->query($sql);
+		$dates=$dates->fetchAll(PDO::FETCH_ASSOC);
+		$html.='Opens on '.$dates[0][start].' at '.$dates[0][st_time];
+		$html.='<br/>';
+		$html.='Closes on '.$dates[0][end].' at '.$dates[0][en_time];
+	}
 }
 class Mail {
     public function send_team_times($team){
@@ -278,12 +287,15 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     /*MVC functions to get timer and display it*/
     public function display_timer(){
-        global $dbh;
+        //global $dbh;
+        $TIMER=new Timer();
+        $html=$TIMER->return_timer_dates();
+        return $html;
         //$html='';
-        $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
+        /*$sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
         foreach($dbh->query($sql) as $row){
              echo 'Start Date: '.$row['start'].' at '.$row['st_time'].'<br/>End Date: '.$row['end'].' at '.$row['en_time'];
-        }
+        }*/
         //return $html;
     }
     public function admin_timer_form(){
