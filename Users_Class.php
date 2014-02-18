@@ -102,19 +102,24 @@ class Users {
         $update->execute(array($name,$email,$user,$id));
 	echo 'User Updated.';
     }
-    public function reset_password($user,$password){
-        global $dbh;
-	$write_pass=$password;
-	$password =  crypt($password);
-	$user=mysql_real_escape_string($user);
-	$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?;");
-	if(strlen($password)!=0){
-           $set->execute(array($password,$user));
-            echo '<h3>Password Changed to '.$write_pass.'</h3>';
-	}else{
-		echo 'You must enter a username and password.';
+    public function reset_password($user,$password,$type){
+		global $dbh;
+		$write_pass=$password;
+		$password =  crypt($password);
+		$user=mysql_real_escape_string($user);
+		if($type==1){
+			$sql = $dbh->prepare("UPDATE `members` SET `password` = ? WHERE `name` =?;");
+		}else{
+			$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?;");
+		}
+		if(strlen($password)!=0){
+				$set->execute(array($password,$user));
+				echo '<h3>Password Changed to '.$write_pass.'</h3>';
+		}else{
+			echo 'You must enter a username and password.';
+		}
+		
 	}
-    }
     public function return_select_option_user($type){
         global $dbh;
         $html=' ';
@@ -156,21 +161,21 @@ class Users {
     }
     public function get_all_events($id){
     //Get all the teams slots that they are holding, and return a string as a message Used to send emails.
-        global $dbh;
+		global $dbh;
         //global $slots; //Global due to the fact that it is going to be set as a hard max in the database.php. really should be ten
         $slots=10;
-	$EVENT=new Events();
-	$message='';
+		$EVENT=new Events();
+		$message='';
         $get_events_qry="SELECT * FROM times";
         $get_events=$dbh->query($get_events_qry);
         foreach($get_events->fetchAll() as $event_info){
-	    for($x=1;$x<$slots;$x+=1){
-		$place='team'.$x;
-		if($event_info[$place]==$id){
-		    $message.='You have '.$event_info['event'].' at '.$event_info['time_id'];
+			for($x=1;$x<$slots;$x+=1){
+				$place='team'.$x;
+				if($event_info[$place]==$id){
+					$message.='You have '.$event_info['event'].' at '.$event_info['time_id'];
+				}
+			}
 		}
-	    }
-	}
 	return $message;
     }
 }

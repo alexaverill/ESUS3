@@ -298,6 +298,9 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         }*/
         //return $html;
     }
+    public function display_admin_manage(){
+		include('templates/admin_manage_template.php');
+	}
     public function admin_timer_form(){
         $html=file_get_contents('templates/admin_timer_teplate.php');
         return $html;
