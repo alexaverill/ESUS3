@@ -1,0 +1,4 @@
+<?php
+//INSTALL SCRIPT!
+
+?>
