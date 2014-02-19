@@ -69,4 +69,8 @@
         echo $MVC->display_edit_teams();
         ?>
     <h2>Add Admin</h2>
+    	<form method="POST" action="">
+	Admin Username:<input type="text" name="username"/><br/>
+	Admin Password:<input type="text" name="passbox"/><br/><input type="submit" name="add_admin" class="myButton" value="Add Admin"/>
+	</form>
 </div>

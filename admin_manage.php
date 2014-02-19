@@ -15,7 +15,7 @@ $USER=new Users();
 		$USER->reset_password($_POST[''],$_POST[''],1);
 		$MVC->display_admin_manage();
 	}else if($_POST['add_admin']){
-		add_admin();
+		$USER->add_admin();
 		$MVC->display_admin_manage();
 	}else{
 		$MVC->display_admin_manage();

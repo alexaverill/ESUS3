@@ -10,4 +10,7 @@ if($_POST['send_times']){
 if($_POST['all_teams']){
     $MAIL->send_all_times();
 }
+if($_POST['up']){
+    $MAIL->upload_for_bulk($_POST['message'],$_FILES['uploadedfile']['name'],$_FILES['uploadedfile']['tmp_name']);
+}
 ?>

@@ -14,20 +14,33 @@ class Users {
             $query_user=$dbh->prepare($sql);
             $user=$VALID->sant_string($user);
             $query_user->execute(array($user));
-            $user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
-            print_r($user_information[0][id]);
+	    if($query_user->rowCount()>0){
+		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
+		$admin=false;
+	    }else{
+		$sql='SELECT * FROM members WHERE name=?';
+		$query_user=$dbh->prepare($sql);
+		$user=$VALID->sant_string($user);
+		$query_user->execute(array($user));
+		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
+		$admin=true;
+	    }
+            //print_r($user_information[0][id]);
         }catch(PDOException $ex){
             echo $ex->getMessage();
         }
         //Compare stored Password to input password
         $stored_password=$user_information[0][password];
-        //if(crypt($password,$stored_password)==$stored_password){
         if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
-				$_SESSION['install']=$install;
-                $_SESSION['admin']=false;
-                $_SESSION['user']=true;
+		$_SESSION['install']=$install;
+		if(!$admin){
+		    $_SESSION['admin']=false;
+		}else{
+		    $_SESSION['admin']=true;
+		}
+		$_SESSION['user']=true;
                 $_SESSION['id']=$this->get_id($user);
                 echo 'You have logged in!';
         }else{
@@ -73,6 +86,24 @@ class Users {
 
 		}
 		//Log the addition of a user
+    }
+    public function add_admin($name,$password){
+	//echo 'Adding admin';
+	global $dbh;
+	$name= stripslashes($name);
+	$name = mysql_real_escape_string($name);
+	$pass_write=$password;
+	$password=stripslashes($password); //injection cleaner
+	$password =  password_hash($password);
+	$mpass= $password;
+		echo '<br/> Please send this info to the admin:<br/>';
+		echo 'Username: ' .$name.'<br/>';
+		echo 'Password: ' .$pass_write. '<br/>';
+		$insert = "INSERT INTO `members` (`name`, `password`) VALUES (?,?)";
+		$add_admin=$dbh->prepare($insert);
+		$add_admin->execute(array($name,$mpass));
+		echo "<span class=\"success\">Your user account has been created!</span><br>";
+	
     }
     public function remove_user(){
 		
@@ -178,5 +209,50 @@ class Users {
 		}
 	return $message;
     }
+    function upload(){						//Upload function for admin area excel files
+	$target_path = "uploads/";
+	$target_path = $target_path . basename( $_FILES['uploadedfile']['name']); 
+	if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+	    //Moved file, no response due to trying to keep admin area simple
+	} else{
+	    echo "There was an error uploading the file, please try again!";
+	}
+	$this->insert($target_path);
+	
+	}
+    function insert($location){			//Addes uploaded Excel file data to database
+	global $dbh;
+	$data = new Spreadsheet_Excel_Reader();
+	$data->setOutputEncoding('CP1251');
+	$data->read($location);
+		for ($x = 2; $x <= count($data->sheets[0]["cells"]); $x++) {
+		    $name = $data->sheets[0]["cells"][$x][1];
+		    $username = $data->sheets[0]["cells"][$x][2];
+		    $password = $data->sheets[0]["cells"][$x][3];
+		    $email = $data ->sheets[0]["cells"][$x][4];
+			$username=mysql_real_escape_string($username);
+			$name = mysql_real_escape_string($name);
+			$password = password_hash($password);
+			$check = "SELECT * FROM `team` WHERE `name`=?"; //$name
+		$qry = $dbh->prepare($check);
+		$qry->execute(array($name));
+		$check_two = "SELECT * FROM `team` WHERE `username`=?";
+		$qry_two=$dbh->prepare($check_two);
+		$qry_two->execute(array($username));
+		$rows_schools= $qry_two->rowCount();
+		$num_rows = $qry->rowCount();
+		if ($num_rows > 0) {
+			echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
+		}else if($row_schools > 0){
+			echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
+		}else{
+		    $sql = "INSERT INTO team (name,email,username,password) VALUES (?,?,?,?)";
+		    $add=$dbh->prepare($sql);
+		    $add->execute(array($name,$email,$username,$password));
+		}
+		unlink($location);
+		echo 'Your file has been input into the database. Thank you.';
+	}
+	}
 }
 ?>

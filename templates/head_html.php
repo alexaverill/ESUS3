@@ -90,6 +90,7 @@ $(function() {
   });
 });
 $(function() {
+	
   $(".edit_time").editable("updated_times.php", { 
       indicator : "Updating...",
       submitdata: { _method: "put" },

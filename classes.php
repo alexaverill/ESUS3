@@ -273,7 +273,19 @@ class Mail {
     }
     public function send_email($to,$from,$subject,$message){
         $final_subject='ESUS :'.$subject;
-        mail($to,$subject,$final_message);
+        $send=mail($to,$subject,$final_message);
+    }
+    function upload_for_bulk($message,$name,$tmpName){						
+        $target_path = "uploads/";
+        $message= $_POST['message'];
+        $target_path = $target_path . basename($name); 
+        if(move_uploaded_file($tmpName, $target_path)) {
+                echo 'File Uploaded';
+        } else{
+            echo "There was an error uploading the file, please try again!";
+        }
+        $this->send_bulk_mail($target_path,$message);
+        
     }
     public function send_bulk_mail($location,$message){	
         include('source/reader.php');	
@@ -321,8 +333,10 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         //Users
         if($VERIFICATION->is_user()){
             include('templates/user_menu.php');
-        }else{
+        }else  if($VERIFICATION->is_admin()){
             include('templates/admin_menu.php');
+        }else{
+            
         }
     }
     public function display_slots_editable(){
