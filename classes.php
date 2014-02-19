@@ -275,6 +275,36 @@ class Mail {
         $final_subject='ESUS :'.$subject;
         mail($to,$subject,$final_message);
     }
+    public function send_bulk_mail($location,$message){	
+        include('source/reader.php');	
+        $data = new Spreadsheet_Excel_Reader();
+        $data->setOutputEncoding('CP1251');
+        $data->read($location);
+        
+        for ($x = 2; $x <= count($data->sheets[0]["cells"]); $x++) {
+                    $name = $data->sheets[0]["cells"][$x][1];
+                    $username = $data->sheets[0]["cells"][$x][2];
+                    $password = $data->sheets[0]["cells"][$x][3];
+                    $email = $data ->sheets[0]["cells"][$x][4];
+                    //$email_message = $data ->sheets[0]["cells"][1][5];
+              $username=mysql_real_escape_string($username);
+              $link =  'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+              $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password; //Esus Link: '.$link.'
+              $email_from = 'esus@sciolyeventsignup.com';
+              $email_to=$email;
+              $email_subject= "Event Sign Up System";
+              $headers = 'From: '.$email_from."\r\n".
+              'Reply-To: '.$email_from."\r\n" .
+              'X-Mailer: PHP/' . phpversion();
+              $send=mail($email_to, $email_subject, $email_message, $headers); 
+            if($send){
+              $sent=1;
+              }
+              echo '<b>Email Sent to '.$row['name'].'</b><br/>';
+        }
+        unlink($location);
+	echo 'Your emails have been sent. Thank you.';
+}
 }
 
 

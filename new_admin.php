@@ -17,6 +17,7 @@ if ($_POST['adduser'])
 
 
 function add_first_admin(){
+        global $dbh;
 	//echo 'Adding Admin';
 	echo '<br/> Please Keep this information:<br/>';
 	echo 'The Following is your login information for you installation.<br/>';
@@ -35,11 +36,15 @@ function add_first_admin(){
 	$name= $_POST['schoolname'];
 	$name= stripslashes($name);
 	$name = mysql_real_escape_string($name);
-	$check = "SELECT * FROM `team` WHERE name = '$user';";
-	$qry = mysql_query($check) or die ("Could not match data because ".mysql_error());
+	$check = "SELECT * FROM `team` WHERE name =?";
+	$qry =$dbh->prepare($check);
+        $qry->execute(array($user));
 	$num_rows = mysql_num_rows($qry);
-		$insert = mysql_query( "INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES ('$name', '$mpass','$email',1);")
-		or die("Could not insert data because ".mysql_error());
+                $sql="INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES (?, ?,?,1)";
+                $insert=$dbh->prepare($sql);
+                $insert->execute(array($name,$mpass,$email));
+		//$insert = mysql_query( "INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES ('$name', '$mpass','$email',1);")
+		//sor die("Could not insert data because ".mysql_error());
 		echo "<span class=\"success\">Your user account has been created!<br/><h1> Now please delete new_admin.php as well as install.php</h1></span><br>";
 	//}
 }
