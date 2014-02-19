@@ -83,7 +83,7 @@ class Logging{
 		//this function will add timestamp, and write to a file
 		$file = fopen('logging.txt', 'a');
 		$stamp=$this->time_stamp();
-		$write=$stamp.' '.$user. ' '.$message;
+		$write=$stamp.' '.$user. ' '.$message."\n";
 		fwrite($file,$write);
 	}
 }
@@ -118,12 +118,14 @@ class Slots{
             }
         }
     }
-    public function clear_slot($event,$time,$slot){
-        global $dbh;     
+    public function clear_slot($event,$time,$slot,$team){
+        global $dbh;
+        $Log= new Logging;
         $clear_sql="UPDATE `times` SET ".$slot."=0 WHERE event=? AND time_id=?";
         $clear_qry=$dbh->prepare($clear_sql);
         $clear_qry->execute(array($event,$time));
-        $clear_qry->debugDumpParams();
+        $message='Dropped '.$team.' from '.$event.' at '.$time.' in slot: '.$slot; //team is in the form of team ID #
+        $Log->add_entry($_SESSION['name'],$message);
     }
     
     public function claim_slot($id,$event,$time){
@@ -181,6 +183,18 @@ class Slots{
         $number = $middle[0][slots];
         return $number;
     }
+    public function return_all_slots_editable(){
+    	global $dbh;
+        $sql2 = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
+	$count=mysql_query($sql2);
+        $get_slots=$dbh->query($sql2);
+        $html='';
+        foreach($get_slots->fetchAll() as $row){
+        	$ids = $row['time_slot'];
+	        $html.='<div class="edit_time" id="'.$ids.'">'.$row['time_slot'].'</div>';
+        }
+        return $html;
+    }
 }
 
 
@@ -195,7 +209,7 @@ class Timer{
         global $timezone;
         date_default_timezone_set($timezone);       //INSTALL CONFIG TIME ZONE!!!
         $today= new DateTime('NOW');
-        echo $today->format('c');
+        //echo $today->format('c');
         $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
         foreach($dbh->query($sql) as $row){
              $start_date=$row['start'];
@@ -228,13 +242,14 @@ class Timer{
     }
     public function return_timer_dates(){
 		global $dbh;
-		$html;
+		$html='';
 		$sql="SELECT * FROM timer";
 		$dates=$dbh->query($sql);
 		$dates=$dates->fetchAll(PDO::FETCH_ASSOC);
-		$html.='Opens on '.$dates[0][start].' at '.$dates[0][st_time];
+		$html.='Opens on '.$dates[0]['start'].' at '.$dates[0]['st_time'];
 		$html.='<br/>';
-		$html.='Closes on '.$dates[0][end].' at '.$dates[0][en_time];
+		$html.='Closes on '.$dates[0]['end'].' at '.$dates[0]['en_time'];
+                return $html;
 	}
 }
 class Mail {
@@ -280,7 +295,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
             include('templates/admin_menu.php');
         }
     }
-    
+    public function display_slots_editable(){
+        $SLOTS=new Slots();
+        $html='<h2>Edit Slots</h2>';
+        $html.=$SLOTS->return_all_slots_editable();
+        return $html;
+    }
     
     public function display_login(){
         $html='<h1>Login</h1>
@@ -299,23 +319,18 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     /*MVC functions to get timer and display it*/
     public function display_timer(){
-        //global $dbh;
+        $html='<h2>Current Settings</h2>';
         $TIMER=new Timer();
-        $html=$TIMER->return_timer_dates();
+        $html.=$TIMER->return_timer_dates();
         return $html;
-        //$html='';
-        /*$sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
-        foreach($dbh->query($sql) as $row){
-             echo 'Start Date: '.$row['start'].' at '.$row['st_time'].'<br/>End Date: '.$row['end'].' at '.$row['en_time'];
-        }*/
-        //return $html;
     }
     public function display_admin_manage(){
 		include('templates/admin_manage_template.php');
 	}
     public function admin_timer_form(){
-        $html=file_get_contents('templates/admin_timer_teplate.php');
-        return $html;
+        //$html=file_get_contents('templates/admin_timer_teplate.php');
+        //return $html;
+        include('templates/admin_timer_teplate.php');
     }
     public function display_events(){
         $EVENTS= new Events();
@@ -377,6 +392,20 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $EVENTS= new Events();
         $EVENTS->return_admin_table_html();
     }
-   
+    public function display_slots_table(){
+        $EVENT = new Events();
+        $html='<h2>Change Number of Slots</h2>';
+        $html.=$EVENT->return_event_slots();
+        return $html;
+    }
+    public function admin_edit_slots(){
+        include('templates/admin_edit_template.php');
+    }
+    public function display_events_slots(){
+        $EVENTS = new Events();
+        $html='<h2>Current Event\'s Time Slots';
+        $html.=$EVENTS->events_with_slots();
+        return $html;
+    }
 }
 ?>

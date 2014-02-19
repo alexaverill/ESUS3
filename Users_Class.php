@@ -22,7 +22,7 @@ class Users {
         //Compare stored Password to input password
         $stored_password=$user_information[0][password];
         //if(crypt($password,$stored_password)==$stored_password){
-        if(password_verify($password,$stored_password){
+        if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
 				$_SESSION['install']=$install;

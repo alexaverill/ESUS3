@@ -34,8 +34,11 @@ class Events{
         
     }
 
-    public function remove_events(){
-        
+    public function drop_events($event,$time){
+        global $dbh;
+        $del_sql="DELETE FROM `times` WHERE time_id=? AND event=?";
+        $remove_slot=$dbh->prepare($del_sql);
+        $remove_slot->execute(array($time,$event));
     }
     public function list_events(){
         global $dbh;
@@ -120,7 +123,7 @@ class Events{
 		$get_events_from_database="SELECT * FROM `event` ORDER BY `event` ASC";
 		$query_db=$dbh->query($get_events_from_database);
 		$html.='<div id="below">';//<
-		$html.='<h2>Add Slots to an Event</h2>';
+		//$html.='<h2>Add Slots to an Event</h2>';
 		
 	foreach($query_db->fetchAll() as $get){
 		$html.="<table border='1' style='float:left'>";
@@ -130,9 +133,9 @@ class Events{
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td></tr>';
 		$html.='<tr><td><form method="POST" action=""><input type="hidden" value="'.$even.'" name="event"/>
-			<input type="submit" name="add_all" value="Add all Slots to this event"/></form></td></tr>';
+			<input type="submit" name="add_all" value="Add all Times to this event"/></form></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="event_checks"/>';
-                $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Slots"/></td></tr>';
+                $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Times"/></td></tr>';
                 foreach($get_times->fetchAll() as $row){
                         $time=$row['time_slot'];
                             $query_slot_status="SELECT * FROM times WHERE event=? AND time_id=?";   //Check if already a slot
@@ -238,8 +241,71 @@ class Events{
             }
             return $html;
         }
-        
-    
+    public function events_with_slots(){ //draws table selection for time slots.
+                $sto= '<strong>';
+		$stc='</strong>';
+		$red = '<div id="red">';
+		$enred = '</div>';
+		global $dbh;
+		$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
+		$get_events=$dbh->query($get_events);
+		$html.= '<h2>Events With Times</h2>';
+		
+	foreach($get_events->fetchAll() as $get){
+                $html.= "<table border='1' style='float:left'>";
+		$even=$get['event'];
+		$name=$_SESSION['name'];
+		$sql = "SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC";
+		$get_slots=$dbh->prepare($sql);
+		$get_slots->execute(array($even));
+		$tblcl = "</tr>";
+			$html.= '<tr><th><b>'.$even.'</b></th></tr>';
+                        $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="drop_slots_event"/>';
+                        $html.='<tr><td><input name="drop_times" type="submit" value="Drop Selected Times"/></td></tr>';
+                foreach($get_slots->fetchAll() as $row){
+			$time=$row['time_id'];
+			$html.= '<td>'; 
+			$html.=$row['time_id'].'<input type="checkbox" name="drop_time_checks[]" value="'.$row['time_id'].'"/>';
+                        $html.='</td>';
+			$html.= $tblcl;
+                }
+            //$html.= '</tr>';
+            $html.='</form>';
+            $html.= '</table>';
+	}
+            $html.= '</table>';
+            return $html;
+    }    
+    public function return_event_slots(){
+        global $dbh;
+        $html='';
+        $html.="<table border='1' >";
+	$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
+	$get_events=$dbh->query($get_events);
+	$html.="<table border='1' style='float:left'>";		
+	$go=1;
+	foreach($get_events->fetchAll() as $get){
+		
+		$even=$get['event'];
+		$tblcl = "</td>";
+		$html.='<tr><td><b>'.$even.'</b></td>';
+                $html.='<td><form method="POST" action=""><input type="hidden" name="event'.$go.'" value="'.$even.'"/><select name="typein">';
+		$run= 1;
+	    	while ($run<=10){
+    				if($get['slots']==$run){
+		    			$html.='<option value="'.$run.'" selected="selected">'.$run.' slots</option>';
+	    			}else{
+	    				$html.='<option value="'.$run.'">'.$run.' slots</option>';
+		    		}
+		    	$run+=1;
+			
+		}
+			$html.='</select><input type="hidden" value="'.$go.'" name="runs"/><input type="submit" value="Change" name="change_num"></form></td></tr>';
+			$go+=1;
+		}	
+		$html.='</table>';
+                return $html;
+    }
     public function return_select_options(){
         global $dbh;
         $get_events="SELECT * ";
