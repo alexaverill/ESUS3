@@ -14,10 +14,12 @@ class Users {
             $query_user=$dbh->prepare($sql);
             $user=$VALID->sant_string($user);
             $query_user->execute(array($user));
+	    echo $query_user->rowCount();
 	    if($query_user->rowCount()>0){
 		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
 		$admin=false;
 	    }else{
+		echo 'Admin';
 		$sql='SELECT * FROM members WHERE name=?';
 		$query_user=$dbh->prepare($sql);
 		$user=$VALID->sant_string($user);
@@ -35,13 +37,14 @@ class Users {
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
 		$_SESSION['install']=$install;
+		$_SESSION['id']=$this->get_id($user);
 		if(!$admin){
 		    $_SESSION['admin']=false;
 		}else{
 		    $_SESSION['admin']=true;
 		}
 		$_SESSION['user']=true;
-                $_SESSION['id']=$this->get_id($user);
+                
                 echo 'You have logged in!';
         }else{
             //TODO:Log wrong login to a login file.
@@ -59,26 +62,26 @@ class Users {
 		while($ren= mysql_fetch_assoc($qry_admin)) {
 			$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
 		}*/
-        if($VERIFY->valid_email($email)){
             $email=$email;
-        }else{
-            $email='0';
-            return false;
-        }
-		$mpass = $password;
-		$password =  password_hash($password,PASSWORD_DEFUALT);
-		$check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
-        $run_check=$dbh->prepare($check);
-        $run_check->execute(array($name,$user));
-        $num_rows=$run_check;
-		$num_rows = mysql_num_rows($qry);
+	    $mpass = $password;
+	    $password =  password_hash($password,PASSWORD_DEFUALT);
+	    $check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
+	    $run_check=$dbh->prepare($check);
+	    $run_check->execute(array($name,$user));
+           $num_rows=$run_check->rowCount();
+	    echo $user;
+	    echo $password;
 		if ($num_rows > 0) {
 			echo "Sorry, the username ".$name." is already taken. Please try another users<br>";
 		}else if($row_schools > 0){
 			echo "Sorry, the School ".$user." is already taken. Please try another users<br>";
 		}else{
-            $add_team=$dbh->prepare("INSERT INTO team(id,name,email,username)VALUES(NULL,?,?,?,?)");
-            $add_team->execute(array($name,$email,$user,$password));
+		    try{
+			$add_team=$dbh->prepare("INSERT INTO `team` (id,name,email,username)VALUES(NULL,?,?,?,?)");
+			$add_team->execute(array($name,$email,$user,$password));
+		    }catch(PDOException $e){
+			echo $e->getMessage();
+		    }
 			echo 'Please send this info to the team:<br/>';
 			echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
 			echo 'Username: ' .$user.'<br/>';
@@ -94,7 +97,7 @@ class Users {
 	$name = mysql_real_escape_string($name);
 	$pass_write=$password;
 	$password=stripslashes($password); //injection cleaner
-	$password =  password_hash($password);
+	$password =  password_hash($password, PASSWORD_DEFAULT);
 	$mpass= $password;
 		echo '<br/> Please send this info to the admin:<br/>';
 		echo 'Username: ' .$name.'<br/>';
@@ -178,7 +181,8 @@ class Users {
         $get_id=$dbh->prepare($sql);
         $get_id->execute(array($name));
         $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
-        $id=$row['id'];
+	//var_dump($row);
+        $id=$row[0]['id'];
         return $id;
     }
     public function get_email($name){
@@ -232,7 +236,7 @@ class Users {
 		    $email = $data ->sheets[0]["cells"][$x][4];
 			$username=mysql_real_escape_string($username);
 			$name = mysql_real_escape_string($name);
-			$password = password_hash($password);
+			$password = password_hash($password, PASSWORD_DEFAULT);
 			$check = "SELECT * FROM `team` WHERE `name`=?"; //$name
 		$qry = $dbh->prepare($check);
 		$qry->execute(array($name));

@@ -59,11 +59,12 @@ class Validation{
         }
     }
     public function valid_email($input){
-        if(FILTER_VALIDATE_EMAIL($input)){
+        /*if(FILTER_VALIDATE_EMAIL($input)){
             return true;
         }else{
             return false;
-        }
+        }*/
+        return true;
     }
 }
 $VALID=new Validation();
@@ -331,10 +332,10 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
             //include('templates/admin_menu.php');
         //}
         //Users
-        if($VERIFICATION->is_user()){
-            include('templates/user_menu.php');
-        }else  if($VERIFICATION->is_admin()){
+        if($VERIFICATION->is_admin()){
             include('templates/admin_menu.php');
+        }else if($VERIFICATION->is_user()){
+            include('templates/user_menu.php');
         }else{
             
         }
@@ -417,7 +418,8 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_edit_teams(){
         $USER=new Users();
-        $options=$USER->return_select_option_user();
+        $html='';
+        $options=$USER->return_select_option_user(1);
         $html.= '<form action="" method="POST">Team:<select name="call">';
 	$html.=$options;
         $html.= '</select><input name="teams" type="submit" class="myButton" value="Show Team Data"/></form>';

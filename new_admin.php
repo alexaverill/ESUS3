@@ -26,7 +26,7 @@ function add_first_admin(){
 	echo 'Password: ' .$_POST['passbox']. '<br/>';
 	$password=$_POST['passbox'];
 	$password=stripslashes($password); //injection cleaner
-	$password = password_hash($password);
+	$password = password_hash($password, PASSWORD_DEFAULT);
 	$mpass = $password;
 
 	$user= $_POST['username'];
@@ -39,10 +39,15 @@ function add_first_admin(){
 	$check = "SELECT * FROM `team` WHERE name =?";
 	$qry =$dbh->prepare($check);
         $qry->execute(array($user));
-	$num_rows = mysql_num_rows($qry);
+	//$num_rows = mysql_num_rows($qry);
+        try{
+
                 $sql="INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES (?, ?,?,1)";
                 $insert=$dbh->prepare($sql);
                 $insert->execute(array($name,$mpass,$email));
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
 		//$insert = mysql_query( "INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES ('$name', '$mpass','$email',1);")
 		//sor die("Could not insert data because ".mysql_error());
 		echo "<span class=\"success\">Your user account has been created!<br/><h1> Now please delete new_admin.php as well as install.php</h1></span><br>";

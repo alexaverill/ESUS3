@@ -1,4 +1,4 @@
-<?php include('../classes.php'); $MVC=new MVC();?>
+<?php include('./../classes.php'); $MVC=new MVC();?>
 <div id="columns">
     <div id="bulk">
         <h1>Add Users</h1>
@@ -71,6 +71,7 @@
     <h2>Add Admin</h2>
     	<form method="POST" action="">
 	Admin Username:<input type="text" name="username"/><br/>
-	Admin Password:<input type="text" name="passbox"/><br/><input type="submit" name="add_admin" class="myButton" value="Add Admin"/>
+	Admin Password:<input type="text" name="passbox"/><br/>
+        <input type="submit" name="add_admin" class="myButton" value="Add Admin"/>
 	</form>
 </div>

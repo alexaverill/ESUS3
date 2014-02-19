@@ -95,6 +95,27 @@ class Events{
         $final=$taken.' of '.$total_slots;
         return $final;
     }
+    public function in_this_slot($event,$slot,$id){
+                global $dbh;
+        $SLOTS=new Slots();
+        $total_slots=$this->number_slots($event);  //Gets total number of slots in each event.
+        //get current number of filled slots and subtract it from total slots to get number left.
+        $sql="SELECT * FROM times WHERE time_id=? AND event=?";
+        $pull = $dbh->prepare($sql);
+        $pull->execute(array($slot,$event));
+        $rows=$pull->fetchAll(PDO::FETCH_ASSOC);
+        $index=1;
+        $taken=0;
+        $gotten=false;
+        while($index<$total_slots){
+            if($rows[0]['team'.$index]==$id){
+                $gotten=true;
+                break;
+            }
+            $index+=1;
+        }
+        return $gotten;
+    }
     public function return_event_html(){
         //Returns HTML code for the event table, I wish there were a better way, but ther is not really as I can see...
         
@@ -103,17 +124,25 @@ class Events{
         foreach($dbh->query("SELECT * FROM event") as $event){
             $sql='SELECT * FROM times WHERE event=$event';
             $go=$dbh->prepare('SELECT * FROM times WHERE event=?');
-            $html.='<table><h2>'.$event['event'].'</h2>';
+            $html.='<table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h1>'.$event['event'].'</h1></th></tr>';
             $html.='<tr> <th>Hour</th>';
-            $html.='<th>Obtain</th><th>Status</th>';
+            $html.='<th>Obtain</th><th>Status</th></tr>';
             $get_times=$dbh->prepare('SELECT * FROM times WHERE event=?');
             $get_times->execute(array($event['event']));
            foreach($get_times->fetchAll() as $time){
-                 $html.='<tr><td>'.$time[time_id].'</td>';
-                 $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time[time_id].'" name="time"/><input type="hidden" value="'.$event['event'].'" name="event"/><input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
-                 $html.='<td>'.$this->event_status($event['event'],$time[time_id]).'</td></tr>';
+                $html.='<tr><td>'.$time['time_id'].'</td>';
+                if($this->in_this_slot($event['event'],$time['time_id'],$_SESSION['id'])){
+                    $html.='<td>Your Slot</td>';
+                }else{
+                
+                 $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time['time_id'].'" name="time"/>
+                 <input type="hidden" value="'.$event['event'].'" name="event"/>
+                 <input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
+                }
+                 $html.='<td>'.$this->event_status($event['event'],$time['time_id']).'</td></tr>';
+                 
             }
-             $html.= '</table>';
+             $html.= '</tbody></table>';
         }
         return $html;
     }
@@ -133,7 +162,7 @@ class Events{
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td></tr>';
 		$html.='<tr><td><form method="POST" action=""><input type="hidden" value="'.$even.'" name="event"/>
-			<input type="submit" name="add_all" value="Add all Times to this event"/></form></td></tr>';
+			<input type="submit" name="add_all" value="Add all Times"/></form></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="event_checks"/>';
                 $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Times"/></td></tr>';
                 foreach($get_times->fetchAll() as $row){
