@@ -213,19 +213,22 @@ class Users {
 		}
 	return $message;
     }
-    function upload($name,$tmpName){						//Upload function for admin area excel files
+    public function upload($name,$tmpName){						//Upload function for admin area excel files
 	$target_path = "uploads/";
 	$target_path = $target_path . basename($name); 
 	if(move_uploaded_file($tmpName, $target_path)) {
 	    //Moved file, no response due to trying to keep admin area simple
+	    echo 'File moved to:'.$target_path;
+	    $this->insert($target_path);
 	} else{
 	    echo "There was an error uploading the file, please try again!";
 	}
-	$this->insert($target_path);
+	
 	
 	}
-    function insert($location){			//Addes uploaded Excel file data to database
+    public function insert($location){			//Addes uploaded Excel file data to database
 	global $dbh;
+	include('source/reader.php');
 	$data = new Spreadsheet_Excel_Reader();
 	$data->setOutputEncoding('CP1251');
 	$data->read($location);

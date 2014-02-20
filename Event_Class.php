@@ -173,7 +173,7 @@ class Events{
                             $num_check= $magic_check->rowCount();
                             if($num_check==0){
                                 $html.='<td>'; 
-                                $html.=$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/>';
+                                $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
                                 $html.='</tr>';
                             
                             }
@@ -318,7 +318,7 @@ class Events{
 		$even=$get['event'];
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td>';
-                $html.='<td><form method="POST" action=""><input type="hidden" name="event'.$go.'" value="'.$even.'"/><select name="typein">';
+                $html.='<td><form method="POST" action=""><input type="hidden" name="event" value="'.$even.'"/><select name="typein">';
 		$run= 1;
 	    	while ($run<=10){
     				if($get['slots']==$run){

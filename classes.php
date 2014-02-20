@@ -158,6 +158,12 @@ class Slots{
     public function drop_slot(){
 	//WIll remove a teams slots from the database
     }
+    public function change_num_slots($event,$slots){
+        global $dbh;
+        $sql="UPDATE event SET slots=? WHERE event=?";
+        $update=$dbh->prepare($sql);
+        $update->execute(array($slots,$event));
+    }
     //Admin Slot functions
     public function add_slots($time){       //Inserts a slot into the time table in the database.
         global $dbh;
