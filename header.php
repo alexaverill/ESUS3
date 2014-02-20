@@ -14,6 +14,4 @@ $MVC= new MVC();
 $VERIFICATION= new Verification();
 $USER=new Users();
 include('templates/head_html.php');
-echo 'ID: '.$_SESSION['id'];
-//echo 'USERS: '.$USER->get_id($_SESSION['name']);
 ?>

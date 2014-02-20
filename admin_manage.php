@@ -17,7 +17,10 @@ $USER=new Users();
 	}else if($_POST['add_admin']){
 		$USER->add_admin($_POST['username'],$_POST['passbox']);
 		$MVC->display_admin_manage();
-	}else{
+	}else if($_POST['up']){
+            $USER->upload($_FILES['uploadedfile']['name'],$_FILES['uploadedfile']['tmp_name']);
+            $MVC->display_admin_manage();
+        }else{
 		$MVC->display_admin_manage();
 	}
 ?>
