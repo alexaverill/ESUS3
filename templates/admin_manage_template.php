@@ -1,4 +1,4 @@
-<?php include('./../classes.php'); $MVC=new MVC();?>
+<?php /*include('classes.php');*/ $MVC=new MVC();?>
 <div id="columns">
     <div id="bulk">
         <h1>Add Users</h1>

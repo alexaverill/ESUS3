@@ -62,22 +62,22 @@ class Users {
 		while($ren= mysql_fetch_assoc($qry_admin)) {
 			$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
 		}*/
-            $email=$email;
 	    $mpass = $password;
-	    $password =  password_hash($password,PASSWORD_DEFUALT);
+	    $password =  password_hash($password,PASSWORD_DEFAULT);
 	    $check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
 	    $run_check=$dbh->prepare($check);
 	    $run_check->execute(array($name,$user));
            $num_rows=$run_check->rowCount();
-	    echo $user;
-	    echo $password;
+	    echo $user.'<br/>';
+	    echo $password.'<br/>';
 		if ($num_rows > 0) {
 			echo "Sorry, the username ".$name." is already taken. Please try another users<br>";
 		}else if($row_schools > 0){
 			echo "Sorry, the School ".$user." is already taken. Please try another users<br>";
 		}else{
 		    try{
-			$add_team=$dbh->prepare("INSERT INTO `team` (id,name,email,username)VALUES(NULL,?,?,?,?)");
+			$sql="INSERT INTO team(name,email,username,password) VALUES(?,?,?,?)";
+			$add_team=$dbh->prepare($sql);
 			$add_team->execute(array($name,$email,$user,$password));
 		    }catch(PDOException $e){
 			echo $e->getMessage();
