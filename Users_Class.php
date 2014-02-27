@@ -32,6 +32,7 @@ class Users {
             echo $ex->getMessage();
         }
         //Compare stored Password to input password
+	var_dump($user_information);
         $stored_password=$user_information[0][password];
         if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
