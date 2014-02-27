@@ -44,7 +44,7 @@ class Users {
 		    $_SESSION['admin']=true;
 		}
 		$_SESSION['user']=true;
-                
+                echo '<META HTTP-EQUIV=Refresh CONTENT=".5; URL=index.php">';
                 echo 'You have logged in!';
         }else{
             //TODO:Log wrong login to a login file.

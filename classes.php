@@ -343,7 +343,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         }else if($VERIFICATION->is_user()){
             include('templates/user_menu.php');
         }else{
-            
+            include('templates/general_menu.php');
         }
     }
     public function display_slots_editable(){
@@ -384,10 +384,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         include('templates/admin_timer_teplate.php');
     }
     public function display_events(){
-        $EVENTS= new Events();
-        $html = $EVENTS->return_event_html();
-        echo $html;
-        
+        $Verify=new Verification;
+        if($Verify->is_admin()||$Verify->is_user()){
+            $EVENTS= new Events();
+            $html = $EVENTS->return_event_html();
+            echo $html;
+        }
     
     }
     public function admin_mail(){
