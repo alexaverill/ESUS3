@@ -29,7 +29,7 @@ function add_first_admin(){
 	$password = password_hash($password, PASSWORD_DEFAULT);
 	$mpass = $password;
 
-	$user= $_POST['username'];
+	$user= $_POST['schoolname'];
 	$user= stripslashes($user);
 	$user= mysql_real_escape_string($user);
 	$email=$_POST['email'];
