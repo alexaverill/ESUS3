@@ -17,7 +17,6 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="source/kendo.all.min.js"></script>
 <script src="source/jquery.jeditable.js" type="text/javascript"></script>
-<script src="source/bootstrap-datepicker.js" type="text/javascript"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript" >
 
