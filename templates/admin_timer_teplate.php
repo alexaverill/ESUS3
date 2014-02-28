@@ -4,7 +4,7 @@ Start Date:<input id='datepicker' name='start_dt'  id="dpd1"> Time:<input id='st
 End Date:<input id='enddatepicker' name='end_dt'  id="dpd2"> Time:<input id='end_time' name='end_time' class='myclass timepicker'/><br/>
 <input type="submit" value="Update Timer" name="update"/>
  </form>
-<script>
+<!--<script>
 $("#datepicker").kendoDatePicker({
     format: "yyyy-MM-dd"
 });
@@ -12,3 +12,4 @@ $("#enddatepicker").kendoDatePicker({
     format: "yyyy-MM-dd"
 });
 </script>
+-->
