@@ -11,37 +11,16 @@
 <link href="source/kendo.kendo.min.css" rel="stylesheet" />
 <link href="source/datepicker/css/datepicker.css" rel="stylesheet"/>
 <script type="text/javascript" src="source/timepicker.js"></script>
-  <link rel="shortcut icon" href="source/images/favicon.ico" >
+<link rel="shortcut icon" href="source/images/favicon.ico" >
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <!-- ...then paste the Kendo scripts in the page body (before using the framework) -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="source/kendo.all.min.js"></script>
 <script src="source/jquery.jeditable.js" type="text/javascript"></script>
-<script src="souce/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
-
+<script src="source/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript" >
-	var nowTemp = new Date();
-var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
- 
-var checkin = $('#dpd1').datepicker({
-  onRender: function(date) {
-    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-  }
-}).on('changeDate', function(ev) {
-  if (ev.date.valueOf() > checkout.date.valueOf()) {
-    var newDate = new Date(ev.date)
-    newDate.setDate(newDate.getDate() + 1);
-    checkout.setValue(newDate);
-  }
-  checkin.hide();
-  $('#dpd2')[0].focus();
-}).data('datepicker');
-var checkout = $('#dpd2').datepicker({
-  onRender: function(date) {
-    return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-  }
-}).on('changeDate', function(ev) {
-  checkout.hide();
-}).data('datepicker');
+
 $(document).ready(function() {
 $('#drop_box').hide();
 $('#hidden_teams').hide();
