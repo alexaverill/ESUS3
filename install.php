@@ -48,7 +48,7 @@ float:left;
 <legend>Database Info</legend>
 <form name="database" action="" method="post">
 <ul>
-<li> <label for="timezone">Time Zone</label>
+<li> <label for="timezone">Time Zone:</label>
 <select name="timezone">
     <option value="America/New_York">Eastern Time</option>
     <option value="America/Chicago" selected="selected">Central Time</option>
@@ -92,7 +92,8 @@ function add_login(){
     $data_host = "'.$host.'";   //Database Host localhost should work as defualt
     $name_database = "'.$name.'";        //Database Name*/
     $install='.$install_value.';
-    $timezone='.$timezone.';    
+    $timezone=\''.$timezone.'\';
+    $slots=10;
     ?>';
 
 	$newlogin = "database.php";
