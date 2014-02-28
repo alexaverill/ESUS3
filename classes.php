@@ -217,7 +217,7 @@ class Timer{
         date_default_timezone_set($timezone);       //INSTALL CONFIG TIME ZONE!!!
         $today= new DateTime('NOW');
         //echo $today->format('c');
-        $sql="SELECT start,end,st_time,en_time FROM timer WHERE id=1";
+        $sql="SELECT * FROM timer";
         foreach($dbh->query($sql) as $row){
              $start_date=$row['start'];
              $start_time=$row['st_time'];
