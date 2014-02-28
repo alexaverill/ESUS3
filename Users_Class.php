@@ -69,8 +69,6 @@ class Users {
 	    $run_check=$dbh->prepare($check);
 	    $run_check->execute(array($name,$user));
            $num_rows=$run_check->rowCount();
-	    echo $user.'<br/>';
-	    echo $password.'<br/>';
 		if ($num_rows > 0) {
 			echo "Sorry, the username ".$name." is already taken. Please try another users<br>";
 		}else if($row_schools > 0){
