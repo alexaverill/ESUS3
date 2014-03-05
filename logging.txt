@@ -20,3 +20,5 @@
 03-05-2014 05:05:15 admin Dropped 17 from yrdy at 455 in slot: team1
 03-05-2014 05:05:17 admin Dropped 17 from test at 09:30 in slot: team1
 03-05-2014 05:05:20 admin Dropped 17 from TEsting at 45 in slot: team1
+03-05-2014 19:34:58 INVALID LOGIN:  attempted to login and failed
+03-05-2014 19:35:00 INVALID LOGIN:  attempted to login and failed

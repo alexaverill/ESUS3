@@ -85,6 +85,7 @@ class Users {
 			echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
 			echo 'Username: ' .$user.'<br/>';
 			echo 'Password: ' .$tempPass. '<br/>';
+			echo 'Email: '.$email.'<br/>';
 
 		}
 		//Log the addition of a user
