@@ -58,12 +58,7 @@ class Users {
     public function add_user($user,$password,$email,$name){
         global $dbh;
         $VERIFY=new Validation();
-        /*$check_admin = "SELECT * FROM `members` WHERE rank = '1'";
-		$qry_admin = mysql_query($check_admin) or die ("Could not match data because ".mysql_error());
-		while($ren= mysql_fetch_assoc($qry_admin)) {
-			$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
-		}*/
-	    $mpass = $password;
+	    $tempPass = $password;
 	    $password =  password_hash($password,PASSWORD_DEFAULT);
 	    $check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
 	    $run_check=$dbh->prepare($check);
@@ -79,12 +74,14 @@ class Users {
 			$add_team=$dbh->prepare($sql);
 			$add_team->execute(array($name,$email,$user,$password));
 		    }catch(PDOException $e){
-			echo $e->getMessage();
+			echo 'There was an error.';
+			$log=new Logging();
+			$log->add_entry('ERROR:',$e->getMessage());
 		    }
 			echo 'Please send this info to the team:<br/>';
 			echo 'The following is your login information for ' .$name.'. If you have any issues please contact '.$admin_email.'<br/>';
 			echo 'Username: ' .$user.'<br/>';
-			echo 'Password: ' .$mpass. '<br/>';
+			echo 'Password: ' .$tempPass. '<br/>';
 
 		}
 		//Log the addition of a user
@@ -94,18 +91,22 @@ class Users {
 	global $dbh;
 	$name= stripslashes($name);
 	$name = mysql_real_escape_string($name);
-	$pass_write=$password;
+	$TempPass=$password;
 	$password=stripslashes($password); //injection cleaner
 	$password =  password_hash($password, PASSWORD_DEFAULT);
-	$mpass= $password;
 		echo '<br/> Please send this info to the admin:<br/>';
 		echo 'Username: ' .$name.'<br/>';
-		echo 'Password: ' .$pass_write. '<br/>';
+		echo 'Password: ' .$TempPass. '<br/>';
+		try{
 		$insert = "INSERT INTO `members` (`name`, `password`) VALUES (?,?)";
 		$add_admin=$dbh->prepare($insert);
-		$add_admin->execute(array($name,$mpass));
+		$add_admin->execute(array($name,$password));
 		echo "<span class=\"success\">Your user account has been created!</span><br>";
-	
+		}catch(PDOException $e){
+		    echo 'There was an error.';
+		    $log=new Logging();
+		    $log->add_entry('ERROR:',$e->getMessage());
+		}
     }
     public function remove_user(){
 		
@@ -114,7 +115,7 @@ class Users {
     public function show_user_info($user){
         global $dbh;
         $sql = "SELECT * FROM `team` WHERE `username`=?";
-		$get_user=$dbh->prepare($sql);
+	$get_user=$dbh->prepare($sql);
         $get_user->execute(array($user));
 		echo '<form method="POST" action="">';
 		while($row = $get_user->fetch(PDO::FETCH_ASSOC)) {
@@ -130,12 +131,19 @@ class Users {
     }
     public function update_team($id,$name,$email,$user){
         global $dbh;
-		$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
-		$update=$dbh->prepare($sql);
+	try{
+	$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
+	$update=$dbh->prepare($sql);
         $update->execute(array($name,$email,$user,$id));
-		echo 'User Updated.';
+	return true;
+	}catch(PDOException $e){
+		echo 'There was an error.';
+		$log=new Logging();
+        	$log->add_entry('ERROR:',$e->getMessage());
+	}
     }
-    public function reset_password($user,$password,$type){
+    public function reset_password($user,$password,$type){		//general password reset function. 1 is admin, anything else is a normal user
+									//It could be said to have one user table, but that makes other things harder.
 		global $dbh;
 		$write_pass=$password;
 		$password =  password_hash($password,PASSWORD_DEFUALT);
