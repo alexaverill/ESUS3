@@ -372,7 +372,9 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     public function display_timer(){
         $html='<h2>Current Settings</h2>';
         $TIMER=new Timer();
+        $html.='<h3>';
         $html.=$TIMER->return_timer_dates();
+        $html .='</h3>';
         return $html;
     }
     public function display_admin_manage(){

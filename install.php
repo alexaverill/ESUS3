@@ -56,6 +56,7 @@ float:left;
     <option value="America/Los_Angeles">Pacific Time</option>
 </select>
 </li>
+
 <li> <label for="database_user">Database User:</label>
 <input type="text" name="database_user"id="name" size="30" />
 </li>
