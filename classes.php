@@ -319,7 +319,7 @@ class Mail {
             if($send){
               $sent=1;
               }
-              echo '<b>Email Sent to '.$row['name'].'</b><br/>';
+              //echo '<b>Email Sent to '.$row['name'].'</b><br/>';
         }
         unlink($location);
 	echo 'Your emails have been sent. Thank you.';

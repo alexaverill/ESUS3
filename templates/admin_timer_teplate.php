@@ -8,10 +8,10 @@ End Date:<input id='dp2' name='end_dt' > Time:<input id='end_time' name='end_tim
 <form method="POST" action="">
     Method:<select name="type">
         <option value="1">Rely on Timer</option>
-        <option value="1">Open</option>
-        <option value="1">Closed</option>
+        <option value="2">Open</option>
+        <option value="3">Closed</option>
     </select>
-    
+    <input type="submit" value="Change" name="change"/>
 </form>
 <script>
     $.datepicker.formatDate("yy-mm-dd");
