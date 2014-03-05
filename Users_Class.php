@@ -48,7 +48,8 @@ class Users {
                 echo '<META HTTP-EQUIV=Refresh CONTENT=".5; URL=index.php">';
                 echo 'You have logged in!';
         }else{
-            //TODO:Log wrong login to a login file.
+            $log=new Logging();
+	    $log->add_entry("INVALID LOGIN:", "$name attempted to login and failed");
             echo 'Wrong Username or passord';
         }
         

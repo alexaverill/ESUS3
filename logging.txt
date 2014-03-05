@@ -13,3 +13,10 @@
 03-05-2014 04:17:29 admin Dropped 5 from TEsting at 08:30 in slot: team6
 03-05-2014 04:17:32 admin Dropped 1 from yrdy at 44:44 in slot: team1
 03-05-2014 04:17:34 admin Dropped 1 from TEsting at rea in slot: team1
+03-05-2014 05:05:00 admin Dropped 17 from  space at 666 in slot: team1
+03-05-2014 05:05:07 admin Dropped 17 from LOTR at 08:37 in slot: team1
+03-05-2014 05:05:08 admin Dropped 17 from Robo Cross at 45 in slot: team1
+03-05-2014 05:05:12 admin Dropped 1 from test at 08:30 in slot: team1
+03-05-2014 05:05:15 admin Dropped 17 from yrdy at 455 in slot: team1
+03-05-2014 05:05:17 admin Dropped 17 from test at 09:30 in slot: team1
+03-05-2014 05:05:20 admin Dropped 17 from TEsting at 45 in slot: team1
