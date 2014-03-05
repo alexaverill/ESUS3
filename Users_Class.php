@@ -57,6 +57,7 @@ class Users {
     //User Admin Functions.
     public function add_user($user,$password,$email,$name){
         global $dbh;
+	$log=new Logging();
         $VERIFY=new Validation();
 	    $tempPass = $password;
 	    $password =  password_hash($password,PASSWORD_DEFAULT);
@@ -73,9 +74,10 @@ class Users {
 			$sql="INSERT INTO team(name,email,username,password) VALUES(?,?,?,?)";
 			$add_team=$dbh->prepare($sql);
 			$add_team->execute(array($name,$email,$user,$password));
+			$log->add_entry($_SESSION['name'],"New team with name $name, has been added");
 		    }catch(PDOException $e){
 			echo 'There was an error.';
-			$log=new Logging();
+			
 			$log->add_entry('ERROR:',$e->getMessage());
 		    }
 			echo 'Please send this info to the team:<br/>';
@@ -89,6 +91,7 @@ class Users {
     public function add_admin($name,$password){
 	//echo 'Adding admin';
 	global $dbh;
+	$log=new Logging();
 	$name= stripslashes($name);
 	$name = mysql_real_escape_string($name);
 	$TempPass=$password;
@@ -102,9 +105,10 @@ class Users {
 		$add_admin=$dbh->prepare($insert);
 		$add_admin->execute(array($name,$password));
 		echo "<span class=\"success\">Your user account has been created!</span><br>";
+		$log->add_entry($_SESSION['name'],"New account with name $name, has been added");
 		}catch(PDOException $e){
 		    echo 'There was an error.';
-		    $log=new Logging();
+		   
 		    $log->add_entry('ERROR:',$e->getMessage());
 		}
     }
