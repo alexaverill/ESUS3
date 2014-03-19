@@ -247,6 +247,13 @@ class Timer{
             echo $ex->getMessage();
         }
     }
+    public function change_type($type){
+        global $dbh;
+        $sql="UPDATE `enable` SET `enabled`=?";
+        $update=$dbh->prepare($sql);
+        $update->execute(array($type));
+        
+    }
     public function return_timer_dates(){
 		global $dbh;
 		$html='';

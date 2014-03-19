@@ -16,5 +16,8 @@ if($Verify->is_admin()){
     if($_POST['update']){
       $TIMER->update_timer($_POST['start_dt'],$_POST['end_dt'],$_POST['start_time'],$_POST['end_time']);
     }
+    if($_POST['change']){
+        $TIMER->update_type($_POST['type']);
+    }
 }
 ?>

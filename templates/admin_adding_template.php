@@ -1,4 +1,4 @@
-<h2><a href="event_import.php">Click here to import current events</a></h2>
+
 <h2>Add Events</h2>
 <form method="POST" action="">
     <b>Event Name:</b><input type="text" name="event_name"/>
