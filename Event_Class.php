@@ -226,8 +226,8 @@ class Events{
                     while($run<=$table_settings){
                                     $team1=$team.$run;	
                                     if($row[$team1]==-1){
-                                                    echo '<td id="closed">';
-                                                    echo 'Closed';
+                                            echo '<td id="closed">';
+                                            echo 'Closed';
                                             echo '<form method="POST" action="">
                                             <input type="hidden" value="'.$time.'" name="time"/>
                                             <input type="hidden" value="'.$team1.'" name="slot"/>
@@ -338,6 +338,21 @@ class Events{
     public function return_select_options(){
         global $dbh;
         $get_events="SELECT * ";
+    }
+    public function return_teams_events($id){
+        global $dbh;
+        $get_times="SELECT * FROM `times` ORDER BY `event` ASC";
+        $times=$dbh->query($get_times);
+        foreach($times->fetchAll() as $event_listing){
+            $SLOTS=new Slots();
+            $numSlots=$SLOTS->number_of_slots($event_listing['event']);
+            for($x=0;$x<$numSlots;$x++){
+                $team="team$x";
+                if($event_listing[$team]==$id){
+                    echo "You have $event_listing[event] at $event_listing[time_id]";
+                }
+            }
+        }
     }
 }
 ?>
