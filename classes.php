@@ -187,7 +187,7 @@ class Slots{
         $get_slots=$dbh->prepare("SELECT slots FROM event WHERE event=?");
         $get_slots->execute(array($event));
         $middle = $get_slots->fetchAll(PDO::FETCH_ASSOC);
-        $number = $middle[0][slots];
+        $number = $middle[0]['slots'];
         return $number;
     }
     public function return_all_slots_editable(){

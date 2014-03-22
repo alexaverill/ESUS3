@@ -346,14 +346,14 @@ class Events{
         foreach($times->fetchAll() as $event_listing){
             $SLOTS=new Slots();
             $numSlots=$SLOTS->number_of_slots($event_listing['event']);
-            for($x=0;$x<$numSlots;$x++){
+            for($x=1;$x<$numSlots;$x++){
                 $team="team$x";
                 if($event_listing[$team]==$id){
                     echo "<h3>You have $event_listing[event] at $event_listing[time_id]</h3>";
                     echo "<form action=\"\" method=\"POST\"><input type=\"hidden\" name=\"event\" value=\"$event_listing[event]\"/>
                                                             <input type=\"hidden\" name=\"time\" value=\"$event_listing[time_id]\"/>
                                                             <input type=\"hidden\" name=\"slot\" value=\"$team\"/>
-                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/>";
+                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/></form>";
                 }
             }
         }
@@ -365,14 +365,14 @@ class Events{
         $check_owner->execute(array($event,$time));
         $change=false;
         foreach($check_owner->fetchAll() as $slot){
-            echo $slot[$place];
             if($slot[$place]==$id){
                 $change=true;
             }
         }
         if($change){
-            $sql="UPDATE time SET $place=0 WHERE event=? AND time_id=?";
-            echo $sql;
+            $sql="UPDATE times SET $place=0 WHERE event=? AND time_id=?";
+            $updating=$dbh->prepare($sql);
+            $updating->execute(array($event,$time));
         }
     }
 }
