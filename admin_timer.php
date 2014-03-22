@@ -14,7 +14,9 @@ if($Verify->is_admin()){
 
 
     if($_POST['update']){
-      $TIMER->update_timer($_POST['start_dt'],$_POST['end_dt'],$_POST['start_time'],$_POST['end_time']);
+        $start_time=$_POST['st_hour'].':'.$_POST['st_min'];
+        $end_time=$_POST['end_hour'].':'.$_POST['end_min'];
+      $TIMER->update_timer($_POST['start_dt'],$_POST['end_dt'],$start_time,$end_time);
     }
     if($_POST['change']){
         $TIMER->update_type($_POST['type']);
