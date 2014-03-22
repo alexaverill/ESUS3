@@ -349,10 +349,17 @@ class Events{
             for($x=0;$x<$numSlots;$x++){
                 $team="team$x";
                 if($event_listing[$team]==$id){
-                    echo "You have $event_listing[event] at $event_listing[time_id]";
+                    echo "<h3>You have $event_listing[event] at $event_listing[time_id]</h3>";
+                    echo "<form action=\"\" method=\"POST\"><input type=\"hidden\" name=\"event\" value=\"$event_listing[event]\"/>
+                                                            <input type=\"hidden\" name=\"time\" value=\"$event_listing[time_id]\"/>
+                                                            <input type=\"hidden\" name=\"slot\" value=\"$team\"/>
+                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/>";
                 }
             }
         }
+    }
+    public function drop_own_event($id,$event,$time,$place){
+        
     }
 }
 ?>
