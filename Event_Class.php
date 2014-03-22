@@ -359,7 +359,21 @@ class Events{
         }
     }
     public function drop_own_event($id,$event,$time,$place){
-        
+        global $dbh;
+        $sql="SELECT * FROM times WHERE event=? AND time_id=?";
+        $check_owner=$dbh->prepare($sql);
+        $check_owner->execute(array($event,$time));
+        $change=false;
+        foreach($check_owner->fetchAll() as $slot){
+            echo $slot[$place];
+            if($slot[$place]==$id){
+                $change=true;
+            }
+        }
+        if($change){
+            $sql="UPDATE time SET $place=0 WHERE event=? AND time_id=?";
+            echo $sql;
+        }
     }
 }
 ?>
