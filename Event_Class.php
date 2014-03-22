@@ -132,7 +132,7 @@ class Events{
            foreach($get_times->fetchAll() as $time){
                 $html.='<tr><td>'.$time['time_id'].'</td>';
                 if($this->in_this_slot($event['event'],$time['time_id'],$_SESSION['id'])){
-                    $html.='<td>Your Slot</td>';
+                    $html.='<td id="green">Your Slot</td>';
                 }else{
                 
                  $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time['time_id'].'" name="time"/>
