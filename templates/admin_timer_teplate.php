@@ -16,7 +16,7 @@ Time:<select name="st_hour">
 <option value="23">23</option><option value="24">24</option>
 </select>
 <select name="st_min">
-    <option value="00">00</option><option value="10">10</option>
+    <option value="00" selected=selected>00</option><option value="10">10</option>
     <option value="20">20</option>
     <option value="30">30</option><option value="40">40</option>
     <option value="50">50</option><option value="60">60</option>
@@ -38,7 +38,7 @@ Time:<select name="end_hour">
 <option value="23">23</option><option value="24">24</option>
 </select>
 <select name="end_min">
-    <option value="00">00</option><option value="10">10</option>
+    <option value="00"  selected=selected>00</option><option value="10">10</option>
     <option value="20">20</option>
     <option value="30">30</option><option value="40">40</option>
     <option value="50">50</option><option value="60">60</option>
