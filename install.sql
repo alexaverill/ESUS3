@@ -136,11 +136,17 @@ CREATE TABLE IF NOT EXISTS `timer` (
   `start_hour` int(10) NOT NULL,
   `end_min` int(10) NOT NULL,
   `start_min` int(10) NOT NULL,
+  `start` varchar(10) NOT NULL,
+  `end` varchar(10) NOT NULL,
+  `st_time` varchar(10) NOT NULL,
+  `en_time` varchar(10) NOT NULL,
+  `id` int(1) NOT NULL DEFAULT '1',
   KEY `start_day` (`start_day`),
   KEY `start_day_2` (`start_day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+
+--------------------------------------
 
 --
 -- Table structure for table `times`
@@ -167,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `times` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 INSERT INTO `settings` (`tables`) VALUES ('10');
 
-INSERT INTO `timer` (`start_day`, `end_day`, `start_year`, `start_month`, `end_year`, `end_month`, `end_hour`, `start_hour`, `end_min`, `start_min`) VALUES
-(1, 29, 2010, 1, 2012, 10, 18, 9, 20, 10);
+INSERT INTO `timer` (`start_day`, `end_day`, `start_year`, `start_month`, `end_year`, `end_month`, `end_hour`, `start_hour`, `end_min`, `start_min`, `start`, `end`, `st_time`, `en_time`, `id`) VALUES
+(1, 29, 2010, 1, 2012, 10, 18, 9, 20, 10, '2014-04-01', '2014-04-19', '1:00', '20:00', 1);
 INSERT INTO `enable` (`enabled`) VALUES ('1');
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
