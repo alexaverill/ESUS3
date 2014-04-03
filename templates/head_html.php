@@ -89,6 +89,7 @@ $(function() {
       select : true,
       submit : 'Update',
       cssclass : "editable",
+      onblue:"submit",
       width : "500",
       loadtext  : 'Updating…'
   });
@@ -101,6 +102,7 @@ $(function() {
       select : true,
       submit : 'Update',
       cssclass : "editable",
+      onblue:"submit",
       width : "500",
       loadtext  : 'Updating…'
   });
@@ -112,6 +114,7 @@ $(function() {
       select : true,
       submit : 'Update',
       cssclass : "editable",
+      onblue:"submit",
       width : "500",
       loadtext  : 'Updating…'
   });

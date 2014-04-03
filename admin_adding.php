@@ -35,7 +35,6 @@ if($Verify->is_admin()){
             $MVC->display_admin_adding();
         }
         if($_POST['drop_times']){
-            echo 'GO';
             foreach($_POST['drop_time_checks'] as $time){
                 $EVENTS->drop_events($_POST['drop_slots_event'],$time);
             }
