@@ -1,4 +1,5 @@
 <?php
+include('header.php');
 //Basic maintenence file.
 
 //Clear databases (pull install.sql and just clear and reset database

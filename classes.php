@@ -377,20 +377,34 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     /*MVC functions to get timer and display it*/
     public function display_timer(){
+	global $VERIFICATION;
         $html='<h2>Current Settings</h2>';
         $TIMER=new Timer();
         $html.='<h3>';
-        $html.=$TIMER->return_timer_dates();
+	if($VERIFICATION->is_admin()){
+	    $html.=$TIMER->return_timer_dates();
+	}else{
+	    $html.="Permission Error.";
+	    
+	}
         $html .='</h3>';
         return $html;
     }
     public function display_admin_manage(){
+	global $VERIFICATION;
+	    if($VERIFICATION->is_admin()){
 		include('templates/admin_manage_template.php');
+	    }else{
+		include('templates/permissionError.php');
+	    }
 	}
     public function admin_timer_form(){
-        //$html=file_get_contents('templates/admin_timer_teplate.php');
-        //return $html;
-        include('templates/admin_timer_teplate.php');
+    global $VERIFICATION;
+	if($VERIFICATION->is_admin()){
+            include('templates/admin_timer_teplate.php');
+	}else{
+	    include('templates/permissionError.php');
+	}
     }
     public function display_events(){
         $Verify=new Verification;
@@ -402,7 +416,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     
     }
     public function admin_mail(){
-        include('templates/admin_mail_template.php');
+	global $VERIFICATION;
+	if($VERIFICATION->is_admin()){
+	    include('templates/admin_mail_template.php');
+	}else{
+	    include('templates/permissionError.php');
+	}
     }
     
     public function display_reset_password(){
@@ -462,7 +481,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         return $html;
     }
     public function admin_edit_slots(){
-        include('templates/admin_edit_template.php');
+	global $VERIFICATION;
+	if($VERIFICATION->is_admin()){
+	    include('templates/admin_edit_template.php');
+	}else{
+	    include('templates/permissionError.php');
+	}
     }
     public function display_events_slots(){
         $EVENTS = new Events();
