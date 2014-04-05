@@ -2,8 +2,13 @@
 include('header.php');
 $Verify=new Verification;
 if($Verify->is_admin()){
+    if(isset($_POST['update'])){
     echo $MVC->display_timer();
+    }else{
+        echo $MVC->display_timer();
+    }
         $TIMER =  new Timer();
+    
     $status=$TIMER->check_timer_status();
         if($status){
         echo '<h3>Currently Open</h3>';
