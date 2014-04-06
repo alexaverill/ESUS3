@@ -17,15 +17,10 @@
 <?php $event->list_events();?>
 
 <h2>Add Times to Events</h2>
-<div>
+<div id="adding">
 <?php $MVC=new MVC();
         echo $MVC->table_adding_slots();
         //echo $MVC->display_events_slots();
         ?>
-        </div>
-<div id="event_spacer"></div>
-<div>
-<?php $MVC=new MVC();
-        echo $MVC->display_events_slots();
-        ?>
 </div>
+<div id="event_spacer"></div>

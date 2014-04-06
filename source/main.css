@@ -341,6 +341,12 @@ fieldset label{
 width:140px;
 float:left;
 }
+#below{
+	padding-bottom: 20%;
+}
+#currentslots{
+	padding-top: 45%;
+}
 @media print {
 body { font-size: 13pt }
 	#main_body{

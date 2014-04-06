@@ -278,7 +278,7 @@ class Events{
 		global $dbh;
 		$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
 		$get_events=$dbh->query($get_events);
-		$html.= '<h2>Events With Times</h2>';
+		$html.= '<h2>Current Event Setup</h2>';
 		
 	foreach($get_events->fetchAll() as $get){
                 $html.= "<table border='1' style='float:left'>";

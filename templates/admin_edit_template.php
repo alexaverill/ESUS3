@@ -8,3 +8,9 @@
 echo $MVC->display_slots_editable();
 ?>
 </div>
+<div id="currentslots">
+<?php $MVC=new MVC();
+        echo $MVC->display_events_slots();
+        ?>
+</div>
+</div>

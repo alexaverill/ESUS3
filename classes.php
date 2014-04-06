@@ -409,7 +409,10 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
             $EVENTS= new Events();
             $html = $EVENTS->return_event_html();
             echo $html;
-        }
+        }else{
+	    $html="<h1>You are not logged in.</h1><h2><a href=login.php>Please login here</a></h2>";
+	    echo $html;
+	}
     
     }
     public function admin_mail(){
@@ -487,7 +490,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_events_slots(){
         $EVENTS = new Events();
-        $html='<h2>Current Event\'s Time Slots';
+       // $html='<h2>Current Event\'s Setup';
         $html.=$EVENTS->events_with_slots();
         return $html;
     }
