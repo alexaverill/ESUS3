@@ -125,7 +125,9 @@ class Slots{
         $clear_sql="UPDATE `times` SET ".$slot."=0 WHERE event=? AND time_id=?";
         $clear_qry=$dbh->prepare($clear_sql);
         $clear_qry->execute(array($event,$time));
-        $message='Dropped '.$team.' from '.$event.' at '.$time.' in slot: '.$slot; //team is in the form of team ID #
+	$user=new Users;
+	$name=$user->get_name($team);
+        $message="Dropped $team ($name) from $event at $time in slot: $slot"; //team is in the form of team ID #
         $Log->add_entry($_SESSION['name'],$message);
     }
     
@@ -339,12 +341,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     
     
     public function display_menu(){ //Pull validation values, if admin, or if user, then display correct menu.
-        //Admin
         global $VERIFICATION;
-        //if($VERIFICATION->is_admin()){
-            //include('templates/admin_menu.php');
-        //}
-        //Users
         if($VERIFICATION->is_admin()){
             include('templates/admin_menu.php');
         }else if($VERIFICATION->is_user()){
@@ -493,6 +490,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html='<h2>Current Event\'s Time Slots';
         $html.=$EVENTS->events_with_slots();
         return $html;
+    }
+    public function display_log(){
+	global $VERIFICATION;
+	if($VERIFICATION->is_admin()){
+	    echo'<iframe name=my_frame src=logging.txt height=80% width=100% frameborder=0 scrolling=auto marginheight=5 marginwidth=5></iframe>';
+	}
     }
 }
 ?>

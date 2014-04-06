@@ -16,13 +16,7 @@
        $("#file").kendoUpload();
    });
    </script>
-if($_POST['up']){
-  /*if ($_POST['uploadedfile']>0){*/
-  upload_for_bulk();
-  /*}else{
-  Please Select a file
-  }*/
-}
+
 
     <h2>Announcements</h2>
     <p> Send an email announcement to all teams

@@ -49,7 +49,7 @@ class Users {
                 echo 'You have logged in!';
         }else{
             $log=new Logging();
-	    $log->add_entry("INVALID LOGIN:", "$name attempted to login and failed");
+	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed");
             echo 'Wrong Username or passord';
         }
         
@@ -197,6 +197,16 @@ class Users {
 	//var_dump($row);
         $id=$row[0]['id'];
         return $id;
+    }
+    public function get_name($id){
+        global $dbh;
+        $sql="SELECT * FROM team WHERE id=?";
+        $get_id=$dbh->prepare($sql);
+        $get_id->execute(array($id));
+        $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
+	//var_dump($row);
+        $name=$row[0]['name'];
+        return $name;
     }
     public function get_email($name){
         global $dbh;

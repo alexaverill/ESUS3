@@ -45,3 +45,12 @@
 04-05-2014 03:22:34 INVALID LOGIN:  attempted to login and failed
 04-05-2014 03:22:37 INVALID LOGIN:  attempted to login and failed
 04-05-2014 03:33:53 admin New team with name fdsaf, has been added
+04-05-2014 03:44:32 INVALID LOGIN:  attempted to login and failed
+04-05-2014 03:44:42 admin New team with name test, has been added
+04-05-2014 03:46:24 INVALID LOGIN:  attempted to login and failed
+04-05-2014 04:10:23 admin Dropped 31 (test) from dsafa at 4555 in slot: team1
+04-05-2014 04:10:24 admin Dropped 31 (test) from adsa at 4555 in slot: team1
+04-05-2014 04:10:26 admin Dropped 31 (test) from New at 65 in slot: team1
+04-05-2014 04:10:27 admin Dropped 31 (test) from Test at 65 in slot: team1
+04-06-2014 00:43:08 INVALID LOGIN: test attempted to login and failed
+04-06-2014 00:43:10 INVALID LOGIN: test attempted to login and failed

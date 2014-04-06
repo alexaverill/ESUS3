@@ -1,7 +1,8 @@
 <?php
 include('header.php');
 //Basic maintenence file.
-
+$MVC=new MVC();
+$MVC->display_log();
 //Clear databases (pull install.sql and just clear and reset database
 $clear_times="DELETE * FROM `times`";
 $clear_team="DELETE * FROM `teams`";
