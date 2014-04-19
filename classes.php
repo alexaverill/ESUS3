@@ -277,7 +277,7 @@ class Mail {
         $message=$USER->get_all_events($id);
         //echo $message;
         $subject="Your Event Times.";
-        $this->send_email($team_email,$email,$subject,$message);
+        $this->send_email($team,$email,$subject,$message);
     }
     public function send_all_times(){
         global $dbh;
