@@ -175,7 +175,7 @@ class Users {
         foreach($query as $team){
             switch($type){
                 case 1:
-                    $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';
+                    $html.='<option value="'.$team['email'].'">'.$team['name'].'</option>';
                     break;
                 case 2:
                     $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';

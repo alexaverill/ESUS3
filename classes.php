@@ -497,8 +497,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     public function display_log(){
 	global $VERIFICATION;
 	if($VERIFICATION->is_admin()){
-	    echo'<iframe name=my_frame src=logging.txt height=80% width=100% frameborder=0 scrolling=auto marginheight=5 marginwidth=5></iframe>';
+	    echo'<h1>System Logging</h1>
+	    <iframe name=my_frame src=logging.txt height=300px width=100%></iframe>';
 	}
+    }
+    public function display_maintenence(){
+	include('templates/maintenence_template.php');
     }
 }
 ?>
