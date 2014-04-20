@@ -284,7 +284,7 @@ class Mail {
         $sql="SELECT * FROM team";
         $get_teams=$dbh->query($sql);
         foreach($get_teams->fetchAll() as $team){
-            $this->send_team_times($team['name']);
+            $this->send_team_times($team['email']);
         }
     }
     public function send_email($to,$from,$subject,$message){
