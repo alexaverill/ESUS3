@@ -228,7 +228,7 @@ class Users {
         $get_events=$dbh->query($get_events_qry);
         foreach($get_events->fetchAll() as $event_info){
 			for($x=1;$x<$slots;$x+=1){
-				$place='team'.$x;
+				$place= 'team'.$x;
 				if($event_info[$place]==$id){
 					$message .= 'You have '.$event_info['event'].' at '.$event_info['time_id'];
 				}

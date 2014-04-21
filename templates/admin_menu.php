@@ -7,4 +7,5 @@
     <!--<li><a href="admin_slots.php" class="menu_link">Modify Slots</a></li>-->
   <li><a href="admin_timer.php" class="menu_link">Registration Window</a></li>
 	<li><a href="admin_event.php" class="menu_link">View Events</a></li>
+        <li><a href="maintenence.php" class="menu_link">Maintenence</a></li>
 <li><a href="logout.php" class="menu_link">Log Out</a></li>
