@@ -275,7 +275,6 @@ class Mail {
         $id=$USER->get_id($team);
         $email=$USER->get_email($team);
         $message=$USER->get_all_events($id);
-        //echo $message;
         $subject="Your Event Times.";
         $this->send_email($team,$email,$subject,$message);
     }

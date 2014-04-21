@@ -223,14 +223,14 @@ class Users {
         //global $slots; //Global due to the fact that it is going to be set as a hard max in the database.php. really should be ten
         $slots=10;
 		$EVENT=new Events();
-		$message='';
+		$message='Events: ';
         $get_events_qry="SELECT * FROM times";
         $get_events=$dbh->query($get_events_qry);
         foreach($get_events->fetchAll() as $event_info){
 			for($x=1;$x<$slots;$x+=1){
 				$place='team'.$x;
 				if($event_info[$place]==$id){
-					$message.='You have '.$event_info['event'].' at '.$event_info['time_id'];
+					$message .= 'You have '.$event_info['event'].' at '.$event_info['time_id'];
 				}
 			}
 		}
