@@ -363,7 +363,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 		echo 'That template does not exist';
 	    }
     }
-    public function diplay($file_name){
+    public function display($file_name){
 	/*
 	 *general purpose templating function. Can be either the general file name such as admin_mail, the full template name
 	 *such as admin_mail_template,or admin_mail_template.php
