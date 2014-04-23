@@ -285,6 +285,14 @@ class Mail {
             $this->send_team_times($team['email']);
         }
     }
+    public function send_all_announce($message){
+        global $dbh;
+        $sql="SELECT * FROM team";
+        $get_teams=$dbh->query($sql);
+        foreach($get_teams->fetchAll() as $team){
+            $this->send_email($team['email'],'Announcement',$message);
+        }
+    }
     public function send_email($to,$subject,$message){
 	$from = 'ESUS@esus.us';
         $final_subject='ESUS :'.$subject;

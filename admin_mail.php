@@ -14,4 +14,7 @@ include('header.php');
     if($_POST['send_msg']){
         $MAIL->send_email($_POST['emails'],'Announcement',$_POST['message']);
     }
+    if($_POST['send_ann']){
+        $MAIL->send_all_announce($_POST['emess']);
+    }
 ?>
