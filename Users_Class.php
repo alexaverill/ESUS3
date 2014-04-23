@@ -188,13 +188,20 @@ class Users {
         }
         return $html;
     }
-    public function get_id($name){
+    public function get_id($name,$type){
+	/*
+	 *Returns ID, type is either email or name
+	 *defaults to name.
+	 **/
         global $dbh;
-        $sql="SELECT * FROM team WHERE name=?";
+	if($type=='email'){
+	    $sql="SELECT * FROM team WHERE email=?";
+	}else{
+	    $sql="SELECT * FROM team WHERE name=?";
+	}
         $get_id=$dbh->prepare($sql);
         $get_id->execute(array($name));
         $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
-	//var_dump($row);
         $id=$row[0]['id'];
         return $id;
     }

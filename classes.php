@@ -271,12 +271,10 @@ class Timer{
 class Mail {
     public function send_team_times($team){
         $USER=new Users();
-        $EVENT=new Events();
-        $id=$USER->get_id($team);
-        $email=$USER->get_email($team);
+        $id=$USER->get_id($team,'email');
         $message=$USER->get_all_events($id);
         $subject="Your Event Times.";
-        $this->send_email($team,$email,$subject,$message);
+        $this->send_email($team,$subject,$message);
     }
     public function send_all_times(){
         global $dbh;
@@ -286,7 +284,8 @@ class Mail {
             $this->send_team_times($team['email']);
         }
     }
-    public function send_email($to,$from,$subject,$message){
+    public function send_email($to,$subject,$message){
+	$from = 'ESUS@esus.us';
         $final_subject='ESUS :'.$subject;
         $send=mail($to,$subject,$final_message);
     }
