@@ -483,7 +483,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_email_options($type){
         $USER=new Users();
-        $options=$USER->return_select_option_user(2);
+        $options=$USER->return_select_option_user(1);
         $html= '<form action="" method="POST">Team:<select name="emails">';
         if($type==1){
             $html.=$options;
