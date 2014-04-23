@@ -349,7 +349,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     private function include_template($file_name){
 	    if(file_exists($full_name)){
-		if(!determine_permissions($file_name)){
+		if(! $this->determine_permissions($file_name)){
 		    include($full_name);
 		}else{
 		    $verify = new Verification;
@@ -372,15 +372,15 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	//First if it has a php tag, we are going to assume that is the best way to go.
 	if(strpos($file_name, '.php') !== false){
 	    $full_name = 'templates/'.$file_name;
-	    include_template($file_name);
+	    $this->include_template($file_name);
 	}else if(strpos($file_name, 'template') !== false){
 	    //lets just append a .php to see if that is a template
 	    $full_name = 'templates/'.$file_name.'.php';
-	    include_template($file_name);
+	     $this->include_template($file_name);
 	}else{
 	    //last chance to get it to appear.
 	    $full_name = 'templates/'.$file_name.'_template.php';
-	    include_template($file_name);
+	     $this->include_template($file_name);
 	}
 	
     }
