@@ -32,7 +32,6 @@ class Users {
             echo $ex->getMessage();
         }
         //Compare stored Password to input password
-	var_dump($user_information);
         $stored_password=$user_information[0][password];
         if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
@@ -46,11 +45,11 @@ class Users {
 		}
 		$_SESSION['user']=true;
                 echo '<META HTTP-EQUIV=Refresh CONTENT=".5; URL=index.php">';
-                echo 'You have logged in!';
+                echo '<h2>You have logged in!</h2>';
         }else{
             $log=new Logging();
 	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed");
-            echo 'Wrong Username or passord';
+            echo '<h2>Wrong Username or passord</h2>';
         }
         
     }
