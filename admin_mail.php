@@ -15,7 +15,7 @@ if($Verify->is_admin()){
         $MAIL->upload_for_bulk($_POST['message'],$_FILES['uploadedfile']['name'],$_FILES['uploadedfile']['tmp_name']);
     }
     if($_POST['send_msg']){
-        $MAIL->send_email($_POST['emails'],'admin','Announcement',$_POST['message']);
+        $MAIL->send_email($_POST['emails'],'Announcement',$_POST['message']);
     }
 }
 ?>

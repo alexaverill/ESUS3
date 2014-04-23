@@ -25,4 +25,4 @@
     <input name="send_ann" type="submit" class="myButton" value="Send Announcement"/>
     </form>
     <h2>Send Mail to a Team</h2>
-    <?php echo $MVC->display_email_options(1);?>
+    <?php echo $MVC->display_email_options(2);?>
