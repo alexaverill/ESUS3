@@ -493,13 +493,6 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.=$EVENTS->events_with_slots();
         return $html;
     }
-    public function display_log(){
-	global $VERIFICATION;
-	if($VERIFICATION->is_admin()){
-	    echo'<h1>System Logging</h1>
-	    <iframe name=my_frame src=logging.txt height=300px width=100%></iframe>';
-	}
-    }
     public function display_maintenence(){
 	include('templates/maintenence_template.php');
     }
