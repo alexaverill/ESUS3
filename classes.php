@@ -335,7 +335,55 @@ class Mail {
 
 
 class MVC{          //Create HTML code to be displayed. call user and admin classes and functions.
-    
+    private function determine_permissions($file_name){
+	/*
+	 * Function to return true if admin page, and require admin perms to include, otherwise return false
+	 * based on page name. admin_ prefix
+	 **/
+	if(strpos($file_name, 'admin_') !== false){
+	    return true;
+	}else{
+	    return false;
+	}
+	
+    }
+    private function include_template($file_name){
+	    if(file_exists($full_name)){
+		if(!determine_permissions($file_name)){
+		    include($full_name);
+		}else{
+		    $verify = new Verification;
+		    if($verify->is_admin()){
+			include($full_name);
+		    }else{
+			echo 'Incorrect Permissions.';
+		    }
+		}
+	    }else{
+		echo 'That template does not exist';
+	    }
+    }
+    public function diplay($file_name){
+	/*
+	 *general purpose templating function. Can be either the general file name such as admin_mail, the full template name
+	 *such as admin_mail_template,or admin_mail_template.php
+	 *General purpose to make my life easier. Or harder. Best practice is full name but wanted to test the modularity.
+	 **/
+	//First if it has a php tag, we are going to assume that is the best way to go.
+	if(strpos($file_name, '.php') !== false){
+	    $full_name = 'templates/'.$file_name;
+	    include_template($file_name)
+	}else if(strpos($file_name, 'template') !== false){
+	    //lets just append a .php to see if that is a template
+	    $full_name = 'templates/'.$file_name.'.php';
+	    include_template($file_name)
+	}else{
+	    //last chance to get it to appear.
+	    $full_name = 'templates/'.$file_name.'_template.php';
+	    include_template($file_name)
+	}
+	
+    }
     
     
     public function display_menu(){ //Pull validation values, if admin, or if user, then display correct menu.

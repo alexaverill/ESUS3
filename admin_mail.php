@@ -3,10 +3,9 @@ include('header.php');
 //$MVC=new $MVC();
 $Verify=new Verification;
 if($Verify->is_admin()){
-    $MVC->admin_mail();
+    $MVC->display('admin_mail_template.php')
     $MAIL=new Mail();
     if($_POST['send_times']){
-    
         $MAIL->send_team_times($_POST['emails']);
     }
     if($_POST['all_teams']){
