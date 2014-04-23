@@ -15,7 +15,7 @@ if($Verify->is_admin()){
     }else{
         echo '<h3>Currently Closed</h3>';
     }
-    $MVC->admin_timer_form(); 
+    $MVC->display('admin_timer_teplate.php'); 
 
 
     if(isset($_POST['update'])){

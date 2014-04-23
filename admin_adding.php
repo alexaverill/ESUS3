@@ -3,16 +3,14 @@ include('header.php');
 //$MVC->display_admin_adding();
 $EVENTS= new Events();
 $SLOTS= new Slots();
-$Verify=new Verification;
-if($Verify->is_admin()){
     if(!empty($_POST)){
         if($_POST['add']){
             if($EVENTS->add_events($_POST['event_name'])==0){
                 echo 'Event Added';
-                $MVC->display_admin_adding();
+                $MVC->display('admin_adding_template.php');
             }else{
                 echo 'There was an error, please try again!';
-                $MVC->display_admin_adding();
+                $MVC->display('admin_adding_template.php');
             }
         } 
         if($_POST['add_slot']){
@@ -26,9 +24,9 @@ if($Verify->is_admin()){
                         echo 'There was an error adding slots. Please try again.';
                    }
                 }
-                $MVC->display_admin_adding();
+                $MVC->display('admin_adding_template.php');
             }else{
-                $MVC->display_admin_adding();
+                $MVC->display('admin_adding_template.php');
             }
             
         }
@@ -36,16 +34,16 @@ if($Verify->is_admin()){
             foreach($_POST['time_checks'] as $time){
                 $EVENTS->add_events_at($_POST['event_checks'],$time);
             }
-            $MVC->display_admin_adding();
+            $MVC->display('admin_adding_template.php');
         }
         if($_POST['drop_times']){
             foreach($_POST['drop_time_checks'] as $time){
                 $EVENTS->drop_events($_POST['drop_slots_event'],$time);
             }
-            $MVC->display_admin_adding();
+            $MVC->display('admin_adding_template.php');
         }
     }else{
-        $MVC->display_admin_adding();
+        $MVC->display('admin_adding_template.php');
     }
-}
+
 ?>  

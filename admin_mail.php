@@ -1,8 +1,5 @@
 <?php
 include('header.php');
-//$MVC=new $MVC();
-$Verify=new Verification;
-if($Verify->is_admin()){
     $MVC->display('admin_mail_template.php');
     $MAIL=new Mail();
     if($_POST['send_times']){
@@ -17,5 +14,4 @@ if($Verify->is_admin()){
     if($_POST['send_msg']){
         $MAIL->send_email($_POST['emails'],'Announcement',$_POST['message']);
     }
-}
 ?>

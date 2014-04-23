@@ -287,7 +287,7 @@ class Mail {
     public function send_email($to,$subject,$message){
 	$from = 'ESUS@esus.us';
         $final_subject='ESUS :'.$subject;
-        $send=mail($to,$subject,$final_message);
+        $send=mail($to,$final_subject,$message);
     }
     function upload_for_bulk($message,$name,$tmpName){						
         $target_path = "uploads/";
@@ -356,7 +356,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 		    if($verify->is_admin()){
 			include($file_name);
 		    }else{
-			echo 'Incorrect Permissions.';
+			include('templates/permissionError.php');
 		    }
 		}
 	    }else{
@@ -403,52 +403,14 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.=$SLOTS->return_all_slots_editable();
         return $html;
     }
-    
-    public function display_login(){
-        $html='<h1>Login</h1>
-		<div class="user_info">
-			<form method="POST" action="">
-				<label for="user">Username</label><input type="text" name="user" size="25"/><br/>
-				Password<input type="password" name="pass" size="25"/><br/>
-				<input class="myButton" value="Login" type="submit" />
-				<input type=hidden name=submitted value=1> 
-			</form>
-		</div>
-	<div id="add_login">
-		<a href="admin_login.php">Admin Login</a>
-	</div>';
-        return $html;
-    }
     /*MVC functions to get timer and display it*/
     public function display_timer(){
-	global $VERIFICATION;
         $html='<h2>Current Settings</h2>';
         $TIMER=new Timer();
         $html.='<h3>';
-	if($VERIFICATION->is_admin()){
-	    $html.=$TIMER->return_timer_dates();
-	}else{
-	    $html.="Permission Error.";
-	    
-	}
+	$html.=$TIMER->return_timer_dates();
         $html .='</h3>';
         return $html;
-    }
-    public function display_admin_manage(){
-	global $VERIFICATION;
-	    if($VERIFICATION->is_admin()){
-		include('templates/admin_manage_template.php');
-	    }else{
-		include('templates/permissionError.php');
-	    }
-	}
-    public function admin_timer_form(){
-    global $VERIFICATION;
-	if($VERIFICATION->is_admin()){
-            include('templates/admin_timer_teplate.php');
-	}else{
-	    include('templates/permissionError.php');
-	}
     }
     public function display_events(){
         $Verify=new Verification;
@@ -461,14 +423,6 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	    echo $html;
 	}
     
-    }
-    public function admin_mail(){
-	global $VERIFICATION;
-	if($VERIFICATION->is_admin()){
-	    include('templates/admin_mail_template.php');
-	}else{
-	    include('templates/permissionError.php');
-	}
     }
     
     public function display_reset_password(){
@@ -508,11 +462,6 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.= '</select><input name="teams" type="submit" class="myButton" value="Show Team Data"/></form>';
         return $html;
     }
-    public function display_admin_adding(){
-        /*$html=file_get_contents('templates/admin_adding_template.php');
-        return $html;*/
-        include('templates/admin_adding_template.php');         //Using an include since it has php code I want to execute.I need to reasearch more templating.
-    }
     public function table_adding_slots(){
         $EVENTS=new Events();
         return $EVENTS->return_table_adding();
@@ -527,22 +476,11 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.=$EVENT->return_event_slots();
         return $html;
     }
-    public function admin_edit_slots(){
-	global $VERIFICATION;
-	if($VERIFICATION->is_admin()){
-	    include('templates/admin_edit_template.php');
-	}else{
-	    include('templates/permissionError.php');
-	}
-    }
     public function display_events_slots(){
         $EVENTS = new Events();
        // $html='<h2>Current Event\'s Setup';
         $html.=$EVENTS->events_with_slots();
         return $html;
-    }
-    public function display_maintenence(){
-	include('templates/maintenence_template.php');
     }
 }
 ?>
