@@ -14,6 +14,7 @@ $SLOTS= new Slots();
             }
         } 
         if($_POST['add_slot']){
+            
             $SLOTS->add_slots($_POST['time_slot']);
             //add_time_slot();
             if(isset($_POST['check_list'])){
@@ -30,7 +31,12 @@ $SLOTS= new Slots();
             }
             
         }
+        if($_POST['add_all']){
+            $event = $_POST['event'];
+            $EVENTS->add_all_slots($event);
+        }
         if($_POST['add_times']){
+            /* Add Slots to event, event is stored as event_checks in the return from Event_class*/
             foreach($_POST['time_checks'] as $time){
                 $EVENTS->add_events_at($_POST['event_checks'],$time);
             }
