@@ -38,7 +38,7 @@ class Events{
         $sql = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
         $get_slots=$dbh->query($sql);
         foreach($get_slots->fetchAll() as $row){
-        	$this->add_events_at($event,$row['time_id']);
+        	$this->add_events_at($event,$row['time_slot']);
         }
     }
     public function drop_events($event,$time){
