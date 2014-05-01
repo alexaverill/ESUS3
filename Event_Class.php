@@ -36,9 +36,7 @@ class Events{
     public function add_all_slots($event){
             	global $dbh;
         $sql2 = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
-	$count=mysql_query($sql2);
         $get_slots=$dbh->query($sql2);
-        $html='';
         foreach($get_slots->fetchAll() as $row){
         	$this->add_events_at($event,$row);
         }

@@ -34,6 +34,7 @@ $SLOTS= new Slots();
         if($_POST['add_all']){
             $event = $_POST['event'];
             $EVENTS->add_all_slots($event);
+            $MVC->display('admin_adding_template.php');
         }
         if($_POST['add_times']){
             /* Add Slots to event, event is stored as event_checks in the return from Event_class*/
