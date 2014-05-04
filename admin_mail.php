@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-    $MVC->display('admin_mail_template.php');
+    
     $MAIL=new Mail();
     if($_POST['send_times']){
         $MAIL->send_team_times($_POST['emails']);
@@ -17,4 +17,5 @@ include('header.php');
     if($_POST['send_ann']){
         $MAIL->send_all_announce($_POST['emess']);
     }
+    $MVC->display('admin_mail_template.php');
 ?>
