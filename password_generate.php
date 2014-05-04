@@ -11,12 +11,13 @@ if($_POST['add_rand_pass']){
 }
 function random_passwords($needed){
 	$password_length=9;
-	$letters= 'ABDEFGHJKMNPQRTUVWXYZabcdefghjkmnpqrstuvwxyz23456789*/[]!@#$%^&*}{:-~'; //69 long
+	$letters= 'ABDEFGHJKMNPQRTUVWXYZabcdefghjkmnpqrstuvwxyz23456789*'; //69 long
+	$letter_len = strlen($letters);
 	$runs=0;
 	while($runs<$needed){
 		$new='';
 		for($place=0; $place<$password_length; $place++){
-			$rand=rand(0,69);
+			$rand=rand(0,$letter_len);
 				$new.=substr($letters,$rand, 1);
 			}
 			echo $new.'<br/>';
