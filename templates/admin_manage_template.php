@@ -2,6 +2,7 @@
 <div id="columns">
     <div id="bulk">
         <h1>Add Users</h1>
+<hr>	
         <h3>Upload Your List of Users (.xls format)</h3>
         How your Excel sheet (.xls) should look:
         <br/>
@@ -16,6 +17,7 @@
        $("#file").kendoUpload();
    });
    </script>
+    <hr>
 <h3>Create a new user</h3>
     <form name="passform" action="" method="post">
         <dl>
@@ -60,10 +62,12 @@
 <div id="individual1">
 
     <h1>Modify Users</h1>
+    <hr>
     <h2>Reset Password</h2>
     <?php
         echo $MVC->display_reset_password();
         ?>
+	<hr>
     <h2>Edit Teams</h2>
             <?php
         echo $MVC->display_edit_teams();
@@ -72,6 +76,7 @@
                 $USER->show_user_info($_POST['edit_team_list']);
 	}
         ?>
+	<hr>
     <h2>Add Admin</h2>
     	<form method="POST" action="">
 	Admin Username:<input type="text" name="username"/><br/>
