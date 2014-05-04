@@ -80,7 +80,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_events(){
         $Verify=new Verification;
-        if($Verify->is_admin()||$Verify->is_user()){
+        if( ($Verify->is_admin() || $Verify->is_user()) && $Verify->is_open() ){
             $EVENTS= new Events();
             $html = $EVENTS->return_event_html();
             echo $html;

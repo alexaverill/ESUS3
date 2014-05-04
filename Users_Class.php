@@ -1,9 +1,5 @@
 <?php 
 class Users {
-    
-    
-    public $user_id=0; //Controls User ID for all people. Defualts to zero modified by login only.
-    
     public function login($user,$password){
         global $dbh;
         global $install;

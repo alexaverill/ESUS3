@@ -216,7 +216,7 @@ class Timer{
     public function check_timer_status(){   //Determine what the timer status is will return a boolean true=open false=closed.
         global $dbh;
         global $timezone;
-        date_default_timezone_set($timezone);       //INSTALL CONFIG TIME ZONE!!!
+        date_default_timezone_set($timezone);     
         $today= new DateTime('NOW');
         //echo $today->format('c');
         $sql="SELECT * FROM timer";
@@ -244,14 +244,12 @@ class Timer{
             $update= $dbh->prepare("UPDATE timer SET start=?, end=?, st_time=?, en_time=? WHERE id=?");
             $update->execute(array($start_date,$end_date,$start_time,$end_time,1));
             $affected_rows = $update->rowCount();
-            echo $affected_rows;
         }catch(PDOException $ex){
             echo $ex->getMessage();
         }
     }
     public function change_type($type){
         global $dbh;
-	echo $type;
         $sql="UPDATE `enable` SET `enabled`=?";
         $update=$dbh->prepare($sql);
         $update->execute(array($type));

@@ -1,5 +1,9 @@
 <?php
 class Events{
+    /*private $user_id=0; //Controls User ID for all people. Defualts to zero modified by login only.
+    function __construct($id){
+	$user_id = $id; //set User ID to stored value in session.
+    }*/
     public function add_events($event){     //INitial add to database.
         //verify it does not exist
         global $dbh;
@@ -103,7 +107,7 @@ class Events{
         return $final;
     }
     public function in_this_slot($event,$slot,$id){
-                global $dbh;
+        global $dbh;
         $SLOTS=new Slots();
         $total_slots=$this->number_slots($event);  //Gets total number of slots in each event.
         //get current number of filled slots and subtract it from total slots to get number left.
