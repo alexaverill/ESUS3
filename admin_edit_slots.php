@@ -1,8 +1,9 @@
 <?php
 include('header.php');
 //Admin Edit Slots
-$SLOTS=new  Slots();
-$Verify=new Verification;
+$SLOTS = new  Slots();
+$Verify = new Verification;
+$EVENTS = new Events;
 if($Verify->is_admin()){
      if(!empty($_POST)){
     if($_POST['change_num']){
