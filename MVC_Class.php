@@ -80,10 +80,15 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_events(){
         $Verify=new Verification;
-        if( ($Verify->is_admin() || $Verify->is_user()) && $Verify->is_open() ){
-            $EVENTS= new Events();
-            $html = $EVENTS->return_event_html();
-            echo $html;
+        if($Verify->is_admin() || $Verify->is_user() ){
+	    if ($Verify->is_open() || $Verify->is_admin()){
+		$EVENTS= new Events();
+		$html = $EVENTS->return_event_html();
+		echo $html;
+	    }else{
+		$html="<h1>It is not yet time.</h2>";
+		echo $html;
+	    }
         }else{
 	    $html="<h1>You are not logged in.</h1><h2><a href=login.php>Please login here</a></h2>";
 	    echo $html;
