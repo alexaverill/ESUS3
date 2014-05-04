@@ -123,35 +123,35 @@ class Users {
 	$get_user=$dbh->prepare($sql);
         $get_user->execute(array($user));
 		echo '<form method="POST" action="">';
-		while($row = $get_user->fetch(PDO::FETCH_ASSOC)) {
+		foreach( $get_user->fetchAll() as $row ){
 			echo 'ID: '.$row['id'].'<br/>';
 			echo 'Name: <input type="text" value="'.$row['name'].'" name="name"/><br/>';
 			echo 'Email: <input type="text" value="'.$row['email'].'" name="email"/><br/>';
 			echo 'Username: <input type="text" value="'.$row['username'].'" name="username"/><br/>';
 			echo '<input type="hidden" value="'.$row['id'].'" name="id"/>';
-			echo '<input type="submit" name="save" value="Save"/>';
-		}
+			echo '<input type="submit" name="save_teams" value="Save"/>';
+		} 
 		echo '</form>';
 		echo 'Please use Manage Users page to reset passwords.';
     }
     public function update_team($id,$name,$email,$user){
         global $dbh;
 	try{
-	$sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
-	$update=$dbh->prepare($sql);
-        $update->execute(array($name,$email,$user,$id));
-	return true;
+	    $sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
+	    $update=$dbh->prepare($sql);
+	    $update->execute(array($name,$email,$user,$id));
+	    return true;
 	}catch(PDOException $e){
-		echo 'There was an error.';
-		$log=new Logging();
-        	$log->add_entry('ERROR:',$e->getMessage());
+	    echo 'There was an error.';
+	    $log=new Logging();
+            $log->add_entry('ERROR:',$e->getMessage());
 	}
     }
     public function reset_password($user,$password,$type){		//general password reset function. 1 is admin, anything else is a normal user
 									//It could be said to have one user table, but that makes other things harder.
 		global $dbh;
 		$write_pass=$password;
-		$password =  password_hash($password,PASSWORD_DEFUALT);
+		$password =  password_hash($password,PASSWORD_DEFAULT);
 		$user=mysql_real_escape_string($user);
 		if($type==1){
 			$sql = $dbh->prepare("UPDATE `members` SET `password` = ? WHERE `name` =?;");
@@ -159,9 +159,11 @@ class Users {
 			$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?;");
 		}
 		if(strlen($password)!=0){
-				$set->execute(array($password,$user));
-				echo '<h3>Password Changed to '.$write_pass.'</h3>';
+				$sql->execute(array($password,$user));
+				echo "<h3>Password for $user Changed to $write_pass </h3>";
 		}else{
+			echo $user;
+			echo $password;
 			echo 'You must enter a username and password.';
 		}
 		

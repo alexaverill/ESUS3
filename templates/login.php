@@ -4,6 +4,6 @@
 				<label for="user">Username</label><input type="text" name="user" size="25"/><br/>
 				Password<input type="password" name="pass" size="25"/><br/>
 				<input class="myButton" value="Login" type="submit" />
-				<input type=hidden name=submitted value=1> 
+				<input type=hidden name=submitted value="1"> 
 			</form>
 		</div>

@@ -53,10 +53,10 @@
         </dl>
     </form>
     <Br>
-            <h2><a href="generate_users.php">Generate Usernames</a></h2> 
-    <h2><a href="password_generate.php">Generate Passwords</a></h2>
+
 </div>
-    
+    <h2><a href="generate_users.php">Generate Usernames</a></h2> 
+    <h2><a href="password_generate.php">Generate Passwords</a></h2>
 <div id="individual1">
 
     <h1>Modify Users</h1>
@@ -74,4 +74,5 @@
 	Admin Password:<input type="text" name="passbox"/><br/>
         <input type="submit" name="add_admin" class="myButton" value="Add Admin"/>
 	</form>
+</div>
 </div>

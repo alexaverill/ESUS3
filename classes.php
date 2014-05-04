@@ -231,7 +231,7 @@ class Timer{
         $end_date=$end_date.'T'.$end_time;
         $start_date=new DateTime($start_date);      //Create it as a date time
         $end_date=new DateTime($end_date);      
-        if($start_date<$today && $end_date>$today ){    //Compare date times.
+        if($start_date < $today && $end_date > $today ){    //Compare date times.
             return true;
         }else{
             return false;
@@ -251,6 +251,7 @@ class Timer{
     }
     public function change_type($type){
         global $dbh;
+	echo $type;
         $sql="UPDATE `enable` SET `enabled`=?";
         $update=$dbh->prepare($sql);
         $update->execute(array($type));

@@ -93,11 +93,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     
     public function display_reset_password(){
         $USER=new Users();
-        $options=$USER->return_select_option_user(1);
+        $options=$USER->return_select_option_user(2);
         $html= '<form action="" method="POST">Team:<select name="reset_pass">';
         $html.=$options;
         $html.='</select><br/>
-	New Password: <input type="text" name="new_pass"/><br/><input name="change_pass" type="submit" class="myButton" value="Change Password"/>
+	New Password: <input type="text" name="new_pass"/><br/>
+	<input name="change_pass" type="submit" class="myButton" value="Change Password"/>
 	</form>';
         return $html;
     }
@@ -122,10 +123,10 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     public function display_edit_teams(){
         $USER=new Users();
         $html='';
-        $options=$USER->return_select_option_user(1);
-        $html.= '<form action="" method="POST">Team:<select name="call">';
+        $options=$USER->return_select_option_user(2);
+        $html.= '<form action="" method="POST">Team:<select name="edit_team_list">';
 	$html.=$options;
-        $html.= '</select><input name="teams" type="submit" class="myButton" value="Show Team Data"/></form>';
+        $html.= '</select><input name="edit_teams" type="submit" class="myButton" value="Show Team Data"/></form>';
         return $html;
     }
     public function table_adding_slots(){
@@ -144,6 +145,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_events_slots(){
         $EVENTS = new Events();
+	$html = '';
        // $html='<h2>Current Event\'s Setup';
         $html.=$EVENTS->events_with_slots();
         return $html;
