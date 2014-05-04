@@ -48,7 +48,7 @@
                 <label for="submit"></label>
                 </dt>
                 <dd>
-                <input type="submit" class="myButton" value="Add user" name="adduser"/> 
+                <input type="submit" value="Add user" name="adduser"/> 
                 </dd>
         </dl>
     </form>
@@ -76,7 +76,7 @@
     	<form method="POST" action="">
 	Admin Username:<input type="text" name="username"/><br/>
 	Admin Password:<input type="text" name="passbox"/><br/>
-        <input type="submit" name="add_admin" class="myButton" value="Add Admin"/>
+        <input type="submit" name="add_admin" value="Add Admin"/>
 	</form>
 </div>
 </div>

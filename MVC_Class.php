@@ -103,7 +103,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.=$options;
         $html.='</select><br/>
 	New Password: <input type="text" name="new_pass"/><br/>
-	<input name="change_pass" type="submit" class="myButton" value="Change Password"/>
+	<input name="change_pass" type="submit" value="Change Password"/>
 	</form>';
         return $html;
     }
@@ -114,12 +114,12 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         if($type==1){
             $html.=$options;
             $html.='</select><br/>';
-            $html.='<input name="send_times" type="submit" class="myButton" value="Send Emails"/>';
+            $html.='<input name="send_times" type="submit"  value="Send Emails"/>';
         }else{
             $html.=$options;
             $html.='</select><br/>';
             $html.=' <textarea name="message" id="emess" height="100px" width="15%"></textarea><br/>';
-            $html.='<input name="send_msg" type="submit" class="myButton" value="Send Emails"/>';
+            $html.='<input name="send_msg" type="submit" value="Send Emails"/>';
         }
         
 	$html.='</form>';
@@ -131,7 +131,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $options=$USER->return_select_option_user(2);
         $html.= '<form action="" method="POST">Team:<select name="edit_team_list">';
 	$html.=$options;
-        $html.= '</select><input name="edit_teams" type="submit" class="myButton" value="Show Team Data"/></form>';
+        $html.= '</select><input name="edit_teams" type="submit"  value="Show Team Data"/></form>';
         return $html;
     }
     public function table_adding_slots(){
