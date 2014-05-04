@@ -54,11 +54,23 @@
                 </dd>
         </dl>
     </form>
+    <!-- This should be a div spacer, but hey, this is a quick fix-->
+        <Br>
+	<Br>
+	    <Br>
+		<Br>
+		    <Br>
+			<Br>
     <Br>
-
-</div>
-    <h2><a href="generate_users.php">Generate Usernames</a></h2> 
+	<Br>
+	    <Br>
+		<Br>
+		    <Br>
+			<Br>
+  <h2><a href="generate_users.php">Generate Usernames</a></h2> 
     <h2><a href="password_generate.php">Generate Passwords</a></h2>
+</div>
+  
 <div id="individual1">
 
     <h1>Modify Users</h1>
