@@ -132,14 +132,15 @@ class Users {
     }
     public function update_team($id,$name,$email,$user){
         global $dbh;
+	$log=new Logging();
 	try{
+	    $log->add_entry($SESSION['name'],"Changing team with ID of $id to Name:$name, Email: $email, and username:$user");
 	    $sql = "UPDATE team SET name=?,email=?,username=? WHERE id=?;";
 	    $update=$dbh->prepare($sql);
 	    $update->execute(array($name,$email,$user,$id));
 	    return true;
 	}catch(PDOException $e){
-	    echo 'There was an error.';
-	    $log=new Logging();
+	    echo 'There was an error.'; 
             $log->add_entry('ERROR:',$e->getMessage());
 	}
     }
