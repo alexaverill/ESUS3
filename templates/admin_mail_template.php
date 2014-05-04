@@ -1,7 +1,6 @@
 <?php $MVC=new MVC();?>
 <p>This page allows you to send teams their event times via the email that you have for them</p>
     <h2>Send Teams Their Times</h2>
-  <hr>
     <?php echo $MVC->display_email_options(1);?>
     <hr>
     <h2>Send All Teams Their Times</h2>
