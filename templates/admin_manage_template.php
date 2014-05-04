@@ -67,6 +67,10 @@
     <h2>Edit Teams</h2>
             <?php
         echo $MVC->display_edit_teams();
+		if(isset($_POST['edit_teams'])){
+	    $USER=new Users();
+                $USER->show_user_info($_POST['edit_team_list']);
+	}
         ?>
     <h2>Add Admin</h2>
     	<form method="POST" action="">

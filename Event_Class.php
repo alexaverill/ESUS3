@@ -132,13 +132,13 @@ class Events{
         
         global $dbh;
         $html='';
-        foreach($dbh->query("SELECT * FROM event") as $event){
+        foreach($dbh->query("SELECT * FROM event" ) as $event){
             $sql='SELECT * FROM times WHERE event=$event';
             $go=$dbh->prepare('SELECT * FROM times WHERE event=?');
             $html.='<table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h1>'.$event['event'].'</h1></th></tr>';
             $html.='<tr> <th>Hour</th>';
             $html.='<th>Obtain</th><th>Status</th></tr>';
-            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=?');
+            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC');
             $get_times->execute(array($event['event']));
            foreach($get_times->fetchAll() as $time){
                 $html.='<tr><td>'.$time['time_id'].'</td>';

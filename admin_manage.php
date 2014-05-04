@@ -6,10 +6,10 @@ $Verify=new Verification;
         if (isset($_POST['adduser'])){
                  $USER->add_user($_POST['username'],$_POST['passbox'],$_POST['email'],$_POST['schoolname']); 
                  $MVC->display('admin_manage_template.php');
-        }else if(isset($_POST['edit_teams'])){
+        /*}else if(isset($_POST['edit_teams'])){
                 $USER->show_user_info($_POST['edit_team_list']);
                 $MVC->display('admin_manage_template.php');
-                
+           */     
         }else if(isset($_POST['change_pass'])){
                 $pass = $_POST['new_pass'];
                 $USER->reset_password($_POST['reset_pass'],$pass,0);

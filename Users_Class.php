@@ -128,7 +128,7 @@ class Users {
 			echo '<input type="submit" name="save_teams" value="Save"/>';
 		} 
 		echo '</form>';
-		echo 'Please use Manage Users page to reset passwords.';
+	    
     }
     public function update_team($id,$name,$email,$user){
         global $dbh;
