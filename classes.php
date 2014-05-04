@@ -292,7 +292,7 @@ class Mail {
         }
     }
     public function send_email($to,$subject,$message){
-	$from = 'ESUS@esus.us';
+	$from = 'esus@scioly.org';
         $final_subject='ESUS :'.$subject;
         $send=mail($to,$final_subject,$message);
     }
@@ -323,7 +323,7 @@ class Mail {
               $username=mysql_real_escape_string($username);
               $link =  'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
               $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password; //Esus Link: '.$link.'
-              $email_from = 'esus@sciolyeventsignup.com';
+              $email_from = 'esus@scioly.org';
               $email_to=$email;
               $email_subject= "Event Sign Up System";
               $headers = 'From: '.$email_from."\r\n".
