@@ -3,7 +3,7 @@ include('header.php');
     
     $MAIL=new Mail();
     if($_POST['send_times']){
-        foreach($_POST['time_checks'] as $time){
+        foreach($_POST['team_checks'] as $time){
             $MAIL->send_team_times($time);
         }
         
