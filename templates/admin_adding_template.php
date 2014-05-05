@@ -18,7 +18,7 @@
 <?php $event->list_events();?>
 <hr>
 <h2>Events with Slots</h2>
-<h3>Green means that the slot not yet in the events. Gray means the slot is in the event</h3>
+<h3>Gray means that the slot not yet in the events. Green means the slot is in the event</h3>
 <div id="adding">
 <?php $MVC=new MVC();
         echo $MVC->table_adding_slots();
