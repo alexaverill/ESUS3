@@ -109,13 +109,15 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     }
     public function display_email_options($type){
         $USER=new Users();
-        $options=$USER->return_select_option_user(1);
-        $html= '<form action="" method="POST">Team:<select name="emails">';
         if($type==1){
+	    $html = '<form action="" method="POST"><b>Team:</b><br/>';
+	    $options = $USER->return_check_teams();
             $html.=$options;
-            $html.='</select><br/>';
+            $html.='<br/><br/>';
             $html.='<input name="send_times" type="submit"  value="Send Emails"/>';
         }else{
+	     $html= '<form action="" method="POST">Team:<select name="emails">';
+	    $options=$USER->return_select_option_user(1);
             $html.=$options;
             $html.='</select><br/>';
             $html.=' <textarea name="message" id="emess" height="100px" width="15%"></textarea><br/>';
