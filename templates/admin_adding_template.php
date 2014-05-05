@@ -5,7 +5,7 @@
     <input type="submit" class="myButton" value="Add Event" name="add"/>
 </form><br/>
 <hr>
-<h2>Current Events</h2>
+<h2>Edit Event Names</h2>
 <?php $event->list_events();?>
 <hr>
 <h2>Add Time Slots</h2>

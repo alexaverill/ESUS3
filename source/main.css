@@ -357,7 +357,7 @@ float:left;
 	width: 300px;
 height: 200px;
 }
-.check_container { border:2px solid #ccc; width:300px; height: 200px; overflow-y: scroll; }
+.scroll_container { border:2px solid #ccc; width:300px; height: 200px; overflow-y: scroll; }
 @media print {
 body { font-size: 13pt }
 	#main_body{

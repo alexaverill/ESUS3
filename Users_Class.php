@@ -167,7 +167,7 @@ class Users {
 	}
     public function return_check_teams(){
         global $dbh;
-        $html='<div class="check_container">';
+        $html='<div class="scroll_container">';
         $get_users="SELECT * FROM `team` ORDER BY `name` ASC";
         $query=$dbh->query($get_users);
         foreach($query as $team){

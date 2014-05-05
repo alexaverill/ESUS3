@@ -66,7 +66,9 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
     public function display_slots_editable(){
         $SLOTS=new Slots();
         $html='<h2>Edit Slots</h2>';
+	$html .="<div class=scroll_container>";
         $html.=$SLOTS->return_all_slots_editable();
+	$html .= "</div>";
         return $html;
     }
     /*MVC functions to get timer and display it*/
