@@ -274,7 +274,7 @@ class Mail {
         $message=$USER->get_all_events($id);
         $subject="Your Event Times.";
         $this->send_email($team,$subject,$message);
-	echo "Emails Sent!";
+	
     }
     public function send_all_times(){
         global $dbh;
@@ -283,7 +283,7 @@ class Mail {
         foreach($get_teams->fetchAll() as $team){
             $this->send_team_times($team['email']);
         }
-	echo "Emails Sent!";
+	echo "<h2>Emails Sent!</h2>";
     }
     public function send_all_announce($message){
         global $dbh;
@@ -292,7 +292,7 @@ class Mail {
         foreach($get_teams->fetchAll() as $team){
             $this->send_email($team['email'],'Announcement',$message);
         }
-	echo "Emails Sent!";
+	echo "<h2>Emails Sent!</h2>";
     }
     public function send_email($to,$subject,$message){
 	$from = 'esus@scioly.org';

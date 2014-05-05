@@ -176,6 +176,9 @@ class Events{
 			<input type="submit" name="add_all" value="Add all Times"/></form></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="event_checks"/>';
                 $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Times"/></td></tr>';
+                $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="drop_slots_event"/>';
+                $html.='<tr><td><input name="drop_times" type="submit" value="Drop Selected Times"/></td></tr>';
+                
                 foreach($get_times->fetchAll() as $row){
                         $time=$row['time_slot'];
                             $query_slot_status="SELECT * FROM times WHERE event=? AND time_id=?";   //Check if already a slot
@@ -183,10 +186,13 @@ class Events{
                             $magic_check->execute(array($even,$time));
                             $num_check= $magic_check->rowCount();
                             if($num_check==0){
-                                $html.='<td>'; 
+                                $html.='<td style="background-color:#00FF33">'; 
                                 $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
                                 $html.='</tr>';
-                            
+                            }else{
+                                $html.='<td style="background-color:#909090; color:#000">'; 
+                                $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
+                                $html.='</tr>';
                             }
                 }
         

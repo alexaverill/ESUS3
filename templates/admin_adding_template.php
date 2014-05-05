@@ -4,6 +4,7 @@
     <b>Event Name:</b><input type="text" name="event_name"/>
     <input type="submit" class="myButton" value="Add Event" name="add"/>
 </form><br/>
+<hr>
 <h2>Add Time Slots</h2>
 <form method="POST" action="">
 <b>Time Slot:</b><input type="text" name="time_slot"/><Br/>
@@ -12,11 +13,12 @@
 
 <input type="submit" class="myButton" value="Add Time Slot" name="add_slot"/>
 </form><br/>
-
+<hr>
 <h2>Current Events</h2>
 <?php $event->list_events();?>
-
-<h2>Add Times to Events</h2>
+<hr>
+<h2>Events with Slots</h2>
+<h3>Green means that the slot not yet in the events. Gray means the slot is in the event</h3>
 <div id="adding">
 <?php $MVC=new MVC();
         echo $MVC->table_adding_slots();

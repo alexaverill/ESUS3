@@ -36,6 +36,13 @@ $SLOTS= new Slots();
             $EVENTS->add_all_slots($event);
             $MVC->display('admin_adding_template.php');
         }
+        if($_POST['drop_times']){
+            foreach($_POST['time_checks'] as $time){
+                $EVENTS->drop_events($_POST['drop_slots_event'],$time);
+            }
+            $MVC->display('admin_adding_template.php');
+        }
+    
         if($_POST['add_times']){
             /* Add Slots to event, event is stored as event_checks in the return from Event_class*/
             foreach($_POST['time_checks'] as $time){
