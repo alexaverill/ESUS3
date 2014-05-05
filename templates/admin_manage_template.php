@@ -3,10 +3,10 @@
     <div id="bulk">
         <h1>Add Users</h1>
 <hr>	
-        <h3>Upload Your List of Users (.xls format)</h3>
-        How your Excel sheet (.xls) should look:
+        <h3>Create multiple users by uploading an Excel Spreadsheet</h3>
+        <b>Your Excel (.xls) should look like <a href="source/example.xls">this</a></b> 
         <br/>
-        <a href="source/example.xls">Download Example</a>
+        
         
         <form enctype="multipart/form-data" action="" method="POST">
             <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
