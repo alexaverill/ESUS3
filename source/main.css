@@ -347,6 +347,16 @@ float:left;
 #currentslots{
 	padding-top: 45%;
 }
+#slot_edits{
+	padding: 10px;
+	height: 325px;
+}
+#slot_edits table{
+	table-layout:fixed;
+	padding:2px;
+	width: 300px;
+height: 200px;
+}
 @media print {
 body { font-size: 13pt }
 	#main_body{

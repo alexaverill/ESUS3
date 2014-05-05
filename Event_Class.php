@@ -325,10 +325,10 @@ class Events{
     public function return_event_slots(){
         global $dbh;
         $html='';
-        $html.="<table border='1' >";
+        
 	$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
 	$get_events=$dbh->query($get_events);
-	$html.="<table border='1' style='float:left'>";		
+	$html.="<div id=slot_edits><table border='1' style='float:left'>";		
 	$go=1;
 	foreach($get_events->fetchAll() as $get){
 		
@@ -349,7 +349,7 @@ class Events{
 			$html.='</select><input type="hidden" value="'.$go.'" name="runs"/><input type="submit" value="Change" name="change_num"></form></td></tr>';
 			$go+=1;
 		}	
-		$html.='</table>';
+		$html.='</table></div>';
                 return $html;
     }
     public function return_select_options(){
