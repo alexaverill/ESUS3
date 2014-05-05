@@ -1,13 +1,8 @@
 <?php $MVC=new MVC();?>
 <p>This page allows you to send teams their event times via the email that you have for them</p>
-    <h2>Send Teams Their Times</h2>
-    <?php echo $MVC->display_email_options(1);?>
-    <hr>
-    <h2>Send All Teams Their Times</h2>
-    <form method="POST" action=""><input name="all_teams" type="submit" value="Send All Teams Times"/></form>
-    <hr>
+
    <h2>Send All Teams Their Passwords</h2>
-   <h4>How your Excel sheet (.xls) should look: <a href="source/example.xls">Download Example</a></h4>
+   <h4>Your Excel (.xls) sheet should look like  <a href="source/example.xls">this</a></h4>
    <h4><a href="admin_em_example.php">Email Template</a></h4>
    <form enctype="multipart/form-data" action="" method="POST">
     Message:
@@ -30,3 +25,9 @@
     <hr>
     <h2>Send Mail to a Team</h2>
     <?php echo $MVC->display_email_options(2);?>
+        <hr>
+    <h2>Send All Teams Their Times</h2>
+    <form method="POST" action=""><input name="all_teams" type="submit" value="Send All Teams Times"/></form>
+    <hr>
+        <h2>Send Individual Teams Their Times</h2>
+    <?php echo $MVC->display_email_options(1);?>
