@@ -167,12 +167,13 @@ class Users {
 	}
     public function return_check_teams(){
         global $dbh;
-        $html=' ';
+        $html='<div class="check_container">';
         $get_users="SELECT * FROM `team` ORDER BY `name` ASC";
         $query=$dbh->query($get_users);
         foreach($query as $team){
 	     $html.='<label>'.$team['name'].'<input type="checkbox" name="team_checks[]" value="'.$team['email'].'"/></label><br/>';
         }
+	$html .= '</div>';
         return $html;
     }
     public function return_select_option_user($type){

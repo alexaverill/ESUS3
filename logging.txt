@@ -68,3 +68,10 @@
 05-04-2014 21:07:44  Changing team with ID of 32 to Name:Ben, Email: alex, and username:alex
 05-05-2014 05:47:00 admin Dropped  () from Alex at 1:00 in slot: team1
 05-05-2014 05:47:02 admin Dropped  () from Alex at 1:00 in slot: team1
+05-05-2014 06:24:56 admin New team with name df, has been added
+05-05-2014 06:25:00 admin New team with name dafd, has been added
+05-05-2014 06:25:03 admin New team with name asdf, has been added
+05-05-2014 06:25:08 admin New team with name vczvzxv, has been added
+05-05-2014 06:25:13 admin New team with name dasfdsa, has been added
+05-05-2014 06:25:19 admin New team with name bcnbcn, has been added
+05-05-2014 06:25:26 admin New team with name cbvncbv, has been added

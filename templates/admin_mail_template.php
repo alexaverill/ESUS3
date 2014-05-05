@@ -15,7 +15,7 @@
    });
    </script>
 
-<hr>
+  <hr>
     <h2>Announcements</h2>
     <p> Send an email announcement to all teams
     <form method="POST" action="">
@@ -25,9 +25,9 @@
     <hr>
     <h2>Send Mail to a Team</h2>
     <?php echo $MVC->display_email_options(2);?>
-        <hr>
+    <hr>
     <h2>Send All Teams Their Times</h2>
     <form method="POST" action=""><input name="all_teams" type="submit" value="Send All Teams Times"/></form>
     <hr>
-        <h2>Send Individual Teams Their Times</h2>
+    <h2>Send Individual Teams Their Times</h2>
     <?php echo $MVC->display_email_options(1);?>
