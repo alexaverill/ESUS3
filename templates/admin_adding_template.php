@@ -16,7 +16,13 @@
 
 <input type="submit" class="myButton" value="Add Time Slot" name="add_slot"/>
 </form><br/>
-
+<hr>
+    <?php $MVC=new MVC();
+echo $MVC->display_slots_editable();
+?>
+<hr>
+<?php  print $MVC->display_slots_table();?>
+<Br/>
 <hr>
 <h2>Events with Slots</h2>
 <h3>Gray means that the slot not yet in the events. Green means the slot is in the event</h3>
