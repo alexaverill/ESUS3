@@ -5,9 +5,7 @@
 <hr>	
         <h3>Create multiple users by uploading an Excel Spreadsheet</h3>
         <b>Your Excel (.xls) should look like <a href="source/example.xls">this</a></b> 
-        <br/>
-        
-        
+        <br/><br/>
         <form enctype="multipart/form-data" action="" method="POST">
             <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
             Choose a sheet to upload: <input name="uploadedfile" id="file" type="file" /><br/>
