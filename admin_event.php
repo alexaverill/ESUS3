@@ -8,6 +8,10 @@ if($Verify->is_admin()){
         
         $SLOTS->clear_slot($_POST['event'],$_POST['time'],$_POST['slot'],$_POST['id']);
         $MVC->display_admin_event_table();
+    }else if($_POST['close']){
+        $SLOTS->admin_claim($_POST['event'],$_POST['time'],$_POST['slot']);
+        $MVC->display_admin_event_table();
+        
     }else{
         $MVC->display_admin_event_table();
     }

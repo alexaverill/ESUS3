@@ -131,11 +131,16 @@ class Slots{
         $message="Dropped $team ($name) from $event at $time in slot: $slot"; //team is in the form of team ID #
         $Log->add_entry($_SESSION['name'],$message);
     }
-    
+    public function admin_claim($event,$time,$slot){
+	global $dbh;
+	$Log= new Logging;
+        $clear_sql="UPDATE `times` SET ".$slot."=-1 WHERE event=? AND time_id=?";
+	$clear_qry=$dbh->prepare($clear_sql);
+	$clear_qry->execute(array($event,$time));
+    }
     public function claim_slot($id,$event,$time){
         global $dbh;
 	//Function used to claim slots in database will be called on index.php
-        $team1='Hello';
         $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=?");
         $get_query->execute(array($event,$time));
         $row=$get_query->fetchAll(PDO::FETCH_ASSOC);

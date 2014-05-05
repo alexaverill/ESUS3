@@ -85,7 +85,7 @@ class Events{
         $array=array($event_array,$time_array);
         return $array;
     }
-    public function event_status($event,$slot){
+    public function event_status($event,$slot,$type){
         global $dbh;
         $SLOTS=new Slots();
         $total_slots=$this->number_slots($event);  //Gets total number of slots in each event.
@@ -96,15 +96,22 @@ class Events{
         $rows=$pull->fetchAll(PDO::FETCH_ASSOC);
         $index=1;
         $taken=0;
-        while($index<$total_slots){
+        while($index<=$total_slots){
             if($rows[0]['team'.$index]!=0){
                 $taken+=1;
             }
             $index+=1;
         }
-        
-        $final=$taken.' of '.$total_slots;
-        return $final;
+        if ($type == 1){
+            $final=$taken.' of '.$total_slots;
+            return $final;
+        }else{
+            if($taken == $total_slots){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
     public function in_this_slot($event,$slot,$id){
         global $dbh;
@@ -120,12 +127,12 @@ class Events{
         $gotten=false;
         while($index<$total_slots){
             if($rows[0]['team'.$index]==$id){
-                $gotten=true;
+                return true;
                 break;
             }
             $index+=1;
         }
-        return $gotten;
+        return false;
     }
     public function return_event_html(){
         //Returns HTML code for the event table, I wish there were a better way, but ther is not really as I can see...
@@ -144,13 +151,15 @@ class Events{
                 $html.='<tr><td>'.$time['time_id'].'</td>';
                 if($this->in_this_slot($event['event'],$time['time_id'],$_SESSION['id'])){
                     $html.='<td id="green">Your Slot</td>';
+                }else if($this->event_status($event['event'],$time['time_id'],2)){                
+                    $html .= '<td id="red">Slots Full</td>';
                 }else{
-                
                  $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time['time_id'].'" name="time"/>
                  <input type="hidden" value="'.$event['event'].'" name="event"/>
                  <input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
+                    
                 }
-                 $html.='<td>'.$this->event_status($event['event'],$time['time_id']).'</td></tr>';
+                 $html.='<td>'.$this->event_status($event['event'],$time['time_id'],1).'</td></tr>';
                  
             }
              $html.= '</tbody></table>';
@@ -202,7 +211,7 @@ class Events{
        $html.='</table></div>';
        return $html;
     }
-    function return_admin_table_html($event){
+    function return_admin_table_html(){
                 global $dbh;
                 $html='';
                     $sto= '<strong>';
@@ -250,12 +259,18 @@ class Events{
                                             <input type="hidden" value="'.$team1.'" name="slot"/>
                                             <input type="hidden" value="'.$row['event'].'" name="event"/>
                                             <input type="hidden" value="'.$id.'" name="id"/>
-                                            <input type="submit" name="getthis" class="table_btn" value="Reopen"/></form>';
+                                            <input type="submit" name="getthis" value="Reopen"/></form>';
                                                     echo  "</td></td>"; 
                                     }else{
                                             if($row[$team1]<=0){
                                                     echo '<td id="blue">';
                                                     echo 'Time Open';
+                                            echo '<form method="POST" action="">
+                                            <input type="hidden" value="'.$time.'" name="time"/>
+                                            <input type="hidden" value="'.$team1.'" name="slot"/>
+                                            <input type="hidden" value="'.$row['event'].'" name="event"/>
+                                            <input type="hidden" value="'.$id.'" name="id"/>
+                                            <input type="submit" name="close"  value="Close"/></form>';
                                                     echo "</td></td>"; 
                                             }else{
                                                     if($row[$team1] != 0){
@@ -286,42 +301,7 @@ class Events{
                     }
             }
             return $html;
-        }
-    public function events_with_slots(){ //draws table selection for time slots.
-                $sto= '<strong>';
-		$stc='</strong>';
-		$red = '<div id="red">';
-		$enred = '</div>';
-		global $dbh;
-		$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
-		$get_events=$dbh->query($get_events);
-		$html.= '<h2>Current Event Setup</h2>';
-		
-	foreach($get_events->fetchAll() as $get){
-                $html.= "<table border='1' style='float:left'>";
-		$even=$get['event'];
-		$name=$_SESSION['name'];
-		$sql = "SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC";
-		$get_slots=$dbh->prepare($sql);
-		$get_slots->execute(array($even));
-		$tblcl = "</tr>";
-			$html.= '<tr><th><b>'.$even.'</b></th></tr>';
-                        $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="drop_slots_event"/>';
-                        $html.='<tr><td><input name="drop_times" type="submit" value="Drop Selected Times"/></td></tr>';
-                foreach($get_slots->fetchAll() as $row){
-			$time=$row['time_id'];
-			$html.= '<td>'; 
-			$html.=$row['time_id'].'<input type="checkbox" name="drop_time_checks[]" value="'.$row['time_id'].'"/>';
-                        $html.='</td>';
-			$html.= $tblcl;
-                }
-            //$html.= '</tr>';
-            $html.='</form>';
-            $html.= '</table>';
-	}
-            $html.= '</table>';
-            return $html;
-    }    
+        } 
     public function return_event_slots(){
         global $dbh;
         $html='';
