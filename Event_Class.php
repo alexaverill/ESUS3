@@ -54,7 +54,7 @@ class Events{
     public function list_events(){
         global $dbh;
         foreach($dbh->query('SELECT * FROM event') as $row) {
-            echo $row['event'].'<Br/>'; 
+            echo '<div class="edit" id="'.$row['event'].'">'.$row['event'].'</div>';
         }
     }
     public function number_slots($event){
