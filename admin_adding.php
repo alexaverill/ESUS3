@@ -31,6 +31,10 @@ $SLOTS= new Slots();
             }
             
         }
+        if($_POST['change_num']){
+        $SLOTS->change_num_slots($_POST['event'],$_POST['typein']);
+        $MVC->display('admin_adding_template.php');
+         }
         if($_POST['add_all']){
             $event = $_POST['event'];
             $EVENTS->add_all_slots($event);
