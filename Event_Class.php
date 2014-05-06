@@ -125,7 +125,7 @@ class Events{
         $index=1;
         $taken=0;
         $gotten=false;
-        while($index<$total_slots){
+        while($index<=$total_slots){
             if($rows[0]['team'.$index]==$id){
                 return true;
                 break;
