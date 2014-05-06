@@ -343,7 +343,7 @@ class Events{
         foreach($times->fetchAll() as $event_listing){
             $SLOTS=new Slots();
             $numSlots=$SLOTS->number_of_slots($event_listing['event']);
-            for($x=1;$x<$numSlots;$x++){
+            for($x=1;$x<=$numSlots;$x++){
                 $team="team$x";
                 if($event_listing[$team]==$id){
                     echo "<h3>You have $event_listing[event] at $event_listing[time_id]</h3>";
