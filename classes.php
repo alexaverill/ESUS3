@@ -144,19 +144,26 @@ class Slots{
         $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=?");
         $get_query->execute(array($event,$time));
         $row=$get_query->fetchAll(PDO::FETCH_ASSOC);
+	$verify = new Verification;
+	$log = new Logging;
         $index=1;
-        while($index<$this->slots){
-            $place='team'.$index;
-            if($row[0]['team'.$index]==0){
-                $this->remove_held($event,$id);
-                $insert_sql="UPDATE times SET ".$place."=? WHERE event=? AND time_id=?";
-                $sql=$dbh->prepare($insert_sql);
-                $sql->execute(array($id,$event,$time));
-                $status=true;
-                break;
-            }
-            $index++;
-        }
+	if($verify->is_open() || $verify->is_admin()){
+	    while($index<$this->slots){
+		$place='team'.$index;
+		if($row[0]['team'.$index]==0){
+		    $this->remove_held($event,$id);
+		    $insert_sql="UPDATE times SET ".$place."=? WHERE event=? AND time_id=?";
+		    $sql=$dbh->prepare($insert_sql);
+		    $sql->execute(array($id,$event,$time));
+		    $status=true;
+		    $log->add_entry($_SESSION['name'],"Claimed $event, $time");
+		    break;
+		}
+		$index++;
+	    }
+	}else{
+	    $log->add_entry($_SESSION['name'],"ATTEMPTED TO CLAIM SLOT WHEN ESUS NOT OPEN. $event, $time ID:$id, IP:$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_X_FORWARDED_FOR']");
+	}
         if($status){
             return 0;
         }else{
