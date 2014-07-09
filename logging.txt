@@ -75,3 +75,101 @@
 05-05-2014 06:25:13 admin New team with name dasfdsa, has been added
 05-05-2014 06:25:19 admin New team with name bcnbcn, has been added
 05-05-2014 06:25:26 admin New team with name cbvncbv, has been added
+05-06-2014 17:51:31 admin New team with name test, has been added
+05-07-2014 21:49:41 admin Dropped  () from Alex at 1:05 in slot: team1
+05-07-2014 21:49:42 admin Dropped  () from Alex at 2:00 in slot: team1
+05-07-2014 21:49:44 admin Dropped  () from Alex at 3:00 in slot: team1
+05-07-2014 21:50:05 admin Dropped  () from Alex at 4:00 in slot: team1
+05-07-2014 21:50:07 admin Dropped  () from Alex at 4:30 in slot: team1
+05-07-2014 21:50:08 admin Dropped  () from Alex at 5:01 in slot: team1
+05-07-2014 16:51:13 40 USERS ATTEMPTS AUTHORIZED CLAIM! NOT OPEN YET!,40 , Alex, 2:00
+07-09-2014 08:51:51 40 Claimed 2:00 at plae 1 in Alex
+07-09-2014 15:25:12 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:13 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:14 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:15 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:16 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:18 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:19 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:20 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:25:21 ADMIN CLosing 10:00-11:00 in Mission Possible
+07-09-2014 15:27:36 admin New team with name Solon High School, has been added
+07-09-2014 15:28:12  Changing team with ID of 41 to Name:Solon High, Email: alex.averill2013@gmail.com, and username:solon
+07-09-2014 15:28:32 admin New account with name admin2, has been added
+07-09-2014 10:32:39  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:32:41  Claimed 10:00-11:00 at plae 1 in Mission Possible
+07-09-2014 10:32:42  Claimed 10:00-11:00 at plae 1 in Airjetory
+07-09-2014 10:32:47  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:32:48  Claimed 10:00-11:00 at plae 1 in Mission Possible
+07-09-2014 10:32:49  Claimed 10:00-11:00 at plae 1 in Airjetory
+07-09-2014 10:33:49  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:33:50  Claimed 09:00-10:00 at plae 1 in Bottle Rockets
+07-09-2014 10:33:51  Claimed 09:00-10:00 at plae 1 in Mission Possible
+07-09-2014 10:33:51  Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 10:33:52  Claimed 10:00-11:00 at plae 1 in Airjetory
+07-09-2014 10:35:35  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:35:36  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:35:37  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 15:40:28 INVALID LOGIN: solon attempted to login and failed. IP: 127.0.0.1
+07-09-2014 10:42:31 41 Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:42:32 41 Claimed 10:00-11:00 at plae 1 in Mission Possible
+07-09-2014 10:42:33 41 Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 15:42:38 41 Dropped 09:00-10:00 from Airjetory
+07-09-2014 15:42:38 41 Dropped 08:00-09:00 from Bottle Rockets
+07-09-2014 15:42:39 41 Dropped 10:00-11:00 from Mission Possible
+07-09-2014 10:43:05 41 Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:43:09 41 Claimed 10:00-11:00 at plae 1 in Mission Possible
+07-09-2014 10:43:11 41 Claimed 08:00-09:00 at plae 1 in Airjetory
+07-09-2014 10:43:12 41 Droppping 08:00-09:00 at place 1 from Airjetory
+07-09-2014 10:43:12 41 Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 10:43:12 41 Droppping 09:00-10:00 at place 1 from Airjetory
+07-09-2014 10:43:12 41 Claimed 10:00-11:00 at plae 1 in Airjetory
+07-09-2014 10:43:13 41 Droppping 10:00-11:00 at place 1 from Airjetory
+07-09-2014 10:43:13 41 Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 10:43:14 41 Droppping 09:00-10:00 at place 1 from Airjetory
+07-09-2014 10:43:14 41 Claimed 08:00-09:00 at plae 1 in Airjetory
+07-09-2014 10:43:17 41 Droppping 08:00-09:00 at place 1 from Airjetory
+07-09-2014 10:43:17 41 Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 10:43:18 41 Droppping 09:00-10:00 at place 1 from Airjetory
+07-09-2014 10:43:18 41 Claimed 10:00-11:00 at plae 1 in Airjetory
+07-09-2014 10:43:19 41 Droppping 10:00-11:00 at place 1 from Mission Possible
+07-09-2014 10:43:19 41 Claimed 09:00-10:00 at plae 1 in Mission Possible
+07-09-2014 10:43:20 41 Droppping 09:00-10:00 at place 1 from Mission Possible
+07-09-2014 10:43:20 41 Claimed 08:00-09:00 at plae 1 in Mission Possible
+07-09-2014 10:43:21 41 Droppping 08:00-09:00 at place 1 from Bottle Rockets
+07-09-2014 10:43:21 41 Claimed 09:00-10:00 at plae 1 in Bottle Rockets
+07-09-2014 10:43:21 41 Droppping 08:00-09:00 at place 1 from Mission Possible
+07-09-2014 10:43:21 41 Claimed 09:00-10:00 at plae 1 in Mission Possible
+07-09-2014 10:43:22 41 Droppping 09:00-10:00 at place 1 from Mission Possible
+07-09-2014 10:43:22 41 Claimed 10:00-11:00 at plae 1 in Mission Possible
+07-09-2014 10:43:23 41 Droppping 10:00-11:00 at place 1 from Airjetory
+07-09-2014 10:43:23 41 Claimed 09:00-10:00 at plae 1 in Airjetory
+07-09-2014 10:43:23 41 Droppping 09:00-10:00 at place 1 from Airjetory
+07-09-2014 10:43:23 41 Claimed 08:00-09:00 at plae 1 in Airjetory
+07-09-2014 10:43:24 41 Droppping 10:00-11:00 at place 1 from Mission Possible
+07-09-2014 10:43:24 41 Claimed 08:00-09:00 at plae 1 in Mission Possible
+07-09-2014 10:43:24 41 Droppping 08:00-09:00 at place 1 from Mission Possible
+07-09-2014 10:43:24 41 Claimed 09:00-10:00 at plae 1 in Mission Possible
+07-09-2014 10:43:25 41 Droppping 09:00-10:00 at place 1 from Bottle Rockets
+07-09-2014 10:43:25 41 Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 15:43:36 41 Dropped 08:00-09:00 from Airjetory
+07-09-2014 15:43:38 41 Dropped 09:00-10:00 from Mission Possible
+07-09-2014 15:43:39 41 Dropped 08:00-09:00 from Bottle Rockets
+07-09-2014 10:43:42 41 Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 10:43:43 41 Claimed 09:00-10:00 at plae 1 in Mission Possible
+07-09-2014 10:43:44 41 Claimed 08:00-09:00 at plae 1 in Airjetory
+07-09-2014 10:44:00 41 Droppping 08:00-09:00 at place 1 from Bottle Rockets
+07-09-2014 10:44:00 41 Claimed 09:00-10:00 at plae 1 in Bottle Rockets
+07-09-2014 10:44:01 41 Droppping 09:00-10:00 at place 1 from Bottle Rockets
+07-09-2014 10:44:01 41 Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 15:45:16 admin Dropped 41 (Solon High) from Airjetory at 08:00-09:00 in slot: team1
+07-09-2014 15:45:18 ADMIN CLosing 08:00-09:00 in Airjetory
+07-09-2014 15:45:19 admin Dropped  () from Airjetory at 08:00-09:00 in slot: team1
+07-09-2014 15:45:20 admin Dropped 41 (Solon High) from Bottle Rockets at 08:00-09:00 in slot: team1
+07-09-2014 15:45:22 admin Dropped 41 (Solon High) from Mission Possible at 09:00-10:00 in slot: team1
+07-09-2014 14:19:45  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 14:19:47  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 14:19:48  Claimed 08:00-09:00 at plae 1 in Bottle Rockets
+07-09-2014 14:21:55  Claimed 09:00-10:00 at plae 1 in Bottle Rockets
+07-09-2014 14:21:57  Claimed 08:00-09:00 at plae 1 in Mission Possible
+07-09-2014 14:21:59  Claimed 09:00-10:00 at plae 1 in Airjetory

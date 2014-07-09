@@ -10,12 +10,12 @@ class Users {
             $query_user=$dbh->prepare($sql);
             $user=$VALID->sant_string($user);
             $query_user->execute(array($user));
-	    echo $query_user->rowCount();
+	    //echo $query_user->rowCount();
 	    if($query_user->rowCount()>0){
 		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
 		$admin=false;
 	    }else{
-		echo 'Admin';
+		
 		$sql='SELECT * FROM members WHERE name=?';
 		$query_user=$dbh->prepare($sql);
 		$user=$VALID->sant_string($user);
@@ -28,12 +28,12 @@ class Users {
             echo $ex->getMessage();
         }
         //Compare stored Password to input password
-        $stored_password=$user_information[0][password];
+        $stored_password=$user_information[0]['password'];
         if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
             	$_SESSION['name']=$user; 
 		$_SESSION['install']=$install;
-		$_SESSION['id']=$this->get_id($user);
+		$_SESSION['id']=$this->get_id($user,'name');
 		if(!$admin){
 		    $_SESSION['admin']=false;
 		}else{
@@ -44,7 +44,8 @@ class Users {
                 echo '<h2>You have logged in!</h2>';
         }else{
             $log=new Logging();
-	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed");
+	    $IP = $_SERVER['REMOTE_ADDR'];
+	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed. IP: $IP");
             echo '<h2>Wrong Username or passord</h2>';
         }
         
@@ -206,11 +207,12 @@ class Users {
 	if($type=='email'){
 	    $sql="SELECT * FROM team WHERE email=?";
 	}else{
-	    $sql="SELECT * FROM team WHERE name=?";
+	    $sql="SELECT * FROM team WHERE username=?";
 	}
         $get_id=$dbh->prepare($sql);
         $get_id->execute(array($name));
         $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
+	//var_dump($row);
         $id=$row[0]['id'];
         return $id;
     }

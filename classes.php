@@ -31,7 +31,7 @@ class Verification{
 	$sql='SELECT * FROM  `enable`';
 	$query_enable_status=$dbh->query($sql);
 	$query_enable_status=$query_enable_status->fetch(PDO::FETCH_ASSOC);
-	$query_enable_status=$query_enable_status[enabled];
+	$query_enable_status=$query_enable_status['enabled'];
 	if($query_enable_status==1){
 	    return true;
 	}else if($query_enable_status==2){
@@ -101,23 +101,28 @@ class Slots{
     public function remove_held($event,$id){        //User function that clears slots when user claims a new slot
                 global $dbh;
                 //Loop through and drop all slots held by Id in the event;
-                echo $event;
+                //echo $event;
+	$Verification = new Verification;
         $dropping_held=$dbh->prepare("SELECT * FROM times WHERE event=?");
         $dropping_held->execute(array($event));
-        
-        foreach($dropping_held->fetchAll() as $remove){
-            $index=1;
-            $time=$remove['time_id'];
-            while($index<$this->slots){
-                $place='team'.$index;
-                if($remove[$place]==$id){
-                     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?";
-                     $remove_query=$dbh->prepare($insert_sql);
-                     $remove_query->execute(array($event,$time));
-                     //break;
-                }
-                $index+=1;
-            }
+        $log = new Logging;
+	    if($Verification->is_open()){
+		foreach($dropping_held->fetchAll() as $remove){
+		    $index=1;
+		    $time=$remove['time_id'];
+		    while($index<$this->slots){
+			$place='team'.$index;
+			if($remove[$place]==$id){
+			     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?";
+			     $remove_query=$dbh->prepare($insert_sql);
+			     $remove_query->execute(array($event,$time));
+			     $log->add_entry($id,"Droppping $time at place $index from $event");
+			     
+			     //break;
+			}
+			$index+=1;
+		    }
+		}
         }
     }
     public function clear_slot($event,$time,$slot,$team){
@@ -137,26 +142,36 @@ class Slots{
         $clear_sql="UPDATE `times` SET ".$slot."=-1 WHERE event=? AND time_id=?";
 	$clear_qry=$dbh->prepare($clear_sql);
 	$clear_qry->execute(array($event,$time));
+	$Log->add_entry("ADMIN","CLosing $time in $event");
     }
     public function claim_slot($id,$event,$time){
         global $dbh;
+	$Verification = new Verification;
+	$Log = new Logging;
 	//Function used to claim slots in database will be called on index.php
         $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=?");
         $get_query->execute(array($event,$time));
         $row=$get_query->fetchAll(PDO::FETCH_ASSOC);
         $index=1;
-        while($index<$this->slots){
-            $place='team'.$index;
-            if($row[0]['team'.$index]==0){
-                $this->remove_held($event,$id);
-                $insert_sql="UPDATE times SET ".$place."=? WHERE event=? AND time_id=?";
-                $sql=$dbh->prepare($insert_sql);
-                $sql->execute(array($id,$event,$time));
-                $status=true;
-                break;
-            }
-            $index++;
-        }
+	if($Verification->is_open()){
+	    while($index<$this->slots){
+		$place='team'.$index;
+		if($row[0]['team'.$index]==0){
+		    $this->remove_held($event,$id);
+		    $insert_sql="UPDATE times SET ".$place."=? WHERE event=? AND time_id=?";
+		    $sql=$dbh->prepare($insert_sql);
+		    $sql->execute(array($id,$event,$time));
+		    $Log->add_entry($id,"Claimed $time at plae $index in $event");
+		    $status=true;
+		    break;
+		}
+		$index++;
+	    }
+	}else{
+	    $IP = $_SERVER['REMOTE_ADDR'];
+	    $Log->add_entry($id,"USER HAS ATTEMPTED AUTHORIZED CLAIM! NOT OPEN YET!,$id , $event, $time, IP: $IP ");
+	    return 1;
+	}
         if($status){
             return 0;
         }else{

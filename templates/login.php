@@ -7,3 +7,4 @@
 				<input type=hidden name=submitted value="1"> 
 			</form>
 		</div>
+		<h3><a href="slots.php">View Events and Slots</a></h3>

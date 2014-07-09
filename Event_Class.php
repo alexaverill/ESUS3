@@ -338,6 +338,8 @@ class Events{
     }
     public function return_teams_events($id){
         global $dbh;
+        //There is a much better way to do this, I just need to figure it out.
+        
         $get_times="SELECT * FROM `times` ORDER BY `event` ASC";
         $times=$dbh->query($get_times);
         foreach($times->fetchAll() as $event_listing){
@@ -355,8 +357,52 @@ class Events{
             }
         }
     }
+    public function return_team_events_table($id){
+        global $dbh;
+        $get_times = "SELECT * FROM slots ORDER BY time_slot ASC";
+        $times = $dbh->query($get_times);
+        echo '<table border=1><tr><th></th>';
+        foreach($times->fetchAll() as $slot){
+            echo '<th>'.$slot['time_slot'].'</th>';
+        }
+        echo '</tr>';
+        $get_events = "SELECT * FROM event ORDER BY event ASC";
+        $event = $dbh->query($get_events);
+        foreach($event->fetchAll() as $event){
+           echo '<tr>';
+           echo '<td>'.$event['event'].'</td>';
+             $get_times = "SELECT * FROM slots ORDER BY time_slot ASC";
+        $times = $dbh->query($get_times);
+            foreach($times->fetchAll() as $slot){
+                $select = "SELECT * FROM times WHERE time_id=? AND event=?";
+                $getting = $dbh->prepare($select);
+                $getting->execute(array($slot['time_slot'],$event['event']));
+                foreach($getting->fetchAll() as $event_listing){
+                $SLOTS=new Slots();
+                $numSlots=$SLOTS->number_of_slots($event_listing['event']);
+                $in = false;
+                for($x=1;$x<=$numSlots;$x++){
+                    $team="team$x";
+                    if($event_listing[$team]==$id){
+                       $in = true;
+                    }
+                }
+                if($in){
+                      
+                         echo '<td id="green">Your Slot</td>';
+                }else{
+                    echo '<td></td>';
+                }
+            }
+            
+            
+        }
+        echo '</tr>';
+    }
+    }
     public function drop_own_event($id,$event,$time,$place){
         global $dbh;
+        $log = new Logging;
         $sql="SELECT * FROM times WHERE event=? AND time_id=?";
         $check_owner=$dbh->prepare($sql);
         $check_owner->execute(array($event,$time));
@@ -370,7 +416,30 @@ class Events{
             $sql="UPDATE times SET $place=0 WHERE event=? AND time_id=?";
             $updating=$dbh->prepare($sql);
             $updating->execute(array($event,$time));
+            $log->add_entry($id,"Dropped $time from $event");
         }
+    }
+        public function events_with_slots(){
+        //Returns HTML code for the event table, I wish there were a better way, but ther is not really as I can see...
+        
+        global $dbh;
+        $html='';
+        foreach($dbh->query("SELECT * FROM event" ) as $event){
+            $sql='SELECT * FROM times WHERE event=$event';
+            $go=$dbh->prepare('SELECT * FROM times WHERE event=?');
+            $html.='<table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h1>'.$event['event'].'</h1></th></tr>';
+            $html.='<tr> <th>Hour</th>';
+            $html.='<th>Status</th></tr>';
+            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC');
+            $get_times->execute(array($event['event']));
+           foreach($get_times->fetchAll() as $time){
+                $html.='<tr><td>'.$time['time_id'].'</td>';
+                 $html.='<td>'.$this->event_status($event['event'],$time['time_id'],1).'</td></tr>';
+                 
+            }
+             $html.= '</tbody></table>';
+        }
+        return $html;
     }
 }
 ?>
