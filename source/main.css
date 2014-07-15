@@ -413,4 +413,10 @@ visibility:hidden;
 }
 
   }
-
+table#conflict{
+	width:80%;
+}
+#conflict td{
+	font-size:16px;
+	padding:10px;
+}

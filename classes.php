@@ -101,11 +101,6 @@ class Slots{
     public function remove_held($event,$id){        //User function that clears slots when user claims a new slot
                 global $dbh;
                 //Loop through and drop all slots held by Id in the event;
-<<<<<<< HEAD
-                //echo $event;
-=======
-                echo $event;
->>>>>>> 9e0a09abfee7f7976e564488e847354be84b34ce
 	$Verification = new Verification;
         $dropping_held=$dbh->prepare("SELECT * FROM times WHERE event=?");
         $dropping_held->execute(array($event));
@@ -157,11 +152,8 @@ class Slots{
         $get_query->execute(array($event,$time));
         $row=$get_query->fetchAll(PDO::FETCH_ASSOC);
         $index=1;
-<<<<<<< HEAD
-	if($Verification->is_open()){
-=======
 	if($Verification->is_open() || $Verification->is_admin()){
->>>>>>> 9e0a09abfee7f7976e564488e847354be84b34ce
+
 	    while($index<$this->slots){
 		$place='team'.$index;
 		if($row[0]['team'.$index]==0){
@@ -177,11 +169,8 @@ class Slots{
 	    }
 	}else{
 	    $IP = $_SERVER['REMOTE_ADDR'];
-<<<<<<< HEAD
-	    $Log->add_entry($id,"USER HAS ATTEMPTED AUTHORIZED CLAIM! NOT OPEN YET!,$id , $event, $time, IP: $IP ");
-=======
 	    $Log->add_entry($id,"USER ATTEMPTS AUTHORIZED CLAIM! NOT OPEN YET!,$id , $event, $time, IP: $IP ");
->>>>>>> 9e0a09abfee7f7976e564488e847354be84b34ce
+
 	    return 1;
 	}
         if($status){

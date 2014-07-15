@@ -361,7 +361,7 @@ class Events{
         global $dbh;
         $get_times = "SELECT * FROM slots ORDER BY time_slot ASC";
         $times = $dbh->query($get_times);
-        echo '<table border=1><tr><th></th>';
+        echo '<table border id="conflict"><tr><th></th>';
         foreach($times->fetchAll() as $slot){
             echo '<th>'.$slot['time_slot'].'</th>';
         }

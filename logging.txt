@@ -173,3 +173,10 @@
 07-09-2014 14:21:55  Claimed 09:00-10:00 at plae 1 in Bottle Rockets
 07-09-2014 14:21:57  Claimed 08:00-09:00 at plae 1 in Mission Possible
 07-09-2014 14:21:59  Claimed 09:00-10:00 at plae 1 in Airjetory
+07-15-2014 21:34:10 INVALID LOGIN: test attempted to login and failed. IP: ::1
+07-15-2014 21:34:20 INVALID LOGIN: admin attempted to login and failed. IP: ::1
+07-15-2014 21:48:32 test New team with name lol, has been added
+07-15-2014 16:52:21 26 Claimed 08:00-09:00 at plae 1 in Event
+07-15-2014 16:52:22 26 Claimed 09:00-10:00 at plae 1 in Event 2
+07-15-2014 16:52:29 26 Droppping 08:00-09:00 at place 1 from Event
+07-15-2014 16:52:29 26 Claimed 10:00-11:00 at plae 1 in Event
