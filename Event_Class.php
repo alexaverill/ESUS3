@@ -195,7 +195,7 @@ class Events{
                             $magic_check->execute(array($even,$time));
                             $num_check= $magic_check->rowCount();
                             if($num_check==0){
-                                $html.='<td style="background-color:#909090; color:#000">'; 
+                                $html.='<td style="background-color:#B8B2B2; color:#000">'; 
                                 $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
                                 $html.='</tr>';
                             }else{

@@ -216,7 +216,7 @@ border-collapse: collapse;
  padding-left: 10px; padding: 0px 0px 10px 10px;}
 th          { font-weight: bold; }
 thead th    { background: #c3d9ff; }
-th,td,caption { padding: 1px 1px 2px 2px; }
+th,td,caption { padding: 10px; }
 /*
 	You can zebra-stripe your tables in outdated browsers by adding 
 	the class "even" to every other table row. */
