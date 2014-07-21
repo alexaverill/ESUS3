@@ -5,9 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Science Olympiad Event Sign Up</title>
 
-<!--<link href="source/main.css" rel="stylesheet" type="text/css" />-->
-<link href="source/parts.css" rel="stylesheet" type="text/css" />
-<link href="source/css/bootstrap.css" rel="stylesheet">
+<link href="source/main.css" rel="stylesheet" type="text/css" />
 <!-- Add the Kendo styles to the in the head of the page... -->
 <link href="source/kendo.common.min.css" rel="stylesheet" />
 <link href="source/kendo.kendo.min.css" rel="stylesheet" />
@@ -126,22 +124,14 @@ $(function() {
 
 <body>
 	<div id="header">
-    	<!--<div class="logo"><img src="source/images/logo.png" border="0" alt="" title="" /></div>  -->     
+    	<div class="logo"><img src="source/images/logo.png" border="0" alt="" title="" /></div>  
     </div>
-<!--<div id="main_body">-->
-<div class="container">
-	<div class="masthead">
-        <h3 class="muted">Event Sign Up System</h3>
-<div class="navbar">
-          <div class="navbar-inner">
-            <div class="container">
-              <ul class="nav">
+<div id="main_body">
+<div id="menu"><div id="spacer"></div>
+<ul>
+	<ul>
 <?php $MVC->display_menu();//INSERT MENU?>
 </ul>
-</ul>
-            </div>
-          </div>
-</div>
-           </div>
+</div>     
 <div id="sep"></div>
 <div id="page"><div id="content">
