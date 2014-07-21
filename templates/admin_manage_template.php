@@ -3,7 +3,7 @@
     <div id="bulk">
         <h1>Add Users</h1>
 <hr>	
-        <h3>Create multiple users by uploading an Excel Spreadsheet</h3>
+        <h3>Upload Multiple Users</h3>
         <b>Your Excel (.xls) should look like <a href="source/example.xls">this</a></b> 
         <br/><br/>
         <form enctype="multipart/form-data" action="" method="POST">

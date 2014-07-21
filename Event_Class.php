@@ -72,7 +72,7 @@ class Events{
         $html='';
         global $dbh;
         foreach($dbh->query('SELECT * FROM event') as $row) {
-            $html .= '<input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/><label for="'.$row['event'].'">'.$row['event'].'</label>'; 
+            $html .= '<label><input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/>'.$row['event'].'</label>'; 
         }
         return $html;
     }
