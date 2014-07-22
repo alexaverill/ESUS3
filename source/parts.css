@@ -385,3 +385,7 @@ table#conflict{
 	font-size:16px;
 	padding:10px;
 }
+#smallSelect option{
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+}

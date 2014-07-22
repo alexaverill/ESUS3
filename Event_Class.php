@@ -315,7 +315,7 @@ class Events{
 		$even=$get['event'];
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td>';
-                $html.='<td><form method="POST" action=""><input type="hidden" name="event" value="'.$even.'"/><select name="typein">';
+                $html.='<td><form method="POST" action=""><input type="hidden" name="event" value="'.$even.'"/><select id="smallSelect" name="typein">';
 		$run= 1;
 	    	while ($run<=10){
     				if($get['slots']==$run){
