@@ -131,7 +131,7 @@ $(function() {
 <!--<div id="main_body">-->
 <div class="container">
 	<div class="masthead">
-        <h3 class="muted">Event Sign Up System</h3>
+        <h3>Event Sign Up System</h3>
 <div class="navbar">
           <div class="navbar-inner">
             <div class="container">
