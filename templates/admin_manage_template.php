@@ -87,6 +87,7 @@
 	}
         ?>
 	<hr>
+	    <h2>Delete Teams</h2>
 	    <?php
 	    echo $MVC->display_remove_teams();
 	    if(isset($_POST['remove'])){
