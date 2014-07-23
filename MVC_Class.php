@@ -109,6 +109,16 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	</form>';
         return $html;
     }
+    public function display_remove_teams(){
+        $USER=new Users();
+        $options=$USER->return_select_option_user(3);
+        $html= '<form action="" method="POST">Team:<select name="delete_team">';
+        $html.=$options;
+        $html.='</select><br/>
+	<input name="remove" type="submit" value="Delete Team"/>
+	</form>';
+        return $html;
+    }
     public function display_email_options($type){
         $USER=new Users();
         if($type==1){

@@ -110,8 +110,15 @@ class Users {
 		    $log->add_entry('ERROR:',$e->getMessage());
 		}
     }
-    public function remove_user(){
-		
+    public function remove_user($userid){
+	global $dbh;
+	$remove = "DELETE FROM team WHERE id=?";
+	$removal = $dbh->prepare($remove);
+	$removal->execute(array($userid));
+	$log = new Logging;
+	$message = "removed team with id $userid";
+	$log->add_entry('ADMIN',$message);
+	return true;
 		//log removal of a user
     }
     public function show_user_info($user){
@@ -191,7 +198,7 @@ class Users {
                     $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';
                     break;
                 default:
-                    $html.='<option value="'.$team['username'].'">'.$team['name'].'</option>';
+                    $html.='<option value="'.$team['id'].'">'.$team['name'].'</option>';
                     break;
             
             }

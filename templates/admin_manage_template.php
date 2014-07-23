@@ -87,6 +87,14 @@
 	}
         ?>
 	<hr>
+	    <?php
+	    echo $MVC->display_remove_teams();
+	    if(isset($_POST['remove'])){
+		$USER=new Users();
+		$USER->remove_user($_POST['delete_teams']);
+	    }
+	    ?>
+	<hr>
     <h2>Add Admin</h2>
     	<form method="POST" action="">
 	Admin Username:<input type="text" name="username"/><br/>
