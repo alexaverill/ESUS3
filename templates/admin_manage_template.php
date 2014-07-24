@@ -92,7 +92,7 @@
 	    echo $MVC->display_remove_teams();
 	    if(isset($_POST['remove'])){
 		$USER=new Users();
-		$USER->remove_user($_POST['delete_teams']);
+		$USER->remove_user($_POST['delete_team']);
 	    }
 	    ?>
 	<hr>
