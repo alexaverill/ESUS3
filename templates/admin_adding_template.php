@@ -8,6 +8,12 @@
 <h2>Edit Event Names (Click to edit)</h2>
 <?php $event->list_events();?>
 <hr>
+<h2>Delete Events</h2>
+<form method="POST" action="">
+    <?php $event->select_events();?>
+    <input type="submit" name="deleteEvents" value="Delete Events"/>
+</form>
+<hr>
 <h2>Add Time Slots</h2>
 <form method="POST" action="">
 <b>Time Slot:</b><input type="text" name="time_slot"/><Br/>
@@ -20,6 +26,14 @@
     <?php $MVC=new MVC();
 echo $MVC->display_slots_editable();
 ?>
+<hr>
+<h2>Delete Slots</h2>
+<form method="POST" action="">
+<?php $slots= new Slots;
+echo $slots->slot_select();
+?>
+<input type="submit" name="deleteSlots" value="Delete Slots"/>
+</form>
 <hr>
 <?php  print $MVC->display_slots_table();?>
 <Br/>

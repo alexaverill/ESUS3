@@ -98,6 +98,27 @@ class Slots{
      * database table is equal to or greater then the max slot setting in database.php
      * */
     public $slots=10;
+    public function slot_select(){
+	global $dbh;
+        $sql2 = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
+        $get_slots=$dbh->query($sql2);
+        $html='<select name="slot_select">';
+        foreach($get_slots->fetchAll() as $row){
+        	$ids = $row['time_slot'];
+	        $html.='<option value="'.$ids.'">'.$row['time_slot'].'</option>';
+        }
+	$html.="</select>";
+        return $html;
+    }
+    public function delete_times($time_slot){
+	global $dbh;
+	$removeTimes = "DELETE FROM times WHERE time_id=?";
+	$removal = $dbh->prepare($removeTimes);
+	$removal->execute(array($time_slot));
+	$removeSlots = "DELETE FROM slots WHERE time_slot=?";
+	$removalSlots=$dbh->prepare($removeSlots);
+	$removalSlots->execute(array($time_slot));
+    }
     public function remove_held($event,$id){        //User function that clears slots when user claims a new slot
                 global $dbh;
                 //Loop through and drop all slots held by Id in the event;

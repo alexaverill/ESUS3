@@ -31,6 +31,14 @@ $SLOTS= new Slots();
             }
             
         }
+        if($_POST['deleteEvents']){
+            $EVENTS->delete_events($_POST['select_events']);
+            $MVC->display('admin_adding_template.php');
+        }
+        if($_POST['deleteSlots']){
+            $SLOTS->delete_times($_POST['slot_select']);
+            $MVC->display('admin_adding_template.php');
+        }
         if($_POST['change_num']){
         $SLOTS->change_num_slots($_POST['event'],$_POST['typein']);
         $MVC->display('admin_adding_template.php');

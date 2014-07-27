@@ -45,6 +45,23 @@ class Events{
         	$this->add_events_at($event,$row['time_slot']);
         }
     }
+    public function select_events(){
+        global $dbh;
+        echo '<select name="select_events">';
+        foreach($dbh->query('SELECT * FROM event') as $row) {
+            echo '<option value="'.$row['event'].'">'.$row['event'].'</option>';
+        }
+        echo '</select>';
+    }
+    public function delete_events($event){
+        global $dbh;
+        $removeEvent = "DELETE FROM event WHERE event=?";
+        $clear = "DELETE FROM times WHERE event=?";
+        $eventC = $dbh->prepare($removeEvent);
+        $clearing = $dbh->prepare($clear);
+        $eventC->execute(array($event));
+        $clearing->execute(array($event));
+    }
     public function drop_events($event,$time){
         global $dbh;
         $del_sql="DELETE FROM `times` WHERE time_id=? AND event=?";
