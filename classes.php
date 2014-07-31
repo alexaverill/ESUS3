@@ -42,6 +42,15 @@ class Verification{
 	    return false;
 	}
     }
+    public function install_clean(){
+	$new_admin_file = 'new_admin.php';
+	$install_file='install.php';
+	if (file_exists($new_admin_file)||file_exists($install_file)) {
+	    return false;
+	}else {
+	    return true;
+	}
+    }
 }
 class Validation{
     //Verify inputs are correct, and not a method of egress.

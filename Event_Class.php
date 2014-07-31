@@ -389,7 +389,7 @@ class Events{
            echo '<tr>';
            echo '<td>'.$event['event'].'</td>';
              $get_times = "SELECT * FROM slots ORDER BY time_slot ASC";
-        $times = $dbh->query($get_times);
+            $times = $dbh->query($get_times);
             foreach($times->fetchAll() as $slot){
                 $select = "SELECT * FROM times WHERE time_id=? AND event=?";
                 $getting = $dbh->prepare($select);
@@ -402,6 +402,8 @@ class Events{
                     $team="team$x";
                     if($event_listing[$team]==$id){
                        $in = true;
+                    }else{
+                        //$in = false;
                     }
                 }
                 if($in){
