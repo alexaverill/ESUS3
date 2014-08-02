@@ -394,6 +394,7 @@ class Events{
                 $select = "SELECT * FROM times WHERE time_id=? AND event=?";
                 $getting = $dbh->prepare($select);
                 $getting->execute(array($slot['time_slot'],$event['event']));
+                $added = false;
                 foreach($getting->fetchAll() as $event_listing){
                 $SLOTS=new Slots();
                 $numSlots=$SLOTS->number_of_slots($event_listing['event']);
@@ -407,11 +408,15 @@ class Events{
                     }
                 }
                 if($in){
-                      
+                      $added = true;
                          echo '<td id="green">Your Slot</td>';
                 }else{
+                    $added = true;
                     echo '<td></td>';
                 }
+            }
+            if(!$added){
+                echo '<td></td>';
             }
             
             
