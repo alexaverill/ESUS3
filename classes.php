@@ -23,15 +23,19 @@ class Verification{
             return false;
         }
     }
-    public function is_open(){
-        $timer=new Timer();
-	$time_status=$timer->check_timer_status();
-	//pull enabled value from database/
+    public function enabled_status(){
 	global $dbh;
 	$sql='SELECT * FROM  `enable`';
 	$query_enable_status=$dbh->query($sql);
 	$query_enable_status=$query_enable_status->fetch(PDO::FETCH_ASSOC);
-	$query_enable_status=$query_enable_status['enabled'];
+	$enable_status=$query_enable_status['enabled'];
+	return $enable_status;
+    }
+    public function is_open(){
+        $timer=new Timer();
+	$time_status=$timer->check_timer_status();
+	//pull enabled value from database/
+	$query_enable_status = $this->enabled_status();
 	if($query_enable_status==1){
 	    return true;
 	}else if($query_enable_status==2){
@@ -316,6 +320,34 @@ class Timer{
 		$html.='<br/>';
 		$html.='Closes on '.$dates[0]['end'].' at '.$dates[0]['en_time'];
                 return $html;
+	}
+    public function return_select_options(){
+	$verify = new Verification;
+	$enabled = $verify->enabled_status();
+	$html='';
+	switch($enabled){
+	    case 1:
+		$html .= '<option value="3">Rely on Timer</option>
+			<option value="1" selected=selected>Open</option>
+			<option value="2">Closed</option>';
+		break;
+	    case 2:
+		$html .= '<option value="3">Rely on Timer</option>
+			<option value="1">Open</option>
+			<option value="2" selected=selected>Closed</option>';
+		break;
+	    case 3:
+		$html .= '<option value="3" selected=selected>Rely on Timer</option>
+			<option value="1">Open</option>
+			<option value="2" >Closed</option>';
+		break;
+	    default:
+		$html .= '<option value="3">Rely on Timer</option>
+			<option value="1" >Open</option>
+			<option value="2">Closed</option>';
+		break;		
+	}
+	return $html;	    
 	}
 }
 class Mail {

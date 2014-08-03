@@ -2,7 +2,7 @@
 <form method="post" action="">
 Start Date:<input id='dp1' name='start_dt' type="text">
 Time:<select name="st_hour">
-<option value="1">01</option><option value="02">02</option>
+<option value="01">01</option><option value="02">02</option>
 <option value="03">03</option><option value="04">04</option>
 <option value="05">05</option><option value="06">06</option>
 <option value="07">07</option><option value="08">08</option>
@@ -24,7 +24,7 @@ Time:<select name="st_hour">
 <br/>
 End Date:<input id='dp2' name='end_dt' >
 Time:<select name="end_hour">
-<option value="1">01</option><option value="02">02</option>
+<option value="01">01</option><option value="02">02</option>
 <option value="03">03</option><option value="04">04</option>
 <option value="05">05</option><option value="06">06</option>
 <option value="07">07</option><option value="08">08</option>
@@ -48,9 +48,7 @@ Time:<select name="end_hour">
 <h2>Change Method</h2>
 <form method="POST" action="">
     Method:<select name="type">
-        <option value="3">Rely on Timer</option>
-        <option value="1">Open</option>
-        <option value="2">Closed</option>
+<?php $timer = new Timer; echo $timer->return_select_options();?>
     </select>
     <input type="submit" value="Change" name="change"/>
 </form>
@@ -69,12 +67,3 @@ $(function() {
     });
   });
 </script>
-<!--<script>
-$("#datepicker").kendoDatePicker({
-    format: "yyyy-MM-dd"
-});
-$("#enddatepicker").kendoDatePicker({
-    format: "yyyy-MM-dd"
-});
-</script>
--->
