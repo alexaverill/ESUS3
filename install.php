@@ -48,15 +48,6 @@ float:left;
 <legend>Database Info</legend>
 <form name="database" action="" method="post">
 <ul>
-<li> <label for="timezone">Time Zone:</label>
-<select name="timezone">
-    <option value="America/New_York">Eastern Time</option>
-    <option value="America/Chicago" selected="selected">Central Time</option>
-    <option value="America/Denver">Mountain Time</option>
-    <option value="America/Los_Angeles">Pacific Time</option>
-</select>
-</li>
-
 <li> <label for="database_user">Database User:</label>
 <input type="text" name="database_user"id="name" size="30" />
 </li>

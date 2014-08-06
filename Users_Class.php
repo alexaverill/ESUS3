@@ -46,7 +46,7 @@ class Users {
             $log=new Logging();
 	    $IP = $_SERVER['REMOTE_ADDR'];
 	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed. IP: $IP");
-            echo '<h2>Wrong Username or passord</h2>';
+            echo '<h2>Wrong Username or password</h2>';
         }
         
     }
