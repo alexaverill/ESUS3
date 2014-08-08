@@ -379,11 +379,11 @@ class Events{
             for($x=1;$x<=$numSlots;$x++){
                 $team="team$x";
                 if($event_listing[$team]==$id){
-                    echo "<h3>You have $event_listing[event] at $event_listing[time_id]</h3>";
+                    echo "<div id=\"droppingInfo\"><h3>You have $event_listing[event] at $event_listing[time_id]</h3>";
                     echo "<form action=\"\" method=\"POST\"><input type=\"hidden\" name=\"event\" value=\"$event_listing[event]\"/>
                                                             <input type=\"hidden\" name=\"time\" value=\"$event_listing[time_id]\"/>
                                                             <input type=\"hidden\" name=\"slot\" value=\"$team\"/>
-                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/></form>";
+                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/></form></form>";
                 }
             }
         }
@@ -392,7 +392,7 @@ class Events{
         global $dbh;
         $get_times = "SELECT * FROM slots ORDER BY time_slot ASC";
         $times = $dbh->query($get_times);
-        echo '<table border id="conflict"><tr><th></th>';
+        echo '<div id="tableHolder"><table border id="conflict"><tr><th></th>';
         foreach($times->fetchAll() as $slot){
             echo '<th>'.$slot['time_slot'].'</th>';
         }
@@ -437,6 +437,7 @@ class Events{
         }
         echo '</tr>';
     }
+    echo '</table></div>';
     }
     public function drop_own_event($id,$event,$time,$place){
         global $dbh;

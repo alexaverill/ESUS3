@@ -408,7 +408,7 @@ class Mail {
                     $password = $data->sheets[0]["cells"][$x][3];
                     $email = $data ->sheets[0]["cells"][$x][4];
                     //$email_message = $data ->sheets[0]["cells"][1][5];
-              $username=mysql_real_escape_string($username);
+              
               $link =  'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
               $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password; //Esus Link: '.$link.'
               $email_from = 'esus@scioly.org';
