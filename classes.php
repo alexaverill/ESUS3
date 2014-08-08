@@ -312,10 +312,12 @@ class Timer{
     }
     public function return_timer_dates(){
 		global $dbh;
+		global $timezone;
 		$html='';
 		$sql="SELECT * FROM timer";
 		$dates=$dbh->query($sql);
 		$dates=$dates->fetchAll(PDO::FETCH_ASSOC);
+		$html .='Timezone: '.$timezone.'<br/>';
 		$html.='Opens on '.$dates[0]['start'].' at '.$dates[0]['st_time'];
 		$html.='<br/>';
 		$html.='Closes on '.$dates[0]['end'].' at '.$dates[0]['en_time'];

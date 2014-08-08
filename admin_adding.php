@@ -12,6 +12,9 @@ $SLOTS= new Slots();
                 echo 'There was an error, please try again!';
                 $MVC->display('admin_adding_template.php');
             }
+                        echo '<script type="text/javascript">
+                window.location = "#addEvents";
+                </script> ';  
         } 
         if($_POST['add_slot']){
             
@@ -29,30 +32,48 @@ $SLOTS= new Slots();
             }else{
                 $MVC->display('admin_adding_template.php');
             }
+                        echo '<script type="text/javascript">
+                window.location = "#addSlots";
+                </script> ';  
             
         }
         if($_POST['deleteEvents']){
             $EVENTS->delete_events($_POST['select_events']);
             $MVC->display('admin_adding_template.php');
+                        echo '<script type="text/javascript">
+                window.location = "#deleteEvents";
+                </script> ';  
         }
         if($_POST['deleteSlots']){
             $SLOTS->delete_times($_POST['slot_select']);
             $MVC->display('admin_adding_template.php');
+                        echo '<script type="text/javascript">
+                window.location = "#delSlots";
+                </script> ';  
         }
         if($_POST['change_num']){
         $SLOTS->change_num_slots($_POST['event'],$_POST['typein']);
         $MVC->display('admin_adding_template.php');
+                    echo '<script type="text/javascript">
+                window.location = "#numSlots";
+                </script> ';  
          }
         if($_POST['add_all']){
             $event = $_POST['event'];
             $EVENTS->add_all_slots($event);
             $MVC->display('admin_adding_template.php');
+                        echo '<script type="text/javascript">
+                window.location = "#ews";
+                </script> ';  
         }
         if($_POST['drop_times']){
             foreach($_POST['time_checks'] as $time){
                 $EVENTS->drop_events($_POST['drop_slots_event'],$time);
             }
             $MVC->display('admin_adding_template.php');
+            echo '<script type="text/javascript">
+                window.location = "#ews";
+                </script> ';  
         }
     
         if($_POST['add_times']){
@@ -61,12 +82,18 @@ $SLOTS= new Slots();
                 $EVENTS->add_events_at($_POST['event_checks'],$time);
             }
             $MVC->display('admin_adding_template.php');
+            echo '<script type="text/javascript">
+                window.location = "#ews";
+                </script> ';            
         }
         if($_POST['drop_times']){
             foreach($_POST['drop_time_checks'] as $time){
                 $EVENTS->drop_events($_POST['drop_slots_event'],$time);
             }
             $MVC->display('admin_adding_template.php');
+            echo '<script type="text/javascript">
+                window.location = "#ews";
+                </script>   ';         
         }
     }else{
         $MVC->display('admin_adding_template.php');

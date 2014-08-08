@@ -40,6 +40,13 @@ $('#drop_team').click(function() {
 	$('#drop_box_t').toggle(400);
 	return false;
 	});
+	$('.selectall').click(function() {
+	    if ($(this).is(':checked')) {
+		$('input:checkbox').attr('checked', true);
+	    } else {
+		$('input:checkbox').attr('checked', false);
+	    }
+	});
 });
 function addLoadEvent(func) {
   var oldonload = window.onload;
@@ -54,7 +61,7 @@ function addLoadEvent(func) {
 }
 
 
-function prepareInputsForHints() {
+/*function prepareInputsForHints() {
   var inputs = document.getElementsByTagName("input");
   for (var i=0; i<inputs.length; i++){
     inputs[i].onfocus = function () {
@@ -82,8 +89,8 @@ function prepareInputsForHints() {
       this.parentNode.getElementsByTagName("span")[0].style.display = "none";
     }
   }
-}
-addLoadEvent(prepareInputsForHints);
+}*/
+//addLoadEvent(prepareInputsForHints);
 $(function() {
   $(".edit").editable("updated_events.php", { 
       indicator : "Updating...",

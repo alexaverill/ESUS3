@@ -11,9 +11,9 @@
             Choose a sheet to upload: <input name="uploadedfile" id="file" type="file" /><br/>
             <input type="submit" name="up" value="Upload File" />
         </form>
-    <script> $(document).ready(function() {
+    <script> /*$(document).ready(function() {
        $("#file").kendoUpload();
-   });
+   });*/
    </script>
     <hr>
 <h3>Create a new user</h3>

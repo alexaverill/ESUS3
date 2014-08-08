@@ -315,6 +315,7 @@ float:left;
 #slot_edits{
 	padding: 10px;
 	height: 325px;
+	padding-bottom: 30%;
 }
 #slot_edits table{
 	table-layout:fixed;

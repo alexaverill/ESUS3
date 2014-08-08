@@ -12,46 +12,33 @@ include('header.php');
 <?php
 if ($_POST['adduser'])
 { 
-    add_first_admin();
+    add_admin($_POST['adminName'],$_POST['passbox']);
 }
 
 
-function add_first_admin(){
-        global $dbh;
-	//echo 'Adding Admin';
-	echo '<br/> Please Keep this information:<br/>';
-	echo 'The Following is your login information for you installation.<br/>';
-	echo 'Username: ' .$_POST['schoolname'].'<br/>';
-	echo 'Email: '.$_POST['email'].'<br/>';
-	echo 'Password: ' .$_POST['passbox']. '<br/>';
-	$password=$_POST['passbox'];
-	$password=stripslashes($password); //injection cleaner
-	$password = password_hash($password, PASSWORD_DEFAULT);
-	$mpass = $password;
-
-	$user= $_POST['schoolname'];
-	$user= stripslashes($user);
-	$user= mysql_real_escape_string($user);
-	$email=$_POST['email'];
-	$name= $_POST['schoolname'];
+    public function add_admin($name,$password){
+	//echo 'Adding admin';
+	global $dbh;
+	$log=new Logging();
 	$name= stripslashes($name);
 	$name = mysql_real_escape_string($name);
-	$check = "SELECT * FROM `team` WHERE name =?";
-	$qry =$dbh->prepare($check);
-        $qry->execute(array($user));
-	//$num_rows = mysql_num_rows($qry);
-        try{
-
-                $sql="INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES (?, ?,?,1)";
-                $insert=$dbh->prepare($sql);
-                $insert->execute(array($name,$mpass,$email));
-        }catch(PDOException $e){
-            echo $e->getMessage();
-        }
-		//$insert = mysql_query( "INSERT INTO `members` (`name`, `password`,`email`,`rank`) VALUES ('$name', '$mpass','$email',1);")
-		//sor die("Could not insert data because ".mysql_error());
-		echo "<span class=\"success\">Your user account has been created!<br/><h1> Now please delete new_admin.php as well as install.php</h1></span><br>";
-	//}
-}
+	$TempPass=$password;
+	$password=stripslashes($password); //injection cleaner
+	$password =  password_hash($password, PASSWORD_DEFAULT);
+		echo '<br/> Please send this info to the admin:<br/>';
+		echo 'Username: ' .$name.'<br/>';
+		echo 'Password: ' .$TempPass. '<br/>';
+		try{
+		$insert = "INSERT INTO `members` (`name`, `password`) VALUES (?,?)";
+		$add_admin=$dbh->prepare($insert);
+		$add_admin->execute(array($name,$password));
+		echo "<span class=\"success\">Your user account has been created!</span><br>";
+		$log->add_entry($_SESSION['name'],"New account with name $name, has been added");
+		}catch(PDOException $e){
+		    echo 'There was an error.';
+		   
+		    $log->add_entry('ERROR:',$e->getMessage());
+		}
+    }
 
 ?>

@@ -88,9 +88,11 @@ class Events{
     public function event_checkbox(){
         $html='';
         global $dbh;
+       //$html .=  '<label><input type="checkbox" name="check_list[]" class="selectall"/>All Events</label>'; 
         foreach($dbh->query('SELECT * FROM event') as $row) {
             $html .= '<label><input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/>'.$row['event'].'</label>'; 
         }
+       
         return $html;
     }
     public function events_to_display(){
