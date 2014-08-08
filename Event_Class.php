@@ -158,10 +158,15 @@ class Events{
         
         global $dbh;
         $html='';
+        $html .='<div class="centeredTables">';
+        $counter = 1;
         foreach($dbh->query("SELECT * FROM event" ) as $event){
             $sql='SELECT * FROM times WHERE event=$event';
             $go=$dbh->prepare('SELECT * FROM times WHERE event=?');
-            $html.='<table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h1>'.$event['event'].'</h1></th></tr>';
+            if($counter == 1){
+                $html .='<div class="row">';
+            }
+            $html.='<div class=".col-md-4"><table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h2>'.$event['event'].'</h2></th></tr>';
             $html.='<tr> <th>Hour</th>';
             $html.='<th>Obtain</th><th>Status</th></tr>';
             $get_times=$dbh->prepare('SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC');
@@ -181,8 +186,15 @@ class Events{
                  $html.='<td>'.$this->event_status($event['event'],$time['time_id'],1).'</td></tr>';
                  
             }
-             $html.= '</tbody></table>';
+             $html.= '</tbody></table></div>';
+             if($counter == 3 ){
+                $html .='</div>';
+                $counter = 1;
+             }else{
+                $counter ++;
+             }
         }
+        $html .='</div>';
         return $html;
     }
      public function return_table_adding(){
@@ -334,7 +346,7 @@ class Events{
 		$even=$get['event'];
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td>';
-                $html.='<td><form method="POST" action=""><input type="hidden" name="event" value="'.$even.'"/><select id="smallSelect" name="typein">';
+                $html.='<td><form method="POST" action=""  class="form-inline" role="form"><input type="hidden" name="event" value="'.$even.'"/><select id="smallSelect" name="typein">';
 		$run= 1;
 	    	while ($run<=10){
     				if($get['slots']==$run){
@@ -345,7 +357,7 @@ class Events{
 		    	$run+=1;
 			
 		}
-			$html.='</select><input type="hidden" value="'.$go.'" name="runs"/><input type="submit" value="Change" name="change_num"></form></td></tr>';
+			$html.='</select>  <input type="hidden" value="'.$go.'" name="runs"/><input type="submit" value="Change" class="btn btn-primary" name="change_num"></form></td></tr>';
 			$go+=1;
 		}	
 		$html.='</table></div>';
