@@ -16,7 +16,7 @@ if ($_POST['adduser'])
 }
 
 
-    public function add_admin($name,$password){
+   function add_admin($name,$password){
 	//echo 'Adding admin';
 	global $dbh;
 	$log=new Logging();
