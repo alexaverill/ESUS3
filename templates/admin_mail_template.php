@@ -10,9 +10,7 @@
     Choose a sheet to upload: <input name="uploadedfile" id="file" type="file" /><br/>
     <input type="submit" name="up" value="Send Bulk Passwords" />
     </form>
-   <script> $(document).ready(function() {
-       $("#file").kendoUpload();
-   });
+
    </script>
 
   <hr>
