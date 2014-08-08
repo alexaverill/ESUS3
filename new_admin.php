@@ -3,7 +3,7 @@ include('header.php');
 ?>
 
 <form name="passform" method="POST" action="">
-	Admin Username:<input type="text" name="name"/><br/>
+	Admin Username:<input type="text" name="uname"/><br/>
 	Admin Email:<input type="text" name="email"/><br/>
 	Password:<input name="passbox" type="password">
 	<!--<input type="button" value="Generate" onClick="javascript:formSubmit()" tabindex="2">--> <br/>
@@ -12,7 +12,7 @@ include('header.php');
 <?php
 if ($_POST['adduser'])
 { 
-    add_admin($_POST['name'],$_POST['passbox'],$_POST['email']);
+    add_admin($_POST['uname'],$_POST['passbox'],$_POST['email']);
 }
 
 
@@ -20,8 +20,8 @@ if ($_POST['adduser'])
 	//echo 'Adding admin';
 	global $dbh;
 	$log=new Logging();
-	$name= stripslashes($name);
-	$name = mysql_real_escape_string($name);
+	//$name= stripslashes($name);
+	//$name = mysql_real_escape_string($name);
 	$TempPass=$password;
 	$password=stripslashes($password); //injection cleaner
 	$password =  password_hash($password, PASSWORD_DEFAULT);
