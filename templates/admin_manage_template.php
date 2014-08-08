@@ -9,7 +9,7 @@
         <form enctype="multipart/form-data" action="" method="POST">
             <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
             Choose a sheet to upload: <input name="uploadedfile" id="file" type="file" /><br/>
-            <input type="submit" name="up" value="Upload File" />
+            <input type="submit" name="up" class="btn btn-primary" value="Upload File" />
         </form>
     <script> /*$(document).ready(function() {
        $("#file").kendoUpload();
@@ -48,7 +48,7 @@
                 <label for="submit"></label>
                 </dt>
                 <dd>
-                <input type="submit" value="Add user" name="adduser"/> 
+                <input type="submit" value="Add user" class="btn btn-primary" name="adduser"/> 
                 </dd>
         </dl>
     </form>
@@ -100,7 +100,7 @@
     	<form method="POST" action="">
 	Admin Username:<input type="text" name="username"/><br/>
 	Admin Password:<input type="text" name="passbox"/><br/>
-        <input type="submit" name="add_admin" value="Add Admin"/>
+        <input type="submit" class="btn btn-primary" name="add_admin" value="Add Admin"/>
 	</form>
 </div>
 </div>

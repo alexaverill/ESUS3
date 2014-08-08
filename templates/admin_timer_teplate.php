@@ -22,7 +22,7 @@ Time:<select name="st_hour">
     <option value="50">50</option><option value="60">60</option>
 </select>
 <br/>
-End Date:<input id='dp2' name='end_dt' >
+End Date:<input id='dp2' name='end_dt' type="text">
 Time:<select name="end_hour">
 <option value="01">01</option><option value="02">02</option>
 <option value="03">03</option><option value="04">04</option>
@@ -43,14 +43,14 @@ Time:<select name="end_hour">
     <option value="30">30</option><option value="40">40</option>
     <option value="50">50</option><option value="60">60</option>
 </select><br/>
-<input type="submit" value="Update Timer" name="update"/>
+<input type="submit" value="Update Timer" class="btn btn-primary" name="update"/>
  </form>
 <h2>Change Method</h2>
-<form method="POST" action="">
+<form method="POST" action="" class="form-inline">
     Method:<select name="type">
 <?php $timer = new Timer; echo $timer->return_select_options();?>
     </select>
-    <input type="submit" value="Change" name="change"/>
+    <input type="submit" value="Change" class="btn btn-primary" name="change"/>
 </form>
 <script>
     $.datepicker.formatDate("yy-mm-dd");

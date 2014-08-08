@@ -213,11 +213,11 @@ class Events{
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td></tr>';
 		$html.='<tr><td><form method="POST" action=""><input type="hidden" value="'.$even.'" name="event"/>
-			<input type="submit" name="add_all" value="Add all Times"/></form></td></tr>';
+			<input type="submit" name="add_all" class="btn btn-warning" value="Add all Times"/></form></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="event_checks"/>';
-                $html.='<tr><td><input name="add_times" type="submit" value="Add Selected Times"/></td></tr>';
+                $html.='<tr><td><input name="add_times" type="submit" class="btn btn-primary" value="Add Selected Times"/></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="drop_slots_event"/>';
-                $html.='<tr><td><input name="drop_times" type="submit" value="Drop Selected Times"/></td></tr>';
+                $html.='<tr><td><input name="drop_times" type="submit" class="btn btn-danger" value="Drop Selected Times"/></td></tr>';
                 
                 foreach($get_times->fetchAll() as $row){
                         $time=$row['time_slot'];
@@ -383,7 +383,7 @@ class Events{
                     echo "<form action=\"\" method=\"POST\"><input type=\"hidden\" name=\"event\" value=\"$event_listing[event]\"/>
                                                             <input type=\"hidden\" name=\"time\" value=\"$event_listing[time_id]\"/>
                                                             <input type=\"hidden\" name=\"slot\" value=\"$team\"/>
-                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\"/></form></form>";
+                                                            <input type=\"submit\" name=\"remove\" value=\"Drop Slot\" class=\"btn btn-danger\"/></form></form>";
                 }
             }
         }

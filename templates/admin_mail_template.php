@@ -8,7 +8,7 @@
     Message:
     <br/><textarea name="message" id="emess" height="100px" width="15%"></textarea><br/><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
     Choose a sheet to upload: <input name="uploadedfile" id="file" type="file" /><br/>
-    <input type="submit" name="up" value="Send Bulk Passwords" />
+    <input type="submit" name="up" class="btn btn-primary" value="Send Bulk Passwords" />
     </form>
 
    </script>
@@ -18,14 +18,14 @@
     <p> Send an email announcement to all teams
     <form method="POST" action="">
     <textarea name="emessage" id="emess" height="100px" width="15%"></textarea><br/>
-    <input name="send_ann" type="submit" value="Send Announcement"/>
+    <input name="send_ann" type="submit" class="btn btn-primary" value="Send Announcement"/>
     </form>
     <hr>
     <h2>Send Mail to a Team</h2>
     <?php echo $MVC->display_email_options(2);?>
     <hr>
     <h2>Send All Teams Their Times</h2>
-    <form method="POST" action=""><input name="all_teams" type="submit" value="Send All Teams Times"/></form>
+    <form method="POST" action=""><input name="all_teams" class="btn btn-primary"  type="submit" value="Send All Teams Times"/></form>
     <hr>
     <h2>Send Individual Teams Their Times</h2>
     <?php echo $MVC->display_email_options(1);?>

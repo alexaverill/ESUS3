@@ -7,7 +7,7 @@ include('header.php');
 	Admin Email:<input type="text" name="email"/><br/>
 	Password:<input name="passbox" type="password">
 	<!--<input type="button" value="Generate" onClick="javascript:formSubmit()" tabindex="2">--> <br/>
-	<input type="submit" value="Add user" name="adduser"/>
+	<input type="submit" value="Add user" class="btn btn-primary" name="adduser"/>
 </form>
 <?php
 if ($_POST['adduser'])

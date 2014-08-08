@@ -105,7 +105,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html.=$options;
         $html.='</select><br/>
 	New Password: <input type="text" name="new_pass"/><br/>
-	<input name="change_pass" type="submit" value="Change Password"/>
+	<input name="change_pass" type="submit" class="btn btn-warning" value="Change Password"/>
 	</form>';
         return $html;
     }
@@ -115,7 +115,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $html= '<form action="" method="POST">Team:<select name="delete_team">';
         $html.=$options;
         $html.='</select><br/>
-	<input name="remove" type="submit" value="Delete Team"/>
+	<input name="remove" type="submit" class="btn btn-danger" value="Delete Team"/>
 	</form>';
         return $html;
     }
@@ -126,14 +126,14 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	    $options = $USER->return_check_teams();
             $html.=$options;
             $html.='<br/><br/>';
-            $html.='<input name="send_times" type="submit"  value="Send Emails"/>';
+            $html.='<input name="send_times" type="submit" class="btn btn-primary" value="Send Emails"/>';
         }else{
 	     $html= '<form action="" method="POST">Team:<select name="emails">';
 	    $options=$USER->return_select_option_user(1);
             $html.=$options;
             $html.='</select><br/>';
             $html.=' <textarea name="message" id="emess" height="100px" width="15%"></textarea><br/>';
-            $html.='<input name="send_msg" type="submit" value="Send Emails"/>';
+            $html.='<input name="send_msg" type="submit" class="btn btn-primary" value="Send Emails"/>';
         }
         
 	$html.='</form>';
@@ -143,9 +143,9 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
         $USER=new Users();
         $html='';
         $options=$USER->return_select_option_user(2);
-        $html.= '<form action="" method="POST">Team:<select name="edit_team_list">';
+        $html.= '<form action="" method="POST" class="form-inline">Team:<select name="edit_team_list">';
 	$html.=$options;
-        $html.= '</select><input name="edit_teams" type="submit"  value="Show Team Data"/></form>';
+        $html.= '</select><input name="edit_teams" type="submit" class="btn btn-primary"  value="Show Team Data"/></form>';
         return $html;
     }
     public function table_adding_slots(){

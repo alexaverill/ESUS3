@@ -2,7 +2,7 @@
 ><h3>View Events</h3>
 <form method="POST" action=""> Event:
 			draw_event_select();
-<input class="myButton" type="submit" value="Show this Event" name="search_event"/>
+<input class="btn btn-primary" type="submit" value="Show this Event" name="search_event"/>
 </form>
 <br/>
 <h3>
