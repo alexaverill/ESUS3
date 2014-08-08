@@ -285,8 +285,6 @@ class Users {
 		    $username = $data->sheets[0]["cells"][$x][2];
 		    $password = $data->sheets[0]["cells"][$x][3];
 		    $email = $data ->sheets[0]["cells"][$x][4];
-			$username=mysql_real_escape_string($username);
-			$name = mysql_real_escape_string($name);
 			$password = password_hash($password, PASSWORD_DEFAULT);
 			$check = "SELECT * FROM `team` WHERE `name`=?"; //$name
 		$qry = $dbh->prepare($check);
