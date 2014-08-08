@@ -3,7 +3,7 @@ include('header.php');
 ?>
 
 <form name="passform" method="POST" action="">
-	Admin Username:<input type="text" name="adminName"/><br/>
+	Admin Username:<input type="text" name="name"/><br/>
 	Admin Email:<input type="text" name="email"/><br/>
 	Password:<input name="passbox" type="password">
 	<!--<input type="button" value="Generate" onClick="javascript:formSubmit()" tabindex="2">--> <br/>
@@ -12,7 +12,7 @@ include('header.php');
 <?php
 if ($_POST['adduser'])
 { 
-    add_admin($_POST['adminName'],$_POST['passbox'],$_POST['email']);
+    add_admin($_POST['name'],$_POST['passbox'],$_POST['email']);
 }
 
 
