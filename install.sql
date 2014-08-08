@@ -98,14 +98,16 @@ CREATE TABLE IF NOT EXISTS `export` (
 --
 
 CREATE TABLE IF NOT EXISTS `members` (
-  `id` int(20) NOT NULL DEFAULT '550',
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `rank` int(2) NOT NULL DEFAULT '0',
   `name` varchar(20) NOT NULL,
   `password` varchar(500) NOT NULL,
   `email` varchar(2400) NOT NULL,
   `perm` int(5) NOT NULL DEFAULT '0',
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE KEY `id_2` (`id`),
+  KEY `name` (`name`),
+  KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=551 ;
 
 --
 -- Dumping data for table `members`
