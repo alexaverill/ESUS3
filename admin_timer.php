@@ -16,10 +16,15 @@ if($VERIFICATION->is_admin()){
         echo $MVC->display_timer();
     }
     $status=$VERIFICATION->is_open();
-    if($status){
-        echo '<h3>Currently Open</h3>';
+    $type = $VERIFICATION->enabled_status();
+    if($status && $type == 1){
+        echo '<h3>Set to always open</h3>';
+    }else if($status && $type ==3){
+        echo '<h3>Currently Open, based on the Timer</h3>';
+    }else if(!$status && $type == 3){
+        echo '<h3>Currently Closed, based on the Timer</h3>';
     }else{
-        echo '<h3>Currently Closed</h3>';
+        echo '<h3>Set to always Closed</h3>';
     }
     $MVC->display('admin_timer_teplate.php'); 
 
