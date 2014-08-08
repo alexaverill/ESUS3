@@ -305,9 +305,10 @@ class Users {
 		    $add=$dbh->prepare($sql);
 		    $add->execute(array($name,$email,$username,$password));
 		}
-		unlink($location);
-		echo 'Your file has been input into the database. Thank you.';
+		
 	}
+	unlink($location);
+		echo 'Your file has been input into the database. Thank you.';
 	}
 }
 ?>
