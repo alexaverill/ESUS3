@@ -251,13 +251,15 @@ class Events{
                     $enred = '</div>';
                     $get_event_sql="SELECT * FROM `event` ORDER BY `event` ASC";
                     $get_events=$dbh->query($get_event_sql);
-            echo "<table border='1'>"; foreach($get_events->fetchAll() as $get){
+            
+             foreach($get_events->fetchAll() as $get){
                     $event=$get['event'];
                     
                     
 
             $id=$_SESSION['id'];
                     $tblcl = "</td>";
+                    echo '<div id="page-break"></div>';
                             echo "<table border='1'>";
                             echo '<h2 id="theevent">'.$event.'</h1>';
                             $menu=1;
@@ -330,6 +332,7 @@ class Events{
                             }
                             
                     }
+                    $html .='</table>';
             }
             return $html;
         } 
