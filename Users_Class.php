@@ -90,10 +90,8 @@ class Users {
 	//echo 'Adding admin';
 	global $dbh;
 	$log=new Logging();
-	$name= stripslashes($name);
-	$name = mysql_real_escape_string($name);
+
 	$TempPass=$password;
-	$password=stripslashes($password); //injection cleaner
 	$password =  password_hash($password, PASSWORD_DEFAULT);
 		echo '<br/> Please send this info to the admin:<br/>';
 		echo 'Username: ' .$name.'<br/>';

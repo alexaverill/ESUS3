@@ -100,9 +100,9 @@ CREATE TABLE IF NOT EXISTS `export` (
 CREATE TABLE IF NOT EXISTS `members` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `rank` int(2) NOT NULL DEFAULT '0',
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `password` varchar(500) NOT NULL,
-  `email` varchar(2400) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `perm` int(5) NOT NULL DEFAULT '0',
   UNIQUE KEY `id_2` (`id`),
   KEY `name` (`name`),
