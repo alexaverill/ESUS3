@@ -10,7 +10,7 @@ class Verification{
     
     public $user_rights=0; //Set defualt user rights to nothing, 1 is Admin, 2 is a normal user.
     public function is_admin(){
-	global $install
+	global $install;
         if ($_SESSION['admin'] && $_SESSION['install']==$install){
             return true;
         }else{
@@ -18,6 +18,7 @@ class Verification{
         }
     }
     public function is_user(){
+	global $install;
         if($_SESSION['name'] && $_SESSION['install']==$install){
             return true;
         }else{
