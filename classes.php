@@ -325,6 +325,32 @@ class Timer{
 		$html.='Closes on '.$dates[0]['end'].' at '.$dates[0]['en_time'];
                 return $html;
 	}
+    public function returnDate($type){
+	    global $dbh;
+	    global $timezone;
+	    $html='';
+	    $sql="SELECT * FROM timer";
+	    $dates=$dbh->query($sql);
+	    $dates=$dates->fetchAll(PDO::FETCH_ASSOC);
+	    if($type="start"){
+		return $dates[0]['start'];
+	    }else{
+		return $dates[0]['end'];
+	    }
+    }
+    public function returnTime($type){
+	 global $dbh;
+	    global $timezone;
+	    $html='';
+	    $sql="SELECT * FROM timer";
+	    $dates=$dbh->query($sql);
+	    $dates=$dates->fetchAll(PDO::FETCH_ASSOC);
+	    if($type="start"){
+		return $dates[0]['st_time'];
+	    }else{
+		return $dates[0]['en_time'];
+	    }
+    }
     public function return_select_options(){
 	$verify = new Verification;
 	$enabled = $verify->enabled_status();

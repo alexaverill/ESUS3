@@ -1,6 +1,6 @@
 <h2>Change Timer</h2>
 <form method="post" action="">
-Start Date:<input id='dp1' name='start_dt' type="text">
+Start Date:<input id='dp1' name='start_dt' value=<?php $timer = new Timer; echo $timer->returnDate("start");?> type="text">
 Time:<select name="st_hour">
 <option value="01">01</option><option value="02">02</option>
 <option value="03">03</option><option value="04">04</option>
@@ -22,7 +22,7 @@ Time:<select name="st_hour">
     <option value="50">50</option><option value="60">60</option>
 </select>
 <br/>
-End Date:<input id='dp2' name='end_dt' type="text">
+End Date:<input id='dp2' name='end_dt' value="<?php $timer = new Timer; echo $timer->returnDate("end");?>"type="text">
 Time:<select name="end_hour">
 <option value="01">01</option><option value="02">02</option>
 <option value="03">03</option><option value="04">04</option>

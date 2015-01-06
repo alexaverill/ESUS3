@@ -6,7 +6,7 @@
 	</form>
 <?php
 if($_POST['add_rand_pass']){
-	$needed=mysql_real_escape_string($_POST['number_pass']);
+	$needed=$_POST['number_pass'];
 	random_passwords($needed);
 }
 function random_passwords($needed){

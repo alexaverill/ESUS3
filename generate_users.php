@@ -7,18 +7,19 @@
 					<option value="Team">Team</option>
 				</select>
 		Number of Users:<input type="text" name="number_users">
-		<input type="Submit" name="add_rand_pass" value="Generate Usernames">
+		<input type="Submit" name="add" value="Generate Usernames">
 	</form>
 <?php
-if($_POST['add_rand_pass']){
-	$needed=mysql_real_escape_string($_POST['number_users']);
-	$type=mysql_real_escape_string($_POST['division']);
-	usernames($needed,$type);
-}
-function usernames($need,$type){
+if($_POST['add']){
+	$needed=$_POST['number_users'];
+	$type=$_POST['division'];
+	//echo $needed;
+	
 	$runs=1;
-	while($runs<=$need){
+	while($runs<=$needed){
+		
 		Echo $type.$runs.'<br/>';
 		$runs++;
 	}
+	//usernames($needed,$type);
 }
