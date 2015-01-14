@@ -145,7 +145,7 @@ class Slots{
 		foreach($dropping_held->fetchAll() as $remove){
 		    $index=1;
 		    $time=$remove['time_id'];
-		    while($index<$this->slots){
+		    while($index<=$this->slots){
 			$place='team'.$index;
 			if($remove[$place]==$id){
 			     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?";
@@ -190,7 +190,7 @@ class Slots{
         $index=1;
 	if($Verification->is_open() || $Verification->is_admin()){
 
-	    while($index<$this->slots){
+	    while($index<=$this->slots){
 		$place='team'.$index;
 		if($row[0]['team'.$index]==0){
 		    $this->remove_held($event,$id);
@@ -438,7 +438,7 @@ class Mail {
                     //$email_message = $data ->sheets[0]["cells"][1][5];
               
               $link =  'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
-              $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password; //Esus Link: '.$link.'
+              $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password.' Link:'.$link;
               $email_from = 'esus@scioly.org';
               $email_to=$email;
               $email_subject= "Event Sign Up System";
