@@ -2,7 +2,7 @@
 Current version of the Event Sign Up System
 
 
-#Install instruction
+#Install Instructions
 Install instructions:
 This will walk you through installing a standard two division setup for ESUS, if you only need one division just install ESUS into the base
 directory. 
