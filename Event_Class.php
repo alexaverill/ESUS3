@@ -351,7 +351,7 @@ class Events{
 		$html.='<tr><td><b>'.$even.'</b></td>';
                 $html.='<td><form method="POST" action=""  class="form-inline" role="form"><input type="hidden" name="event" value="'.$even.'"/><select id="smallSelect" name="typein">';
 		$run= 1;
-	    	while ($run<=10){
+	    	while ($run<=15){
     				if($get['slots']==$run){
 		    			$html.='<option value="'.$run.'" selected="selected">'.$run.' slots</option>';
 	    			}else{

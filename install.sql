@@ -214,6 +214,9 @@ CREATE TABLE IF NOT EXISTS `times` (
   `team10` int(20) NOT NULL,
   `team11` int(20) NOT NULL,
   `team12` int(20) NOT NULL,
+   `team13` int(20) NOT NULL,
+  `team14` int(20) NOT NULL,
+  `team15 int(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `event` (`event`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;

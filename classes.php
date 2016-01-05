@@ -112,7 +112,7 @@ class Slots{
      * TODO. setup a maintanence scripts that will check the database in order to make sure that the total number of "team##" in the slots
      * database table is equal to or greater then the max slot setting in database.php
      * */
-    public $slots=10;
+    public $slots=15;
     public function slot_select(){
 	global $dbh;
         $sql2 = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
