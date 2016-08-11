@@ -181,3 +181,7 @@
 07-15-2014 16:52:29 26 Droppping 08:00-09:00 at place 1 from Event
 07-15-2014 16:52:29 26 Claimed 10:00-11:00 at plae 1 in Event
 01-06-2015 11:58:19  New account with name admin, has been added
+01-04-2016 22:58:57  New account with name admin, has been added
+01-04-2016 22:59:17 admin New account with name test, has been added
+01-04-2016 23:28:20 admin New team with name team1, has been added
+01-04-2016 23:28:37 admin New team with name team2, has been added
