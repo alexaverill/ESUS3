@@ -23,31 +23,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data`
---
-
-CREATE TABLE IF NOT EXISTS `data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `team_id` int(11) NOT NULL,
-  `student_name` varchar(100) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `city` varchar(100) NOT NULL,
-  `zipcode` int(5) NOT NULL,
-  `grade` int(10) NOT NULL,
-  `student_email` varchar(100) NOT NULL,
-  `special` varchar(10) NOT NULL,
-  `comments` varchar(10000) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `enable`
 --
 
 CREATE TABLE IF NOT EXISTS `enable` (
-  `enabled` int(5) NOT NULL DEFAULT '3'
+  `enabled` int(5) NOT NULL DEFAULT '3',
+  `installID` int(5) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -78,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 
 CREATE TABLE IF NOT EXISTS `export` (
   `time_id` varchar(20) NOT NULL,
+  `installID` int(5) NOT NULL,
   `event` varchar(20) NOT NULL,
   `team1` varchar(100) NOT NULL,
   `team2` varchar(100) NOT NULL,
@@ -88,7 +70,12 @@ CREATE TABLE IF NOT EXISTS `export` (
   `team7` varchar(100) NOT NULL,
   `team8` varchar(100) NOT NULL,
   `team9` varchar(100) NOT NULL,
-  `team10` varchar(100) NOT NULL
+  `team10` varchar(100) NOT NULL,
+  `team11` int(20) NOT NULL,
+  `team12` int(20) NOT NULL,
+   `team13` int(20) NOT NULL,
+  `team14` int(20) NOT NULL,
+  `team15` int(20) NOT NULL,
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -99,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `export` (
 
 CREATE TABLE IF NOT EXISTS `members` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
+  `installID` int(5) NOT NULL,
   `rank` int(2) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `password` varchar(500) NOT NULL,
@@ -121,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `members` (
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `tables` int(15) NOT NULL,
+  `installID` int(5) NOT NULL,
   `install` int(200) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -138,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 CREATE TABLE IF NOT EXISTS `slots` (
   `time_slot` varchar(20) NOT NULL,
+  `installID` int(5) NOT NULL,
   KEY `time_slot` (`time_slot`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -149,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `slots` (
 
 CREATE TABLE IF NOT EXISTS `team` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
+  `installID` int(5) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(250) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -181,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `timer` (
   `st_time` varchar(10) NOT NULL,
   `en_time` varchar(10) NOT NULL,
   `id` int(1) NOT NULL DEFAULT '1',
+  `installID` int(5) NOT NULL
   KEY `start_day` (`start_day`),
   KEY `start_day_2` (`start_day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -200,6 +192,7 @@ INSERT INTO `timer` (`start_day`, `end_day`, `start_year`, `start_month`, `end_y
 
 CREATE TABLE IF NOT EXISTS `times` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
+  `installID` int(5) NOT NULL,
   `time_id` varchar(100) NOT NULL,
   `event` varchar(40) NOT NULL,
   `team1` int(20) NOT NULL,
