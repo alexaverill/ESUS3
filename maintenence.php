@@ -9,7 +9,8 @@ if($verify->is_admin()){
     global $dbh;
     $clear_times="DELETE FROM `times`";
     $clear_team="DELETE FROM `team`";
-    $clear_slots="DELETE FROM `slots`";
+    $delete_slots="DELETE FROM `slots`";
+    $clear_slots=" UPDATE slots SET `team1`=0,`team2`=0,`team3`=0,`team4`=0,`team5`=0,`team6`=0,`team7`=0,`team8`=0,`team9`=0,`team10`=0,`team11`=0,`team12`=0,`team13`=0,`team14`=0,`team15`=0";
     $clear_event="DELETE FROM `event`";
     $clear_sql="DELETE FROM `teams`";
     if($_POST['times']){
@@ -21,6 +22,11 @@ if($verify->is_admin()){
         $log->add_entry('Admin','Cleared all teams');
     }
     if($_POST['slots']){
+        $dbh->query($delete_slots);
+        $log->add_entry('Admin','Cleared all slots');
+        
+    }
+    if($_POST['clearSlots']){
         $dbh->query($clear_slots);
         $log->add_entry('Admin','Cleared all slots');
         
