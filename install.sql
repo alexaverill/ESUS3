@@ -46,6 +46,7 @@ INSERT INTO `enable` (`enabled`) VALUES
 
 CREATE TABLE IF NOT EXISTS `event` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
+  `installID` int(5) NOT NULL,
   `event` varchar(200) NOT NULL,
   `slots` int(10) NOT NULL DEFAULT '10',
   PRIMARY KEY (`id`)
@@ -110,6 +111,8 @@ CREATE TABLE IF NOT EXISTS `members` (
 CREATE TABLE IF NOT EXISTS `settings` (
   `tables` int(15) NOT NULL,
   `installID` int(5) NOT NULL,
+  `timezone` varchar(255) NOT NULL,
+  `slotNum` int(5) NOT NULL,
   `install` int(200) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
