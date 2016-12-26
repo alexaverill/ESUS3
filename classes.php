@@ -26,9 +26,9 @@ class Verification{
             return false;
         }
     }
-    public function enabled_status(){
+    public function enabled_status($installID){
 	global $dbh;
-	$sql='SELECT * FROM  `enable`';
+	$sql='SELECT * FROM  `settings` WHERE installID=?';
 	$query_enable_status=$dbh->query($sql);
 	$query_enable_status=$query_enable_status->fetch(PDO::FETCH_ASSOC);
 	$enable_status=$query_enable_status['enabled'];
@@ -114,9 +114,9 @@ class Slots{
      * database table is equal to or greater then the max slot setting in database.php
      * */
     public $slots=15;
-    public function slot_select(){
+    public function slot_select($installID){
 	global $dbh;
-        $sql2 = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
+        $sql2 = "SELECT * FROM `slots` WHERE installID=? ORDER BY `time_slot` ASC ";
         $get_slots=$dbh->query($sql2);
         $html='<select name="slot_select">';
         foreach($get_slots->fetchAll() as $row){
@@ -126,20 +126,20 @@ class Slots{
 	$html.="</select>";
         return $html;
     }
-    public function delete_times($time_slot){
+    public function delete_times($time_slot,$installID){
 	global $dbh;
-	$removeTimes = "DELETE FROM times WHERE time_id=?";
+	$removeTimes = "DELETE FROM times WHERE time_id=? AND installID=?";
 	$removal = $dbh->prepare($removeTimes);
 	$removal->execute(array($time_slot));
-	$removeSlots = "DELETE FROM slots WHERE time_slot=?";
+	$removeSlots = "DELETE FROM slots WHERE time_slot=? AND installID=?";
 	$removalSlots=$dbh->prepare($removeSlots);
 	$removalSlots->execute(array($time_slot));
     }
-    public function remove_held($event,$id){        //User function that clears slots when user claims a new slot
+    public function remove_held($event,$id,$installID){        //User function that clears slots when user claims a new slot
                 global $dbh;
                 //Loop through and drop all slots held by Id in the event;
 	$Verification = new Verification;
-        $dropping_held=$dbh->prepare("SELECT * FROM times WHERE event=?");
+        $dropping_held=$dbh->prepare("SELECT * FROM times WHERE event=?  AND installID=?");
         $dropping_held->execute(array($event));
         $log = new Logging;
 	    if($Verification->is_open()){
@@ -149,7 +149,7 @@ class Slots{
 		    while($index<=$this->slots){
 			$place='team'.$index;
 			if($remove[$place]==$id){
-			     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?";
+			     $insert_sql="UPDATE times SET ".$place."=0 WHERE event=? AND time_id=?  AND installID=?";
 			     $remove_query=$dbh->prepare($insert_sql);
 			     $remove_query->execute(array($event,$time));
 			     $log->add_entry($id,"Droppping $time at place $index from $event");
@@ -161,10 +161,10 @@ class Slots{
 		}
         }
     }
-    public function clear_slot($event,$time,$slot,$team){
+    public function clear_slot($event,$time,$slot,$team,$installID){
         global $dbh;
         $Log= new Logging;
-        $clear_sql="UPDATE `times` SET ".$slot."=0 WHERE event=? AND time_id=?";
+        $clear_sql="UPDATE `times` SET ".$slot."=0 WHERE event=? AND time_id=? AND installID=?";
         $clear_qry=$dbh->prepare($clear_sql);
         $clear_qry->execute(array($event,$time));
 	$user=new Users;
@@ -172,20 +172,20 @@ class Slots{
         $message="Dropped $team ($name) from $event at $time in slot: $slot"; //team is in the form of team ID #
         $Log->add_entry($_SESSION['name'],$message);
     }
-    public function admin_claim($event,$time,$slot){
+    public function admin_claim($event,$time,$slot,$installID){
 	global $dbh;
 	$Log= new Logging;
-        $clear_sql="UPDATE `times` SET ".$slot."=-1 WHERE event=? AND time_id=?";
+        $clear_sql="UPDATE `times` SET ".$slot."=-1 WHERE event=? AND time_id=?  AND installID=?";
 	$clear_qry=$dbh->prepare($clear_sql);
 	$clear_qry->execute(array($event,$time));
 	$Log->add_entry("ADMIN","CLosing $time in $event");
     }
-    public function claim_slot($id,$event,$time){
+    public function claim_slot($id,$event,$time,$installID){
         global $dbh;
 	$Verification = new Verification;
 	$Log = new Logging;
 	//Function used to claim slots in database will be called on index.php
-        $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=?");
+        $get_query=$dbh->prepare("SELECT * FROM times WHERE event=? AND time_id=? AND installID=?");
         $get_query->execute(array($event,$time));
         $row=$get_query->fetchAll(PDO::FETCH_ASSOC);
         $index=1;
@@ -221,7 +221,7 @@ class Slots{
     }
     public function change_num_slots($event,$slots){
         global $dbh;
-        $sql="UPDATE event SET slots=? WHERE event=?";
+        $sql="UPDATE event SET slots=? WHERE event=? AND installID=?";
         $update=$dbh->prepare($sql);
         $update->execute(array($slots,$event));
     }
@@ -229,7 +229,7 @@ class Slots{
     public function add_slots($time){       //Inserts a slot into the time table in the database.
         global $dbh;
         global $VALID;
-        $check=$dbh->prepare("SELECT * FROM slots WHERE time_slot=?");
+        $check=$dbh->prepare("SELECT * FROM slots WHERE time_slot=? AND installID=?");
         $time=$VALID->sant_string($time);
         $check->execute(array($time));
         $rows=$check->rowCount();
@@ -245,7 +245,7 @@ class Slots{
     public function number_of_slots($event){        //Returns total number of slots for an event, not the number taken
         global $dbh;
         $sql= "SELECT slots FROM event WHERE event=?";
-        $get_slots=$dbh->prepare("SELECT slots FROM event WHERE event=?");
+        $get_slots=$dbh->prepare("SELECT slots FROM event WHERE event=? AND installID=?");
         $get_slots->execute(array($event));
         $middle = $get_slots->fetchAll(PDO::FETCH_ASSOC);
         $number = $middle[0]['slots'];
@@ -277,7 +277,8 @@ class Timer{
         date_default_timezone_set($timezone);
         $today= new DateTime('NOW');
         //echo $today->format('c');
-        $sql="SELECT * FROM timer";
+        $sql="SELECT * FROM settings WHERE installID=?";
+        //NEED TO FIX
         foreach($dbh->query($sql) as $row){
              $start_date=$row['start'];
              $start_time=$row['st_time'];
@@ -295,29 +296,29 @@ class Timer{
             return false;
         }
     }
-    public function update_timer($start_date,$end_date,$start_time,$end_time){
+    public function update_timer($start_date,$end_date,$start_time,$end_time,$installID){
         global $dbh;
         try{
-            $sql="UPDATE timer SET start=? end=? st_time=? en_time=? WHERE id=?";
+            $sql="UPDATE settings SET start=? end=? st_time=? en_time=? WHERE installID=?";
             $update= $dbh->prepare("UPDATE timer SET start=?, end=?, st_time=?, en_time=? WHERE id=?");
-            $update->execute(array($start_date,$end_date,$start_time,$end_time,1));
+            $update->execute(array($start_date,$end_date,$start_time,$end_time,$installID));
             $affected_rows = $update->rowCount();
         }catch(PDOException $ex){
             echo $ex->getMessage();
         }
     }
-    public function change_type($type){
+    public function change_type($type,$installID){
         global $dbh;
-        $sql="UPDATE `enable` SET `enabled`=?";
+        $sql="UPDATE `settings` SET `enabled`=? WHERE `installID`=?";
         $update=$dbh->prepare($sql);
         $update->execute(array($type));
 
     }
-    public function return_timer_dates(){
+    public function return_timer_dates($installID){
 		global $dbh;
 		global $timezone;
 		$html='';
-		$sql="SELECT * FROM timer";
+		$sql="SELECT * FROM settings WHERE installID=?";
 		$dates=$dbh->query($sql);
 		$dates=$dates->fetchAll(PDO::FETCH_ASSOC);
 		$html .='Timezone: '.$timezone.'<br/>';
@@ -326,11 +327,11 @@ class Timer{
 		$html.='Closes on '.$dates[0]['end'].' at '.$dates[0]['en_time'];
                 return $html;
 	}
-    public function returnDate($type){
+    public function returnDate($type,$installID){
 	    global $dbh;
 	    global $timezone;
 	    $html='';
-	    $sql="SELECT * FROM timer";
+	    $sql="SELECT * FROM settings WHERE installID=?";
 	    $dates=$dbh->query($sql);
 	    $dates=$dates->fetchAll(PDO::FETCH_ASSOC);
 	    if($type="start"){
@@ -339,7 +340,7 @@ class Timer{
 		return $dates[0]['end'];
 	    }
     }
-    public function returnTime($type){
+    public function returnTime($type,$installID){
 	 global $dbh;
 	    global $timezone;
 	    $html='';
