@@ -1,11 +1,11 @@
-<?php 
+<?php
 class Users {
     public function login($user,$password){
         global $dbh;
         global $install;
         global $VALID;
         try{
-    
+
             $sql='SELECT * FROM team WHERE username=?';
             $query_user=$dbh->prepare($sql);
             $user=$VALID->sant_string($user);
@@ -15,7 +15,7 @@ class Users {
 		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
 		$admin=false;
 	    }else{
-		
+
 		$sql='SELECT * FROM members WHERE name=?';
 		$query_user=$dbh->prepare($sql);
 		$user=$VALID->sant_string($user);
@@ -31,7 +31,7 @@ class Users {
         $stored_password=$user_information[0]['password'];
         if(password_verify($password,$stored_password)){
             //TODO:Log user login to file.
-            	$_SESSION['name']=$user; 
+            	$_SESSION['name']=$user;
 		$_SESSION['install']=$install;
 		$_SESSION['id']=$this->get_id($user,'name');
 		if(!$admin){
@@ -48,9 +48,9 @@ class Users {
 	    $log->add_entry("INVALID LOGIN:", "$user attempted to login and failed. IP: $IP");
             echo '<h2>Wrong Username or password</h2>';
         }
-        
+
     }
-    
+
     //User Admin Functions.
     public function add_user($user,$password,$email,$name){
         global $dbh;
@@ -74,7 +74,7 @@ class Users {
 			$log->add_entry($_SESSION['name'],"New team with name $name, has been added");
 		    }catch(PDOException $e){
 			echo 'There was an error.';
-			
+
 			$log->add_entry('ERROR:',$e->getMessage());
 		    }
 			echo 'Please send this info to the team:<br/>';
@@ -93,18 +93,16 @@ class Users {
 
 	$TempPass=$password;
 	$password =  password_hash($password, PASSWORD_DEFAULT);
-		echo '<br/> Please send this info to the admin:<br/>';
-		echo 'Username: ' .$name.'<br/>';
-		echo 'Password: ' .$TempPass. '<br/>';
+		//echo '<br/> Please send this info to the admin:<br/>';
+		//echo 'Username: ' .$name.'<br/>';
+		//echo 'Password: ' .$TempPass. '<br/>';
 		try{
 		$insert = "INSERT INTO `members` (`name`, `password`) VALUES (?,?)";
 		$add_admin=$dbh->prepare($insert);
 		$add_admin->execute(array($name,$password));
-		echo "<span class=\"success\">Your user account has been created!</span><br>";
+		//echo "<span class=\"success\">Your user account has been created!</span><br>";
 		$log->add_entry($_SESSION['name'],"New account with name $name, has been added");
 		}catch(PDOException $e){
-		    echo 'There was an error.';
-		   
 		    $log->add_entry('ERROR:',$e->getMessage());
 		}
     }
@@ -136,9 +134,9 @@ public function show_user_info($user){
 			echo 'Username: <input type="text" value="'.$row['username'].'" name="username"/><br/>';
 			echo '<input type="hidden" value="'.$row['id'].'" name="id"/>';
 			echo '<input type="submit" name="save_teams" value="Save"/>';
-		} 
+		}
 		echo '</form>';
-	    
+
     }
 public function update_team($id,$name,$email,$user){
         global $dbh;
@@ -150,7 +148,7 @@ public function update_team($id,$name,$email,$user){
 	    $update->execute(array($name,$email,$user,$id));
 	    return true;
 	}catch(PDOException $e){
-	    echo 'There was an error.'; 
+	    echo 'There was an error.';
             $log->add_entry('ERROR:',$e->getMessage());
 	}
     }
@@ -173,7 +171,7 @@ public function reset_password($user,$password,$type){		//general password reset
 			echo $password;
 			echo 'You must enter a username and password.';
 		}
-		
+
 	}
     public function return_check_teams(){
         global $dbh;
@@ -202,7 +200,7 @@ public function reset_password($user,$password,$type){		//general password reset
                 default:
                     $html.='<option value="'.$team['id'].'">'.$team['name'].'</option>';
                     break;
-            
+
             }
         }
         return $html;
@@ -264,7 +262,7 @@ public function reset_password($user,$password,$type){		//general password reset
     }
     public function upload($name,$tmpName){						//Upload function for admin area excel files
 	$target_path = "uploads/";
-	$target_path = $target_path . basename($name); 
+	$target_path = $target_path . basename($name);
 	if(move_uploaded_file($tmpName, $target_path)) {
 	    //Moved file, no response due to trying to keep admin area simple
 	    echo 'File moved to:'.$target_path;
@@ -272,8 +270,8 @@ public function reset_password($user,$password,$type){		//general password reset
 	} else{
 	    echo "There was an error uploading the file, please try again!";
 	}
-	
-	
+
+
 	}
     public function insert($location){			//Addes uploaded Excel file data to database
 	global $dbh;
@@ -304,7 +302,7 @@ public function reset_password($user,$password,$type){		//general password reset
 		    $add=$dbh->prepare($sql);
 		    $add->execute(array($name,$email,$username,$password));
 		}
-		
+
 	}
 	unlink($location);
 		echo 'Your file has been input into the database. Thank you.';

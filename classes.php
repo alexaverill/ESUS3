@@ -3,11 +3,12 @@ include('database.php');
 include('Event_Class.php');
 include('Users_Class.php');
 include('MVC_Class.php');
+include(Admin_Class.php);
 class Verification{
     /* This class is used to determine or check certain parameters, such as login status, and rights, the state of the timer, and the
      * validity if esus is open or not, this was originally done inline, and as such was extremely messy.
      */
-    
+
     public $user_rights=0; //Set defualt user rights to nothing, 1 is Admin, 2 is a normal user.
     public function is_admin(){
 	global $install;
@@ -152,7 +153,7 @@ class Slots{
 			     $remove_query=$dbh->prepare($insert_sql);
 			     $remove_query->execute(array($event,$time));
 			     $log->add_entry($id,"Droppping $time at place $index from $event");
-			     
+
 			     //break;
 			}
 			$index+=1;
@@ -239,7 +240,7 @@ class Slots{
         }else{
             return 1;
         }
-        
+
     }
     public function number_of_slots($event){        //Returns total number of slots for an event, not the number taken
         global $dbh;
@@ -265,15 +266,15 @@ class Slots{
 
 
 class Admin{
-    
 
-    
+
+
 }
 class Timer{
     public function check_timer_status(){   //Determine what the timer status is will return a boolean true=open false=closed.
         global $dbh;
         global $timezone;
-        date_default_timezone_set($timezone);     
+        date_default_timezone_set($timezone);
         $today= new DateTime('NOW');
         //echo $today->format('c');
         $sql="SELECT * FROM timer";
@@ -287,7 +288,7 @@ class Timer{
         $start_date=$start_date.'T'.$start_time;        //Append time to end of date string
         $end_date=$end_date.'T'.$end_time;
         $start_date=new DateTime($start_date);      //Create it as a date time
-        $end_date=new DateTime($end_date);      
+        $end_date=new DateTime($end_date);
         if($start_date < $today && $end_date > $today ){    //Compare date times.
             return true;
         }else{
@@ -310,7 +311,7 @@ class Timer{
         $sql="UPDATE `enable` SET `enabled`=?";
         $update=$dbh->prepare($sql);
         $update->execute(array($type));
-        
+
     }
     public function return_timer_dates(){
 		global $dbh;
@@ -375,9 +376,9 @@ class Timer{
 		$html .= '<option value="3">Rely on Timer</option>
 			<option value="1" >Open</option>
 			<option value="2">Closed</option>';
-		break;		
+		break;
 	}
-	return $html;	    
+	return $html;
 	}
 }
 class Mail {
@@ -387,7 +388,7 @@ class Mail {
         $message=$USER->get_all_events($id);
         $subject="Your Event Times.";
         $this->send_email($team,$subject,$message);
-	
+
     }
     public function send_all_times(){
         global $dbh;
@@ -412,31 +413,31 @@ class Mail {
         $final_subject='ESUS :'.$subject;
         $send=mail($to,$final_subject,$message);
     }
-    function upload_for_bulk($message,$name,$tmpName){						
+    function upload_for_bulk($message,$name,$tmpName){
         $target_path = "uploads/";
         $message= $_POST['message'];
-        $target_path = $target_path . basename($name); 
+        $target_path = $target_path . basename($name);
         if(move_uploaded_file($tmpName, $target_path)) {
                 echo 'File Uploaded';
         } else{
             echo "There was an error uploading the file, please try again!";
         }
         $this->send_bulk_mail($target_path,$message);
-        
+
     }
-    public function send_bulk_mail($location,$message){	
-        include('source/reader.php');	
+    public function send_bulk_mail($location,$message){
+        include('source/reader.php');
         $data = new Spreadsheet_Excel_Reader();
         $data->setOutputEncoding('CP1251');
         $data->read($location);
-        
+
         for ($x = 2; $x <= count($data->sheets[0]["cells"]); $x++) {
                     $name = $data->sheets[0]["cells"][$x][1];
                     $username = $data->sheets[0]["cells"][$x][2];
                     $password = $data->sheets[0]["cells"][$x][3];
                     $email = $data ->sheets[0]["cells"][$x][4];
                     //$email_message = $data ->sheets[0]["cells"][1][5];
-              
+
               $link =  'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
               $email_message= $message.'    Name: '.$name.' Username: '.$username.' Password: '.$password.' Link:'.$link;
               $email_from = 'esus@scioly.org';
@@ -445,7 +446,7 @@ class Mail {
               $headers = 'From: '.$email_from."\r\n".
               'Reply-To: '.$email_from."\r\n" .
               'X-Mailer: PHP/' . phpversion();
-              $send=mail($email_to, $email_subject, $email_message, $headers); 
+              $send=mail($email_to, $email_subject, $email_message, $headers);
             if($send){
               $sent=1;
               }

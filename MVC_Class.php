@@ -1,7 +1,7 @@
 <?php
 
 class MVC{          //Create HTML code to be displayed. call user and admin classes and functions.
-    private function determine_permissions($file_name){
+private function determine_permissions($file_name){
 	/*
 	 * Function to return true if admin page, and require admin perms to include, otherwise return false
 	 * based on page name. admin_ prefix
@@ -11,26 +11,28 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	}else{
 	    return false;
 	}
-	
-    }
-    private function include_template($file_name){
+
+}
+private function include_template($file_name){
 	    if(file_exists($file_name)){
 		if(! $this->determine_permissions($file_name)){
 		    include($file_name);
 		}else{
 		    $verify = new Verification;
 		    if($verify->is_admin()){
-			include($file_name);
+			       include($file_name);
 		    }else{
-			include('templates/permissionError.php');
+            include($file_name); //NEED TO CHANGE BEFORE RELEASE
+
+			      // include('templates/permissionError.php');
 		    }
 		}
 	    }else{
-		
+
 		echo 'That template does not exist';
 	    }
     }
-    public function display($file_name){
+public function display($file_name){
 	/*
 	 *general purpose templating function. Can be either the general file name such as admin_mail, the full template name
 	 *such as admin_mail_template,or admin_mail_template.php
@@ -42,17 +44,18 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	    $this->include_template($full_name);
 	}else if(strpos($file_name, 'template') !== false){
 	    //lets just append a .php to see if that is a template
+      //Dec 2016 This wouldn't actually work. I was being stupid. Need to add a try catch .
 	    $full_name = 'templates/'.$file_name.'.php';
-	     $this->include_template($full_name);
+	    $this->include_template($full_name);
 	}else{
 	    //last chance to get it to appear.
 	    $full_name = 'templates/'.$file_name.'_template.php';
 	     $this->include_template($full_name);
 	}
-	
+
     }
-    
-    
+
+
     public function display_menu(){ //Pull validation values, if admin, or if user, then display correct menu.
         global $VERIFICATION;
         if($VERIFICATION->is_admin()){
@@ -95,9 +98,9 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
 	    $html="<h1>You are not logged in.</h1><h2><a href=login.php>Please login here</a></h2>";
 	    echo $html;
 	}
-    
+
     }
-    
+
     public function display_reset_password(){
         $USER=new Users();
         $options=$USER->return_select_option_user(2);
@@ -135,7 +138,7 @@ class MVC{          //Create HTML code to be displayed. call user and admin clas
             $html.=' <textarea name="message" id="emess" height="100px" width="15%"></textarea><br/>';
             $html.='<input name="send_msg" type="submit" class="btn btn-primary" value="Send Emails"/>';
         }
-        
+
 	$html.='</form>';
         return $html;
     }

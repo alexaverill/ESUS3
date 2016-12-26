@@ -2,9 +2,9 @@
 <div id="columns">
     <div id="bulk">
         <h1>Add Users</h1>
-<hr>	
+<hr>
         <h3>Upload Multiple Users</h3>
-        <b>Your Excel (.xls) should look like <a href="source/example.xls">this</a></b> 
+        <b>Your Excel (.xls) should look like <a href="source/example.xls">this</a></b>
         <br/><br/>
         <form enctype="multipart/form-data" action="" method="POST">
             <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
@@ -48,7 +48,7 @@
                 <label for="submit"></label>
                 </dt>
                 <dd>
-                <input type="submit" value="Add user" class="btn btn-primary" name="adduser"/> 
+                <input type="submit" value="Add user" class="btn btn-primary" name="adduser"/>
                 </dd>
         </dl>
     </form>
@@ -65,10 +65,10 @@
 		<Br>
 		    <Br>
 			<Br>
-  <h2><a href="generate_users.php">Generate Usernames</a></h2> 
+  <h2><a href="generate_users.php">Generate Usernames</a></h2>
     <h2><a href="password_generate.php">Generate Passwords</a></h2>
 </div>
-  
+
 <div id="individual1">
 
     <h1>Modify Users</h1>
@@ -95,12 +95,5 @@
 		$USER->remove_user($_POST['delete_team']);
 	    }
 	    ?>
-	<hr>
-    <h2>Add Admin</h2>
-    	<form method="POST" action="">
-	Admin Username:<input type="text" name="username"/><br/>
-	Admin Password:<input type="text" name="passbox"/><br/>
-        <input type="submit" class="btn btn-primary" name="add_admin" value="Add Admin"/>
-	</form>
 </div>
 </div>
