@@ -87,8 +87,8 @@ class Users {
 		//Log the addition of a user
     }
     public function add_admin($name,$password){
-	//echo 'Adding admin';
 	global $dbh;
+        //Take in username and password to create a new administrator account.
 	$log=new Logging();
 
 	$TempPass=$password;
@@ -106,22 +106,18 @@ class Users {
 		    $log->add_entry('ERROR:',$e->getMessage());
 		}
     }
-public function remove_user($userid){
-	//remove the team/user and if a team also remove all slots they hold.
+    public function remove_user($userid){
 	global $dbh;
-	// either before or after we remove the team from the team table we also need to remove the teams slots that they hold.
 	$remove = "DELETE FROM team WHERE id=?";
 	$removal = $dbh->prepare($remove);
 	$removal->execute(array($userid));
-	
-
 	$log = new Logging;
 	$message = "removed team with id $userid";
 	$log->add_entry('ADMIN',$message);
 	return true;
 		//log removal of a user
     }
-public function show_user_info($user){
+    public function show_user_info($user){
         global $dbh;
         $sql = "SELECT * FROM `team` WHERE `username`=?";
 	$get_user=$dbh->prepare($sql);
@@ -138,7 +134,7 @@ public function show_user_info($user){
 		echo '</form>';
 
     }
-public function update_team($id,$name,$email,$user){
+    public function update_team($id,$name,$email,$user){
         global $dbh;
 	$log=new Logging();
 	try{
@@ -152,7 +148,7 @@ public function update_team($id,$name,$email,$user){
             $log->add_entry('ERROR:',$e->getMessage());
 	}
     }
-public function reset_password($user,$password,$type){		//general password reset function. 1 is admin, anything else is a normal user
+    public function reset_password($user,$password,$type){		//general password reset function. 1 is admin, anything else is a normal user
 									//It could be said to have one user table, but that makes other things harder.
 		global $dbh;
 		$write_pass=$password;
@@ -245,7 +241,8 @@ public function reset_password($user,$password,$type){		//general password reset
     public function get_all_events($id){
     //Get all the teams slots that they are holding, and return a string as a message Used to send emails.
 		global $dbh;
-        global $slots; //Global due to the fact that it is going to be set as a hard max in the database.php. really should be ten
+        //global $slots; //Global due to the fact that it is going to be set as a hard max in the database.php. really should be ten
+        $slots=10;
 		$EVENT=new Events();
 		$message='Events: ';
         $get_events_qry="SELECT * FROM times";
