@@ -1,25 +1,25 @@
 <?php
 class Users {
-    public function login($user,$password){
+    public function login($user,$password,$installID){
         global $dbh;
         global $install;
         global $VALID;
         try{
 
-            $sql='SELECT * FROM team WHERE username=?';
+            $sql='SELECT * FROM team WHERE username=? AND installID=?';
             $query_user=$dbh->prepare($sql);
             $user=$VALID->sant_string($user);
-            $query_user->execute(array($user));
+            $query_user->execute(array($user,$installID));
 	    //echo $query_user->rowCount();
 	    if($query_user->rowCount()>0){
 		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
 		$admin=false;
 	    }else{
 
-		$sql='SELECT * FROM members WHERE name=?';
+		$sql='SELECT * FROM members WHERE name=? AND installID=?';
 		$query_user=$dbh->prepare($sql);
 		$user=$VALID->sant_string($user);
-		$query_user->execute(array($user));
+		$query_user->execute(array($user,$installID));
 		$user_information= $query_user->fetchAll(PDO::FETCH_ASSOC);
 		$admin=true;
 	    }
@@ -52,15 +52,15 @@ class Users {
     }
 
     //User Admin Functions.
-    public function add_user($user,$password,$email,$name){
+    public function add_user($user,$password,$email,$name,$installID){
         global $dbh;
 	$log=new Logging();
         $VERIFY=new Validation();
 	    $tempPass = $password;
 	    $password =  password_hash($password,PASSWORD_DEFAULT);
-	    $check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=?";
+	    $check= "SELECT * FROM `team` WHERE `name` = ? OR `user`=? AND installID=?";
 	    $run_check=$dbh->prepare($check);
-	    $run_check->execute(array($name,$user));
+	    $run_check->execute(array($name,$user,$installID));
            $num_rows=$run_check->rowCount();
 		if ($num_rows > 0) {
 			echo "Sorry, the username ".$name." is already taken. Please try another users<br>";
@@ -68,9 +68,9 @@ class Users {
 			echo "Sorry, the School ".$user." is already taken. Please try another users<br>";
 		}else{
 		    try{
-			$sql="INSERT INTO team(name,email,username,password) VALUES(?,?,?,?)";
+			$sql="INSERT INTO team(name,email,username,password,installID) VALUES(?,?,?,?,?)";
 			$add_team=$dbh->prepare($sql);
-			$add_team->execute(array($name,$email,$user,$password));
+			$add_team->execute(array($name,$email,$user,$password,$installID));
 			$log->add_entry($_SESSION['name'],"New team with name $name, has been added");
 		    }catch(PDOException $e){
 			echo 'There was an error.';
@@ -97,7 +97,7 @@ class Users {
 		//echo 'Username: ' .$name.'<br/>';
 		//echo 'Password: ' .$TempPass. '<br/>';
 		try{
-		$insert = "INSERT INTO `members` (`installID`,`name`, `password`,`permissions`) VALUES (?,?,?)";
+		$insert = "INSERT INTO `members` (`installID`,`name`, `password`,`permissions`) VALUES (?,?,?,?)";
 		$add_admin=$dbh->prepare($insert);
 		$add_admin->execute(array($installID,$name,$password,$permissions));
 		//echo "<span class=\"success\">Your user account has been created!</span><br>";
@@ -108,6 +108,7 @@ class Users {
     }
     public function remove_user($userid){
 	global $dbh;
+        //userid is auto incremented so no need to search by installID
 	$remove = "DELETE FROM team WHERE id=?";
 	$removal = $dbh->prepare($remove);
 	$removal->execute(array($userid));
@@ -117,9 +118,9 @@ class Users {
 	return true;
 		//log removal of a user
     }
-    public function show_user_info($user){
+    public function show_user_info($user,$installID){
         global $dbh;
-        $sql = "SELECT * FROM `team` WHERE `username`=?";
+        $sql = "SELECT * FROM `team` WHERE `username`=? AND installID=?";
 	$get_user=$dbh->prepare($sql);
         $get_user->execute(array($user));
 		echo '<form method="POST" action="">';
@@ -148,16 +149,17 @@ class Users {
             $log->add_entry('ERROR:',$e->getMessage());
 	}
     }
-    public function reset_password($user,$password,$type){		//general password reset function. 1 is admin, anything else is a normal user
-									//It could be said to have one user table, but that makes other things harder.
+    public function reset_password($user,$password,$type){
+            //general password reset function. 1 is admin, anything else is a normal user
+            //It could be said to have one user table, but that makes other things harder.
 		global $dbh;
 		$write_pass=$password;
 		$password =  password_hash($password,PASSWORD_DEFAULT);
 		$user=mysql_real_escape_string($user);
 		if($type==1){
-			$sql = $dbh->prepare("UPDATE `members` SET `password` = ? WHERE `name` =?;");
+			$sql = $dbh->prepare("UPDATE `members` SET `password` = ? WHERE `name` =?");
 		}else{
-			$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?;");
+			$sql = $dbh->prepare("UPDATE `team` SET `password` = ? WHERE `username` =?");
 		}
 		if(strlen($password)!=0){
 				$sql->execute(array($password,$user));
@@ -169,10 +171,10 @@ class Users {
 		}
 
 	}
-    public function return_check_teams(){
+    public function return_check_teams($installID){
         global $dbh;
         $html='<div class="scroll_container">';
-        $get_users="SELECT * FROM `team` ORDER BY `name` ASC";
+        $get_users="SELECT * FROM `team` WHERE installID=? ORDER BY `name` ASC";
         $query=$dbh->query($get_users);
         foreach($query as $team){
 	     $html.='<label>'.$team['name'].'<input type="checkbox" name="team_checks[]" value="'.$team['email'].'"/></label><br/>';
@@ -180,10 +182,10 @@ class Users {
 	$html .= '</div>';
         return $html;
     }
-    public function return_select_option_user($type){
+    public function return_select_option_user($type,$installID){
         global $dbh;
         $html=' ';
-        $get_users="SELECT * FROM `team` ORDER BY `name` ASC";
+        $get_users="SELECT * FROM `team` WHERE installID=? ORDER BY `name` ASC";
         $query=$dbh->query($get_users);
         foreach($query as $team){
             switch($type){
@@ -201,19 +203,19 @@ class Users {
         }
         return $html;
     }
-    public function get_id($name,$type){
+    public function get_id($name,$type,$installID){
 	/*
 	 *Returns ID, type is either email or name
 	 *defaults to name.
 	 **/
         global $dbh;
 	if($type=='email'){
-	    $sql="SELECT * FROM team WHERE email=?";
+	    $sql="SELECT * FROM team WHERE email=? AND installID=?";
 	}else{
-	    $sql="SELECT * FROM team WHERE username=?";
+	    $sql="SELECT * FROM team WHERE username=? AND installID=?";
 	}
         $get_id=$dbh->prepare($sql);
-        $get_id->execute(array($name));
+        $get_id->execute(array($name,$installID));
         $row=$get_id->fetchAll(PDO::FETCH_ASSOC);
 	//var_dump($row);
         $id=$row[0]['id'];
@@ -229,11 +231,11 @@ class Users {
         $name=$row[0]['name'];
         return $name;
     }
-    public function get_email($name){
+    public function get_email($name,$installID){
         global $dbh;
-        $sql="SELECT * FROM team WHERE name=?";
+        $sql="SELECT * FROM team WHERE name=? AND installID=?";
         $get_email=$dbh->prepare($sql);
-        $get_email->execute(array($name));
+        $get_email->execute(array($name,$installID));
         $row=$get_email->fetchAll(PDO::FETCH_ASSOC);
         $email=$row['email'];
         return $email;
@@ -246,6 +248,8 @@ class Users {
 		$EVENT=new Events();
 		$message='Events: ';
         $get_events_qry="SELECT * FROM times";
+        //IN theory I have a better way to do this with a more inclusive SQL query.
+
         $get_events=$dbh->query($get_events_qry);
         foreach($get_events->fetchAll() as $event_info){
 			for($x=1;$x<$slots;$x+=1){
@@ -270,7 +274,8 @@ class Users {
 
 
 	}
-    public function insert($location){			//Addes uploaded Excel file data to database
+    public function insert($location,$installID){
+            //Addes uploaded Excel file data to database
 	global $dbh;
 	include('source/reader.php');
 	$data = new Spreadsheet_Excel_Reader();
@@ -282,12 +287,12 @@ class Users {
 		    $password = $data->sheets[0]["cells"][$x][3];
 		    $email = $data ->sheets[0]["cells"][$x][4];
 			$password = password_hash($password, PASSWORD_DEFAULT);
-			$check = "SELECT * FROM `team` WHERE `name`=?"; //$name
+			$check = "SELECT * FROM `team` WHERE `name`=? AND installID=?"; //$name
 		$qry = $dbh->prepare($check);
-		$qry->execute(array($name));
-		$check_two = "SELECT * FROM `team` WHERE `username`=?";
+		$qry->execute(array($name,$installID));
+		$check_two = "SELECT * FROM `team` WHERE `username`=? AND installID=?";
 		$qry_two=$dbh->prepare($check_two);
-		$qry_two->execute(array($username));
+		$qry_two->execute(array($username,$installID));
 		$rows_schools= $qry_two->rowCount();
 		$num_rows = $qry->rowCount();
 		if ($num_rows > 0) {
@@ -295,9 +300,9 @@ class Users {
 		}else if($row_schools > 0){
 			echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
 		}else{
-		    $sql = "INSERT INTO team (name,email,username,password) VALUES (?,?,?,?)";
+		    $sql = "INSERT INTO team (name,email,username,password,installID) VALUES (?,?,?,?,?)";
 		    $add=$dbh->prepare($sql);
-		    $add->execute(array($name,$email,$username,$password));
+		    $add->execute(array($name,$email,$username,$password,$installID));
 		}
 
 	}
