@@ -13,7 +13,7 @@ class Admin{
             //else leave name alone.
             //once competition is added then use user class to add new admin username
             $USER = new Users();
-            $USER->new_admin()
+            $USER->new_admin($username,$password,1);
             //competion admins will have permissions of 1
             //overall admin will have permissions of -1
             //teams permissions will be a 2

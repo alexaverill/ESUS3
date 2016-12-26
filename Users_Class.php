@@ -86,7 +86,7 @@ class Users {
 		}
 		//Log the addition of a user
     }
-    public function add_admin($name,$password){
+    public function add_admin($name,$password,$permissions){
 	global $dbh;
         //Take in username and password to create a new administrator account.
 	$log=new Logging();
@@ -97,9 +97,9 @@ class Users {
 		//echo 'Username: ' .$name.'<br/>';
 		//echo 'Password: ' .$TempPass. '<br/>';
 		try{
-		$insert = "INSERT INTO `members` (`name`, `password`) VALUES (?,?)";
+		$insert = "INSERT INTO `members` (`name`, `password`,`permissions`) VALUES (?,?,?)";
 		$add_admin=$dbh->prepare($insert);
-		$add_admin->execute(array($name,$password));
+		$add_admin->execute(array($name,$password,$permissions));
 		//echo "<span class=\"success\">Your user account has been created!</span><br>";
 		$log->add_entry($_SESSION['name'],"New account with name $name, has been added");
 		}catch(PDOException $e){

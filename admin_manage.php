@@ -19,10 +19,6 @@ $Verify=new Verification;
                 $USER->reset_password($_POST[''],$_POST[''],1);
                 $MVC->display('admin_manage_template.php');
 
-        }else if(isset($_POST['add_admin'])){
-                $USER->add_admin($_POST['username'],$_POST['passbox']);
-                $MVC->display('admin_manage_template.php');
-
         }else if(isset($_POST['up'])){
                 $USER->upload($_FILES['uploadedfile']['name'],$_FILES['uploadedfile']['tmp_name']);
                 $MVC->display('admin_manage_template.php');
