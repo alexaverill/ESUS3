@@ -16,10 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `esus`
---
-
 -- --------------------------------------------------------
 
 --
@@ -58,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `export` (
   `team12` int(20) NOT NULL,
    `team13` int(20) NOT NULL,
   `team14` int(20) NOT NULL,
-  `team15` int(20) NOT NULL,
+  `team15` int(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -72,12 +68,12 @@ CREATE TABLE IF NOT EXISTS `members` (
   `installID` int(5) NOT NULL,
   `name` varchar(255) NOT NULL,
   `password` varchar(500) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL DEFAULT '0',
   `permissions` int(5) NOT NULL DEFAULT '0',
   UNIQUE KEY `id_2` (`id`),
   KEY `name` (`name`),
   KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=551 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
 
 --
 -- Dumping data for table `members`
@@ -90,17 +86,15 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 CREATE TABLE IF NOT EXISTS `settings` (
-  `tables` int(15) NOT NULL,
-  `installID` int(5) NOT NULL,
+  `installID` int(50) NOT NULL,
   `timezone` varchar(255) NOT NULL,
   `slotNum` int(5) NOT NULL,
   `competitionName` varchar(255) NOT NULL,
   `enabled` int(5) NOT NULL DEFAULT '3',
-  `start` varchar(10) NOT NULL,
-  `end` varchar(10) NOT NULL,
-  `st_time` varchar(10) NOT NULL,
-  `en_time` varchar(10) NOT NULL,
-  `install` int(200) NOT NULL
+  `start` varchar(10) NOT NULL DEFAULT '10',
+  `end` varchar(10) NOT NULL DEFAULT '10',
+  `st_time` varchar(10) NOT NULL DEFAULT '10',
+  `en_time` varchar(10) NOT NULL DEFAULT '10'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -173,13 +167,6 @@ CREATE TABLE IF NOT EXISTS `times` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-INSERT INTO `settings` (`tables`) VALUES ('10');
-
-INSERT INTO `timer` (`start_day`, `end_day`, `start_year`, `start_month`, `end_year`, `end_month`, `end_hour`, `start_hour`, `end_min`, `start_min`, `start`, `end`, `st_time`, `en_time`, `id`) VALUES
-(1, 29, 2010, 1, 2012, 10, 18, 9, 20, 10, '2014-07-01', '2014-07-31', '1:00', '1:00', 1);
-
-INSERT INTO `enable` (`enabled`) VALUES ('1');
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

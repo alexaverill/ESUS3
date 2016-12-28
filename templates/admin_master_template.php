@@ -51,9 +51,9 @@
 
     <h1>Modify Competition</h1>
     <?php
-        echo $MVC->display_competitions();
-        if(isset($_POST['remove'])){
-        }
+        //echo $MVC->display_competitions();
+        //if(isset($_POST['remove'])){
+        //}
     ?>
 	<hr>
 </div>

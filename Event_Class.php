@@ -4,29 +4,29 @@ class Events{
     function __construct($id){
 	$user_id = $id; //set User ID to stored value in session.
     }*/
-    public function add_events($event){     //INitial add to database.
+    public function add_events($event,$installID){     //INitial add to database.
         //verify it does not exist
         global $dbh;
-        $checking=$dbh->prepare("SELECT * FROM event WHERE event=?");
+        $checking=$dbh->prepare("SELECT * FROM event WHERE event=? AND installID=?");
         $checking->execute(array($event));
         $row=$checking->rowCount();
-        $add_to=$dbh->prepare("INSERT INTO event (event) VALUES (?)");
+        $add_to=$dbh->prepare("INSERT INTO event (event,installID) VALUES (?,?)");
         if($row==0){
-            $add_to->execute(array($event));
+            $add_to->execute(array($event,$installID));
             return 0;
         }else{
             return 1;
         }
     }
-    public function add_events_at($event,$time){        //Add slot at a time to an event.
+    public function add_events_at($event,$time,$installID){        //Add slot at a time to an event.
         global $dbh;
-        $checking=$dbh->prepare("SELECT * FROM times WHERE time_id=? AND event=?");
+        $checking=$dbh->prepare("SELECT * FROM times WHERE time_id=? AND event=? AND installID=?");
         $checking->execute(array($time,$event));
         $rows=$checking->rowCount();
         if($rows==0){
             try{
-            $add_event=$dbh->prepare("INSERT INTO times (time_id, event) VALUES (?,?)");
-            $add_event->execute(array($time,$event));
+            $add_event=$dbh->prepare("INSERT INTO times (time_id,installID, event) VALUES (?,?,?)");
+            $add_event->execute(array($time,$installID,$event));
             return 0;
             }catch(PDOException $ex){
                 echo $ex;
@@ -35,12 +35,13 @@ class Events{
         }else{
             return 1;
         }
-        
+
     }
-    public function add_all_slots($event){
+    public function add_all_slots($event,$installID){
         global $dbh;
-        $sql = "SELECT * FROM `slots` ORDER BY `time_slot` ASC ";
-        $get_slots=$dbh->query($sql);
+        $sql = "SELECT * FROM `slots` WHERE installID=? ORDER BY `time_slot` ASC ";
+        $get_slots=$dbh->prepare($sql);
+        $get_slots->execute(array($installID));
         foreach($get_slots->fetchAll() as $row){
         	$this->add_events_at($event,$row['time_slot']);
         }
@@ -53,46 +54,46 @@ class Events{
         }
         echo '</select>';
     }
-    public function delete_events($event){
+    public function delete_events($event,$installID){
         global $dbh;
-        $removeEvent = "DELETE FROM event WHERE event=?";
-        $clear = "DELETE FROM times WHERE event=?";
+        $removeEvent = "DELETE FROM event WHERE event=? AND installID=?";
+        $clear = "DELETE FROM times WHERE event=? AND installID=?" ;
         $eventC = $dbh->prepare($removeEvent);
         $clearing = $dbh->prepare($clear);
-        $eventC->execute(array($event));
-        $clearing->execute(array($event));
+        $eventC->execute(array($event,$installID));
+        $clearing->execute(array($event,$installID));
     }
-    public function drop_events($event,$time){
+    public function drop_events($event,$time,$installID){
         global $dbh;
-        $del_sql="DELETE FROM `times` WHERE time_id=? AND event=?";
+        $del_sql="DELETE FROM `times` WHERE time_id=? AND event=? AND installID=?";
         $remove_slot=$dbh->prepare($del_sql);
-        $remove_slot->execute(array($time,$event));
+        $remove_slot->execute(array($time,$event,$installID));
     }
-    public function list_events(){
+    public function list_events($installID){
         global $dbh;
         foreach($dbh->query('SELECT * FROM event') as $row) {
             echo '<div class="edit" id="'.$row['event'].'">'.$row['event'].'</div>';
         }
     }
-    public function number_slots($event){
+    public function number_slots($event,$installID){
         //return the number of slots in specified events
         global $dbh;
-        $qry='SELECT * FROM event WHERE event=?';
+        $qry='SELECT * FROM event WHERE event=? AND installID=?';
         $run_qry=$dbh->prepare($qry);
-        $run_qry->execute(array($event));
+        $run_qry->execute(array($event,$installID));
         foreach($run_qry->fetchAll() as $slots){
-            $num_slots=$slots['slots'];                        
+            $num_slots=$slots['slots'];
         }
         return $num_slots;
     }
     public function event_checkbox(){
         $html='';
         global $dbh;
-       //$html .=  '<label><input type="checkbox" name="check_list[]" class="selectall"/>All Events</label>'; 
+       //$html .=  '<label><input type="checkbox" name="check_list[]" class="selectall"/>All Events</label>';
         foreach($dbh->query('SELECT * FROM event') as $row) {
-            $html .= '<label><input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/>'.$row['event'].'</label>'; 
+            $html .= '<label><input id="'.$row['event'].'" type="checkbox" name="check_list[]" value="'.$row['event'].'"/>'.$row['event'].'</label>';
         }
-       
+
         return $html;
     }
     public function events_to_display(){
@@ -155,7 +156,7 @@ class Events{
     }
     public function return_event_html(){
         //Returns HTML code for the event table, I wish there were a better way, but ther is not really as I can see...
-        
+
         global $dbh;
         $html='';
         $html .='<div class="centeredTables">';
@@ -175,16 +176,16 @@ class Events{
                 $html.='<tr><td>'.$time['time_id'].'</td>';
                 if($this->in_this_slot($event['event'],$time['time_id'],$_SESSION['id'])){
                     $html.='<td id="green">Your Slot</td>';
-                }else if($this->event_status($event['event'],$time['time_id'],2)){                
+                }else if($this->event_status($event['event'],$time['time_id'],2)){
                     $html .= '<td id="red">Slots Full</td>';
                 }else{
                  $html.='<td><form method="POST" action=""><input type="hidden" value="'.$time['time_id'].'" name="time"/>
                  <input type="hidden" value="'.$event['event'].'" name="event"/>
                  <input type="submit" name="getthis" class="table_btn" value="Get this time"/></form>';
-                    
+
                 }
                  $html.='<td>'.$this->event_status($event['event'],$time['time_id'],1).'</td></tr>';
-                 
+
             }
              $html.= '</tbody></table></div>';
              if($counter == 3 ){
@@ -204,11 +205,11 @@ class Events{
 		$query_db=$dbh->query($get_events_from_database);
 		$html.='<div id="below">';//<
 		//$html.='<h2>Add Slots to an Event</h2>';
-		
+
 	foreach($query_db->fetchAll() as $get){
 		$html.="<table border='1' style='float:left'>";
 		$even=$get['event'];
-		$sql = "SELECT * FROM `slots`"; 
+		$sql = "SELECT * FROM `slots`";
 		$get_times=$dbh->query($sql);
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td></tr>';
@@ -218,7 +219,7 @@ class Events{
                 $html.='<tr><td><input name="add_times" type="submit" class="btn btn-primary" value="Add Selected Times"/></td></tr>';
                 $html.='<form method="POST" action=""><input type="hidden" value="'.$even.'" name="drop_slots_event"/>';
                 $html.='<tr><td><input name="drop_times" type="submit" class="btn btn-danger" value="Drop Selected Times"/></td></tr>';
-                
+
                 foreach($get_times->fetchAll() as $row){
                         $time=$row['time_slot'];
                             $query_slot_status="SELECT * FROM times WHERE event=? AND time_id=?";   //Check if already a slot
@@ -226,16 +227,16 @@ class Events{
                             $magic_check->execute(array($even,$time));
                             $num_check= $magic_check->rowCount();
                             if($num_check==0){
-                                $html.='<td style="background-color:#B8B2B2; color:#000">'; 
+                                $html.='<td style="background-color:#B8B2B2; color:#000">';
                                 $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
                                 $html.='</tr>';
                             }else{
-                                $html.='<td style="background-color:#00FF33">'; 
+                                $html.='<td style="background-color:#00FF33">';
                                 $html.='<label>'.$row['time_slot'].'<input type="checkbox" name="time_checks[]" value="'.$row['time_slot'].'"/></label>';
                                 $html.='</tr>';
                             }
                 }
-        
+
        $html.='</form>';
 	$html.='</table>';
 	}
@@ -251,11 +252,11 @@ class Events{
                     $enred = '</div>';
                     $get_event_sql="SELECT * FROM `event` ORDER BY `event` ASC";
                     $get_events=$dbh->query($get_event_sql);
-            
+
              foreach($get_events->fetchAll() as $get){
                     $event=$get['event'];
-                    
-                    
+
+
 
             $id=$_SESSION['id'];
                     $tblcl = "</td>";
@@ -274,16 +275,16 @@ class Events{
             $get_times->execute(array($event));
             foreach($get_times->fetchAll() as $row){
                     $time=$row['time_id'];
-    
-                            echo '<tr><td>'; 
+
+                            echo '<tr><td>';
                             echo $row['time_id'];
                             echo $tblcl;
-                    
+
                     $team='team';
                     $run=1;
-                            
+
                     while($run<=$table_settings){
-                                    $team1=$team.$run;	
+                                    $team1=$team.$run;
                                     if($row[$team1]==-1){
                                             echo '<td id="closed">';
                                             echo 'Closed';
@@ -293,7 +294,7 @@ class Events{
                                             <input type="hidden" value="'.$row['event'].'" name="event"/>
                                             <input type="hidden" value="'.$id.'" name="id"/>
                                             <input type="submit" name="getthis" value="Reopen"/></form>';
-                                                    echo  "</td></td>"; 
+                                                    echo  "</td></td>";
                                     }else{
                                             if($row[$team1]<=0){
                                                     echo '<td id="blue">';
@@ -304,7 +305,7 @@ class Events{
                                             <input type="hidden" value="'.$row['event'].'" name="event"/>
                                             <input type="hidden" value="'.$id.'" name="id"/>
                                             <input type="submit" name="close"  value="Close"/></form>';
-                                                    echo "</td></td>"; 
+                                                    echo "</td></td>";
                                             }else{
                                                     if($row[$team1] != 0){
                                                     echo '<td id="yellow">';
@@ -313,7 +314,7 @@ class Events{
                                                     $get_name=$dbh->prepare($get);
                                                     $get_name->execute(array($id));
                                                             foreach($get_name->fetchAll() as $name){}
-                                                        
+
                                                                     echo $name['name'];
                                                             }
                                             echo '<form method="POST" action="">
@@ -325,27 +326,27 @@ class Events{
                                                             echo "</td></td>";
                                                     }
                                             echo "</td>";
-                                            
+
                                     }
-                                    
-                                $run+=1;    
+
+                                $run+=1;
                             }
-                            
+
                     }
                     $html .='</table>';
             }
             return $html;
-        } 
+        }
     public function return_event_slots(){
         global $dbh;
         $html='';
-        
+
 	$get_events="SELECT * FROM `event` ORDER BY `event` ASC";
 	$get_events=$dbh->query($get_events);
-	$html.="<div id=slot_edits><table border='1' style='float:left'>";		
+	$html.="<div id=slot_edits><table border='1' style='float:left'>";
 	$go=1;
 	foreach($get_events->fetchAll() as $get){
-		
+
 		$even=$get['event'];
 		$tblcl = "</td>";
 		$html.='<tr><td><b>'.$even.'</b></td>';
@@ -358,11 +359,11 @@ class Events{
 	    				$html.='<option value="'.$run.'">'.$run.' slots</option>';
 		    		}
 		    	$run+=1;
-			
+
 		}
 			$html.='</select>  <input type="hidden" value="'.$go.'" name="runs"/><input type="submit" value="Change" class="btn btn-primary" name="change_num"></form></td></tr>';
 			$go+=1;
-		}	
+		}
 		$html.='</table></div>';
                 return $html;
     }
@@ -373,7 +374,7 @@ class Events{
     public function return_teams_events($id){
         global $dbh;
         //There is a much better way to do this, I just need to figure it out.
-        
+
         $get_times="SELECT * FROM `times` ORDER BY `event` ASC";
         $times=$dbh->query($get_times);
         foreach($times->fetchAll() as $event_listing){
@@ -435,19 +436,19 @@ class Events{
             if(!$added){
                 echo '<td></td>';
             }
-            
-            
+
+
         }
         echo '</tr>';
     }
     echo '</table></div>';
     }
-    public function drop_own_event($id,$event,$time,$place){
+    public function drop_own_event($id,$event,$time,$place,$installID){
         global $dbh;
         $log = new Logging;
-        $sql="SELECT * FROM times WHERE event=? AND time_id=?";
+        $sql="SELECT * FROM times WHERE event=? AND time_id=? AND installID=?";
         $check_owner=$dbh->prepare($sql);
-        $check_owner->execute(array($event,$time));
+        $check_owner->execute(array($event,$time,$installID));
         $change=false;
         foreach($check_owner->fetchAll() as $slot){
             if($slot[$place]==$id){
@@ -455,15 +456,15 @@ class Events{
             }
         }
         if($change){
-            $sql="UPDATE times SET $place=0 WHERE event=? AND time_id=?";
+            $sql="UPDATE times SET $place=0 WHERE event=? AND time_id=? AND installID=?";
             $updating=$dbh->prepare($sql);
-            $updating->execute(array($event,$time));
+            $updating->execute(array($event,$time,$installID));
             $log->add_entry($id,"Dropped $time from $event");
         }
     }
-        public function events_with_slots(){
+        public function events_with_slots($installID){
         //Returns HTML code for the event table, I wish there were a better way, but ther is not really as I can see...
-        
+
         global $dbh;
         $html='';
         foreach($dbh->query("SELECT * FROM event" ) as $event){
@@ -472,12 +473,12 @@ class Events{
             $html.='<table border=\'1\' style="float:left; "><tbody><tr><th colspan="3"><h1>'.$event['event'].'</h1></th></tr>';
             $html.='<tr> <th>Hour</th>';
             $html.='<th>Status</th></tr>';
-            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=? ORDER BY `time_id` ASC');
-            $get_times->execute(array($event['event']));
+            $get_times=$dbh->prepare('SELECT * FROM times WHERE event=? AND installID=?ORDER BY `time_id` ASC');
+            $get_times->execute(array($event['event'],$installID));
            foreach($get_times->fetchAll() as $time){
                 $html.='<tr><td>'.$time['time_id'].'</td>';
                  $html.='<td>'.$this->event_status($event['event'],$time['time_id'],1).'</td></tr>';
-                 
+
             }
              $html.= '</tbody></table>';
         }

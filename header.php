@@ -1,6 +1,6 @@
 <?php
 //Get Database info
-error_reporting(0);
+//error_reporting(0);
 include('session.php');
 include('database.php');
 if (version_compare(phpversion(), '5.5.0', '<')) {

@@ -3,7 +3,7 @@ include('database.php');
 include('Event_Class.php');
 include('Users_Class.php');
 include('MVC_Class.php');
-include(Admin_Class.php);
+include('Admin_Class.php');
 class Verification{
     /* This class is used to determine or check certain parameters, such as login status, and rights, the state of the timer, and the
      * validity if esus is open or not, this was originally done inline, and as such was extremely messy.
@@ -58,6 +58,14 @@ class Verification{
 	}else {
 	    return true;
 	}
+    }
+    public function returnInstallID($installString){
+            global $dbh;
+            $sqlQuery = "SELECT * FROM settings WHERE competitionName=?";
+            $runQ = $dbh->prepare($sqlQuery);
+            $runQ->execute(array($installString));
+            $data = $runQ->fetch(PDO::FETCH_ASSOC);
+            return $data[0]['installID'];
     }
 }
 class Validation{
@@ -283,7 +291,7 @@ class Timer{
         $sql="SELECT * FROM settings WHERE installID=?";
         $timer = $dbh->prepare($sql);
         $timer->execute(array($installID));
-        foreach( $timer->fetchAll(PDO::FETCH_ASSOC); as $row){
+        foreach( $timer->fetchAll(PDO::FETCH_ASSOC) as $row){
              $start_date=$row['start'];
              $start_time=$row['st_time'];
              $end_date=$row['end'];

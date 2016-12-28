@@ -1,23 +1,21 @@
 <?php
-include('database.php');
-include('classes.php');
-class Admin{
+class Admin_Class{
 
-    public addCompetion($competitionName,$username,$password,$timezone,$divNumber){
+    public function addCompetion($competitionName,$username,$password,$timezone,$divNumber){
             //insert a new competition into setttings table
             //start by determining if it is one or two division
             if($divNumber ==1){
                     //there is only one competition and this is simple....
-                    $installID = insertCompetionDatabase($competitionName,$timezone);
+                    $installID = $this->insertCompetionDatabase($competitionName,$timezone);
                     $USER = new Users();
-                    $USER->new_admin($username,$password,1,$installID);
+                    $USER->add_admin($username,$password,1,$installID);
             }else{
-                    $compArray = [$competitionName.' B',$competitionName.' C']
+                    $compArray = [$competitionName.' B',$competitionName.' C'];
                     //loop through array and add in new competitions.
                     foreach ($compArray as $value) {
-                            $installID = insertCompetionDatabase($value,$timezone);
+                            $installID = $this->insertCompetionDatabase($value,$timezone);
                             $USER = new Users();
-                            $USER->new_admin($username,$password,1,$installID);
+                            $USER->add_admin($username,$password,1,$installID);
                     }
             }
 
@@ -26,19 +24,20 @@ class Admin{
             //teams permissions will be a 2
 
     }
-    private insertCompetionDatabase($competionName,$timezone){
+    public function insertCompetionDatabase($competitionName,$timezone){
             global $dbh;
-            $installID = returnInstallID();
-            $query = "INSERT INTO settings(installID,timezone,slotNum,competionName) VALUES(?,?,?,?)";
+            $slotNum = 10; //defualt for now. may change in install.sql
+            $installID = $this->returnInstallID();
+            $query = "INSERT INTO settings(installID,timezone,slotNum,competitionName) VALUES(?,?,?,?)";
             $runQ = $dbh->prepare($query);
-            $runQ->execute(array($installID,$timezone,$slotNum,$competionName));
+            $runQ->execute(array($installID,$timezone,$slotNum,$competitionName));
             return $installID;
 
     }
-    private returnInstallID(){
+    private function returnInstallID(){
             //generate an InstallID based on last known ID.
             global $dbh;
-            $query= "SELECT * FROM settings ORDER BY installID ASC LIMIT 1";
+            $query= "SELECT * FROM settings ORDER BY installID DESC LIMIT 1";
             $runQ = $dbh->prepare($query);
             $runQ->execute();
             $value = $runQ->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +47,7 @@ class Admin{
             }
             return 1;
     }
-    public searchCompetitions($competionName){
+    public function searchCompetitions($competionName){
              //search through database based on name.
              //also search with appending B or C if not found and not included
 
