@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `export` (
   `team12` int(20) NOT NULL,
    `team13` int(20) NOT NULL,
   `team14` int(20) NOT NULL,
-  `team15` int(20) NOT NULL,
+  `team15` int(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -172,9 +172,8 @@ CREATE TABLE IF NOT EXISTS `timer` (
   `st_time` varchar(10) NOT NULL,
   `en_time` varchar(10) NOT NULL,
   `id` int(1) NOT NULL DEFAULT '1',
-  `installID` int(5) NOT NULL
-  KEY `start_day` (`start_day`),
-  KEY `start_day_2` (`start_day`)
+  `installID` int(5) NOT NULL,
+  KEY `start_day` (`start_day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
