@@ -22,11 +22,11 @@ The naming convention tends to work best as esus_competition_b and esus_competit
 
 Once you have your databases setup upload and unpack the zip file from step one. You should unpack the files into the following structure for 
 two divisions:
-
+```
 [url]/[Competition]/b/[ESUS Files]
 and 
 [url]/[Competition]/c/[ESUS Files]
-
+```
 Next navigate to install.php in each directory that you unpacked files into and enter the information to each box in the install dialog.
 
 Once you have added a new administrator account delete install.php and new_admin.php from each directory.
